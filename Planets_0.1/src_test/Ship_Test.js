@@ -1,25 +1,19 @@
-var TestSchiff = new Ship(new Owner(), 1); 
-
-
 TestCase("Ship_Test", {  
-	setUp: function() { 
-		
-		}, 
-		
-		tearDown: function() { 
-
-			},  
+	
+	setUp: function() { }, 		
+	tearDown: function() { },   
 
 			
+"test Initialisierung / Gruen wenn Schiff korrekt initialisiert": function() {  
 
-"test Initialisierung / Gruen wenn Owner & Type korrekt initialisiert": function() {  
-
+	var TestSchiff = new Ship(new Owner(), 1);
+	
 	assertInstanceOf("Owner", Owner, TestSchiff.Owner);
 	assertNumber("Type", TestSchiff.Type);
-	assertTrue("TypeRange", (TestSchiff.Type == 1 || TestSchiff.Type == 2 || TestSchiff.Type == 3));
-   
-	},  
-	
-	
-	
+	assertNumber("Speed", TestSchiff.Speed);
+	assertNumber("BuildingTime", TestSchiff.BuildingTime);
+	assertNumber("LifePoints", TestSchiff.LifePoints);
+	assertNumber("DealtDamage", TestSchiff.DealtDamage);
+	assertTrue("TypeRange", (TestSchiff.Type == 1 || TestSchiff.Type == 2 || TestSchiff.Type == 3));   
+	},  	
 });

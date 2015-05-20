@@ -1,3 +1,3 @@
-function Owner(){
-	hjaasldö cksdjf lmafd
-}    
+Owner = function (){
+	
+} ;   
