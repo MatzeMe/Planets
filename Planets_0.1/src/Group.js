@@ -1,6 +1,4 @@
-
-
-function Group(Shipa){
+function Group(Shipa){ 
 	
 	this.Ships = [];
 	this.Ships.push(Shipa);

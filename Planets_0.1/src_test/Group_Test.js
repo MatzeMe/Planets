@@ -1,4 +1,4 @@
-TestCase("Group_Test", {  
+TestCase("Group_Test", {   
 	
 	setUp: function() { }, 
 	tearDown: function() { },  

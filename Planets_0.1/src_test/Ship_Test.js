@@ -1,4 +1,4 @@
-TestCase("Ship_Test", {  
+TestCase("Ship_Test", {   
 	
 	setUp: function() { }, 		
 	tearDown: function() { },   

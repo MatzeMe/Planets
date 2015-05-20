@@ -1,4 +1,4 @@
-function Ship(Owner, Type) {
+function Ship(Owner, Type) { 
 	
 	this.Owner = Owner; 
 	this.Type = Type;
