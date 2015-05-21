@@ -28,7 +28,7 @@ TestCase("Group_Test", {
 	
 "test addShip / Gruen wenn mehrere Schiffe (Gruppen) hinzugefuegt werden können": function() {  
 
-		 var AnzahlErstellen = 0;		//+1 weil Gruppe stets mit 1 Schiff erstellt wird
+		 var AnzahlErstellen = 5		//+1 weil Gruppe stets mit 1 Schiff erstellt wird
 	
 		 var TestGroup = new Group(new Ship(new Owner(), 1));	 		 
 		 var TestGroup2 = new Group(new Ship(new Owner(), 1));
@@ -80,7 +80,7 @@ TestCase("Group_Test", {
 		 
 		 TestGroup.removeShip(AnzahlEntfernen);		//Hintersten Schiffe entfernen
 		 
-		 assertTrue(TestGroup.destroyed);
+		 assertTrue(TestGroup.destroyed); 
 		 
 	}, 	
 	
