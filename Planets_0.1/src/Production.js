@@ -2,19 +2,29 @@ function Production(MassA, TypeA){
 	
 	this.Type = TypeA;
 	this.ProductionRunning = true;
+	this.ProductionStarted = Date.now();
 
 	switch(this.Type) {
-    case 1: this.RemainingProductionTime = 100000 / MassA;
+    case 1: this.ProductionTime = 100000 / MassA;
     		break;
-    case 2: this.RemainingProductionTime = 200000 / MassA;
+    case 2: this.ProductionTime = 200000 / MassA;
 			break; 
-    case 3: this.RemainingProductionTime = 300000 / MassA;
+    case 3: this.ProductionTime = 300000 / MassA;
 			break;
 	}
 
+	this.RemainingProductionTime = this.ProductionTime;
+	
 	this.Update = function(){
 		
-		return true;
+		this.RemainingProductionTime = this.ProductionTime - (Date.now() - this.ProductionStarted);
+		if(this.RemainingProductionTime <= 0){
+			this.RemainingProductionTime = 0;
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 }

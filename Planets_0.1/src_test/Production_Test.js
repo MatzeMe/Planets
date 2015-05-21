@@ -1,4 +1,4 @@
-TestCase("Production_Test", {   
+AsyncTestCase("Production_Test", {   
 	
 	setUp: function() { }, 		
 	tearDown: function() { },   
@@ -6,65 +6,71 @@ TestCase("Production_Test", {
 			
 "test Initialisierung / Gruen wenn Produktion korrekt initialisiert": function() {  
 
-	var TestProduction = new Production(100, 1)	//(Planetenmasse, Schiffstyp)
+	var TestProduction = new Production(10, 1)	//(Planetenmasse, Schiffstyp)
 	
 	assertNumber("Type", TestProduction.Type);
 	assertBoolean("ProductionRunning", TestProduction.ProductionRunning);
+	assertNumber("ProductionTime", TestProduction.ProductionTime);
 	assertNumber("RemainingProductionTime", TestProduction.RemainingProductionTime);
+	assertNumber("ProductionStarted", TestProduction.ProductionStarted);
 	
 	},  	
 	
 	
 "test Update() / Gruen wenn update() bool zurückliefert": function() {  
 
-		var TestProduction = new Production(100, 1)	//(Planetenmasse, Schiffstyp)
+		var TestProduction = new Production(10, 1)	//(Planetenmasse, Schiffstyp)
 				
 		assertBoolean("Update", TestProduction.Update());
-		
-	
-		//If calculateremaining time = correct 
-		
-		//Update returns right bool
-		
-		//console.log(Date.now()); 
-		
+			
 		},  
 
-"test RemainingProductionTime / Gruen wenn RemainingProductionTime korrekt berechnet": function() {  
+		
+"test RemainingProductionTime / Gruen wenn RemainingProductionTime korrekt berechnet": function(queue) {  
 
-	var TestProduction = new Production(100, 1)	//(Planetenmasse, Schiffstyp)
-													//Produktionszeit für Typ1 = 10.000 millisek (testweise)
+	var TestProduction = new Production(10, 1)	//(Planetenmasse, Schiffstyp)
+												//Produktionszeit für Typ 1 + Planetenmasse 10 = 100.000 / 10 = 10000 millisek
 	
-	setTimeout(TestProduction.Update(), 3000);		//Update von RemainingProductionTime nach 3.000 millisek
-	assertEquals("RemainingProductionTime", 7000, TestProduction.RemainingProductionTime);
-	console.log(TestProduction.RemainingProductionTime);
+	queue.call('Step 1: Update() wird in 3 Sekunden aufgerufen.', function(callbacks) {
+	    var myCallback = callbacks.add(function() {
+	    	TestProduction.Update();
+	    });
+	    window.setTimeout(myCallback, 3000);
+	 });
 	
-
-	
-	//Update returns right bool
-	
-	//console.log(Date.now()); 
+	queue.call('Step 2: Assert, dass RemainingProductionTime 7Sekunden beträgt', function() {
+		assertTrue("RemainingProductionTime", (TestProduction.RemainingProductionTime>6050 && TestProduction.RemainingProductionTime < 7050));
+	 });
 	
 	},  
 	
 	
-"test RemainingProductionTime/Update() / Gruen wenn Update() fertige Produktion erkennt": function() {  
+"test RemainingProductionTime/Update() / Gruen wenn Update() fertige Produktion erkennt": function(queue) {  
 
-		var TestProduction = new Production(100, 1)	//(Planetenmasse, Schiffstyp)
-														//Produktionszeit für Typ 1 + Planetenmasse 100 = 100.000 / 100 = 10000 millisek
-		
-		setTimeout(TestProduction.Update(), 9500);		
-		assertFalse("False",TestProduction.Update());
-		
-		setTimeout(TestProduction.Update(), 10500);		
-		assertTrue("True",TestProduction.Update());
+		var TestProduction = new Production(10, 1)	//(Planetenmasse, Schiffstyp)
+														//Produktionszeit für Typ 1 + Planetenmasse 10 = 100.000 / 10 = 10000 millisek
 		
 		
-
+		queue.call('Step 1: Update() wird in 9,5 Sekunden aufgerufen.', function(callbacks) {
+		    var myCallback = callbacks.add(function() {
+		    	TestProduction.Update();
+		    });
+		    window.setTimeout(myCallback, 9500);
+		 });
+			
+		queue.call('Step 2: Assert, dass Produktion noch nicht abgeschlossen', function() {
+			assertFalse("False", TestProduction.Update());
+		 });
 		
-
+		queue.call('Step 3: Update() wird in 10,5 Sekunden aufgerufen.', function(callbacks) {
+		    var myCallback = callbacks.add(function() {
+		    	TestProduction.Update();
+		    });
+		    window.setTimeout(myCallback, 1000);
+		 });
 		
-		
-		
+		queue.call('Step 2: Assert, dass Produktion abgeschlossen', function() {
+			assertTrue("False", TestProduction.Update());
+		 });	
 		},  
 });
