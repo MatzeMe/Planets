@@ -51,26 +51,26 @@ AsyncTestCase("Production_Test", {
 														//Produktionszeit für Typ 1 + Planetenmasse 10 = 100.000 / 10 = 10000 millisek
 		
 		
-		queue.call('Step 1: Update() wird in 9,5 Sekunden aufgerufen.', function(callbacks) {
+		queue.call('Step 1: Update() wird in 9,0 Sekunden aufgerufen.', function(callbacks) {
 		    var myCallback = callbacks.add(function() {
 		    	TestProduction.Update();
 		    });
-		    window.setTimeout(myCallback, 9500);
+		    window.setTimeout(myCallback, 9000);
 		 });
 			
 		queue.call('Step 2: Assert, dass Produktion noch nicht abgeschlossen', function() {
 			assertFalse("False", TestProduction.Update());
 		 });
 		
-		queue.call('Step 3: Update() wird in 10,5 Sekunden aufgerufen.', function(callbacks) {
+		queue.call('Step 3: Update() wird in 11,0 Sekunden aufgerufen.', function(callbacks) {
 		    var myCallback = callbacks.add(function() {
 		    	TestProduction.Update();
 		    });
-		    window.setTimeout(myCallback, 1000);
+		    window.setTimeout(myCallback, 2000);
 		 });
 		
 		queue.call('Step 2: Assert, dass Produktion abgeschlossen', function() {
-			assertTrue("False", TestProduction.Update());
+			assertTrue("True", TestProduction.Update());
 		 });	
 		},  
 });
