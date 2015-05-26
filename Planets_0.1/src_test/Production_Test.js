@@ -65,6 +65,7 @@ AsyncTestCase("Production_Test", {
 		queue.call('Step 3: Update() wird in 11,0 Sekunden aufgerufen.', function(callbacks) {
 		    var myCallback = callbacks.add(function() {
 		    	TestProduction.Update();
+		
 		    });
 		    window.setTimeout(myCallback, 2000);
 		 });
