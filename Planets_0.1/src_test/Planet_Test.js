@@ -12,6 +12,7 @@ AsyncTestCase("Planet_Test", {
 		assertNumber("TravelRadius", TestPlanet.TravelRadius);
 		assertNumber("x", TestPlanet.x);
 		assertNumber("y", TestPlanet.y);
+		assertBoolean("allAlone", TestPlanet.allAlone);
 		
 	},  	
 
@@ -98,19 +99,6 @@ AsyncTestCase("Planet_Test", {
 		assertNotInstanceOf("mergeGroups", Ship, TestGroupPlanet2.Ships[0]);
 	}, 
 
-	
-"test transferGroup / Gruen wenn 1 Gruppe auf Route geschickt werden kann": function() {  
-
-		assertTrue(false);
-		
-	}, 	
-	
-"test transferGroup / Gruen wenn mehrere Gruppen  auf Route geschickt werden können": function() {  
-
-		assertTrue(false);
-		
-	}, 
-	
 "test checkGroups / Gruen wenn mehrere Gruppen gleichen Typs & Besitzers erkannt und zusammengefasst werden": function() {  
 
 	var TestPlanet = new Planet(10, 200, 200);		
@@ -153,28 +141,5 @@ AsyncTestCase("Planet_Test", {
 	assertEquals("checkGroups", 2, TestPlanet.presentGroups[3].Type);
 	},
 	
-	"test checkGroups / Gruen, wenn erkannt wird, dass Gruppen nur eines Besitzers da sind und Eroberung gestartet wird": function() {  
-
-		var TestPlanet = new Planet(10, 200, 200);		
-		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(1), 1));	
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(1), 1));
-		var TestGroupPlanet3 = new Group(new Ship(new Owner(1), 3));	
-			
-		TestPlanet.addGroup(TestGroupPlanet1);
-		TestPlanet.addGroup(TestGroupPlanet2);
-		TestPlanet.addGroup(TestGroupPlanet3);
-		
-		for(var i = 0; i < 3; i++){	//3 Gruppen vorhanden
-			assertInstanceOf("checkGroups", Group, TestPlanet.presentGroups[i]);	
-		}
-		
-		assertNotInstanceOf("checkGroups", Conquest, TestPlanet.Conquest);
-		
-		TestPlanet.checkGroups();
-		
-		assertInstanceOf("checkGroups", Conquest, TestPlanet.Conquest);
-		
-	}
 	
 });
