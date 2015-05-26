@@ -1,4 +1,4 @@
-AsyncTestCase("Production_Test", {   
+AsyncTestCase("Conquest_Test", {   
 	
 	setUp: function() { }, 		
 	tearDown: function() { },   

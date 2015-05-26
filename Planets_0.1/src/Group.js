@@ -1,21 +1,21 @@
-function Group(Shipa){ 
+function Group(ShipA){ 
 	
 	this.Ships = [];
-	this.Ships.push(Shipa);
-	this.Owner = Shipa.Owner;	//Nimmt Werte des ersten Schiffes um Eigenschaften der Gruppe festzulegen
-	this.Speed = Shipa.Speed;
-	this.Type = Shipa.Type;
+	this.Ships.push(ShipA);
+	this.Owner = ShipA.Owner;	//Nimmt Werte des ersten Schiffes um Eigenschaften der Gruppe festzulegen
+	this.Speed = ShipA.Speed;
+	this.Type = ShipA.Type;
 	this.Destroyed = false;
 	
 	//Stellt fest, ob ein Schiff oder ein Array übergeben wurde und pusht Schiffe in Gruppen-Array
-	this.addShip = function(Shipb){
-		if(Shipb instanceof Ship){
-			this.Ships.push(Shipb);
+	this.addShip = function(ShipB){
+		if(ShipB instanceof Ship){
+			this.Ships.push(ShipB);
 		} 
 		
-		if(Shipb instanceof Array) {	
-			for(var i = 0; i < Shipb.length; i++){
-				this.Ships.push(Shipb[i]);
+		if(ShipB instanceof Array) {	
+			for(var i = 0; i < ShipB.length; i++){
+				this.Ships.push(ShipB[i]);
 			}
 		}
 	} 
