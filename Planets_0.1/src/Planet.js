@@ -163,16 +163,16 @@ this.Update = function(){
 	
 	this.checkProduction = function(){	
 		if(this.Production instanceof Production){
-			console.log("bbbbbb");
-			console.log(this.presentGroups);
+
+
 			var prod = this.Production.Update();
-			console.log("cccccc");
-			console.log(this.prod);
+
+
 			if(prod == true){
-				this.addGroup(new Group(new Ship(this.Owner, this.typeOfProduction)));
+				this.addGroup(new Group(new Ship(this.Owner, this.TypeOfProduction)));
 				
 				this.stopProduction();
-				this.startProduction(this.Mass, this.typeOfProduction);				
+				this.startProduction(this.Mass, this.TypeOfProduction);				
 			}	
 		}
 	}
