@@ -6,9 +6,9 @@ TestCase("Ship_Test", {
 			
 "test Initialisierung / Gruen wenn Schiff korrekt initialisiert": function() {  
 
-	var TestSchiff = new Ship(new Owner(), 1);
+	var TestSchiff = new Ship(new Player(1), 1);
 	
-	assertInstanceOf("Owner", Owner, TestSchiff.Owner);
+	assertInstanceOf("Owner", Player, TestSchiff.Owner);
 	assertNumber("Type", TestSchiff.Type);
 	assertNumber("Speed", TestSchiff.Speed);
 	assertNumber("BuildingTime", TestSchiff.BuildingTime);

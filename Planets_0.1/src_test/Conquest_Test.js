@@ -6,9 +6,9 @@ AsyncTestCase("Conquest_Test", {
 			
 "test Initialisierung / Gruen wenn Conquest korrekt initialisiert": function() {  
 
-	var GroupA = new Group(new Ship(new Owner(), 1));
+	var GroupA = new Group(new Ship(new Player(1), 1));
 	for(var i = 0; i < 9; i++){
-		GroupA.addShip(new Ship(new Owner, 1));
+		GroupA.addShip(new Ship(new Player(1), 1));
 	}
 	
 	var TestConquest = new Conquest(10, GroupA)	
@@ -24,7 +24,7 @@ AsyncTestCase("Conquest_Test", {
 	
 "test Update() / Gruen wenn update() bool zurückliefert": function() {  
 
-		var GroupA = new Group(new Ship(new Owner(), 1));
+		var GroupA = new Group(new Ship(new Player(1), 1));
 		var TestConquest = new Conquest(10, GroupA)	//(Planetenmasse, Schiffsgruppe)
 				
 		assertBoolean("Update", TestConquest.Update());
@@ -34,7 +34,7 @@ AsyncTestCase("Conquest_Test", {
 		
 "test RemainingConquestTime / Gruen wenn RemainingConquestTime korrekt berechnet": function(queue) {  
 
-	var GroupA = new Group(new Ship(new Owner(), 1)); 	//(Planetenmasse, Schiffsgruppe)	
+	var GroupA = new Group(new Ship(new Player(1), 1)); 	//(Planetenmasse, Schiffsgruppe)	
 	var TestConquest = new Conquest(10, GroupA)			//Eroberungszeitzeit für Planetenmasse 10 = 10.000 * 10 = 10000 millisek
 												
 	
@@ -54,7 +54,7 @@ AsyncTestCase("Conquest_Test", {
 	
 "test RemainingConquestTime/Update() / Gruen wenn Update() fertige Eroberung erkennt": function(queue) {  
 
-	var GroupA = new Group(new Ship(new Owner(), 1)); 	//(Planetenmasse, Schiffsgruppe)	
+	var GroupA = new Group(new Ship(new Player(1), 1)); 	//(Planetenmasse, Schiffsgruppe)	
 	var TestConquest = new Conquest(10, GroupA)			//Eroberungszeitzeit für Planetenmasse 10 = 10.000 * 10 = 10000 millisek
 		
 		

@@ -8,9 +8,9 @@ AsyncTestCase("Planet_Test_Conquest", {
 
 		var TestPlanet = new Planet(10, 200, 200);		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(1), 1));	
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(1), 1));
-		var TestGroupPlanet3 = new Group(new Ship(new Owner(1), 3));	
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));	
+		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet3 = new Group(new Ship(new Player(1), 3));	
 			
 		TestPlanet.addGroup(TestGroupPlanet1);
 		TestPlanet.addGroup(TestGroupPlanet2);
@@ -33,8 +33,8 @@ AsyncTestCase("Planet_Test_Conquest", {
 
 		var TestPlanet = new Planet(10, 200, 200);		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(1), 1));
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(2), 1));
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));
 			
 		TestPlanet.addGroup(TestGroupPlanet1);
 		assertInstanceOf("checkGroups1", Group, TestPlanet.presentGroups[0]);	
@@ -59,7 +59,7 @@ AsyncTestCase("Planet_Test_Conquest", {
 
 		var TestPlanet = new Planet(10, 200, 200);		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(1), 1));
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
 			
 		TestPlanet.addGroup(TestGroupPlanet1);
 		assertInstanceOf("checkGroups1", Group, TestPlanet.presentGroups[0]);	
@@ -82,12 +82,12 @@ AsyncTestCase("Planet_Test_Conquest", {
 "test checkGroups / Gruen, wenn erkannt wird, dass Gruppen nur eines Besitzers da sind und Eroberung nicht gestartet wird, weil der Planet schon im Besitz ist": function() {  
 
 		var TestPlanet = new Planet(10, 200, 200);		
-		TestPlanet.setOwner(new Owner(1));
+		TestPlanet.setOwner(new Player(1));
 		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(1), 1));	
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(1), 1));
-		var TestGroupPlanet3 = new Group(new Ship(new Owner(1), 3));	
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));	
+		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet3 = new Group(new Ship(new Player(1), 3));	
 			
 		TestPlanet.addGroup(TestGroupPlanet1);
 		TestPlanet.addGroup(TestGroupPlanet2);
@@ -109,9 +109,9 @@ AsyncTestCase("Planet_Test_Conquest", {
 "test checkGroups / Gruen, wenn gestartete Eroberung nach Abzug aller Schiffe abgebrochen wird": function() {   
 
 		var TestPlanet = new Planet(10, 200, 200);	
-		TestPlanet.setOwner(new Owner(1));
+		TestPlanet.setOwner(new Player(1));
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(2), 1));
+		var TestGroupPlanet1 = new Group(new Ship(new Player(2), 1));
 			
 		TestPlanet.addGroup(TestGroupPlanet1);
 		assertInstanceOf("checkGroups1", Group, TestPlanet.presentGroups[0]);	

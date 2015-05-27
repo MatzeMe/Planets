@@ -21,13 +21,13 @@ AsyncTestCase("Planet_Test_Fight", {
 		
 		var TestPlanet = new Planet(10, 200, 200);		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(1), 1));	
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));	
 		TestPlanet.addGroup(TestGroupPlanet1);
 		
 		TestPlanet.checkGroups();
 		assertNotInstanceOf("startFight", Fight, TestPlanet.Fight);		//Kein Kampf
 		
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(2), 1));	
+		var TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));	
 		TestPlanet.addGroup(TestGroupPlanet2);
 		
 		TestPlanet.checkGroups();
@@ -40,8 +40,8 @@ AsyncTestCase("Planet_Test_Fight", {
 		
 		var TestPlanet = new Planet(10, 200, 200);		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(1), 1));
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(2), 1));	
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));	
 		TestPlanet.addGroup(TestGroupPlanet1);		
 		TestPlanet.addGroup(TestGroupPlanet2);
 		
@@ -54,7 +54,7 @@ AsyncTestCase("Planet_Test_Fight", {
 		assertEquals("startFight", 1, TestPlanet.Fight.Contestants[1].Type);
 		assertUndefined("startFight", TestPlanet.Fight.Contestants[2]);				//Leer
 		
-		var TestGroupPlanet3 = new Group(new Ship(new Owner(2), 3));	
+		var TestGroupPlanet3 = new Group(new Ship(new Player(2), 3));	
 		TestPlanet.addGroup(TestGroupPlanet3);	
 		
 		TestPlanet.checkGroups();	
@@ -77,8 +77,8 @@ AsyncTestCase("Planet_Test_Fight", {
 		
 		var TestPlanet = new Planet(10, 200, 200);		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(1), 1));
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(2), 1));	
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));	
 		TestPlanet.addGroup(TestGroupPlanet1);		
 		TestPlanet.addGroup(TestGroupPlanet2);
 		
@@ -96,8 +96,8 @@ AsyncTestCase("Planet_Test_Fight", {
 		
 		var TestPlanet = new Planet(10, 200, 200);		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(1), 1));
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(2), 1));	
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));	
 		TestPlanet.addGroup(TestGroupPlanet1);		
 		TestPlanet.addGroup(TestGroupPlanet2);
 		

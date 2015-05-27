@@ -1,4 +1,4 @@
-function Owner (IDA){
+function Player (IDA){
 	
 	this.ID = IDA;
 	

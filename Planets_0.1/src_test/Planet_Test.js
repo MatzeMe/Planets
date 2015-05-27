@@ -20,16 +20,16 @@ AsyncTestCase("Planet_Test", {
 
 		var TestPlanet = new Planet(10, 200, 200);
 		
-		TestPlanet.setOwner(new Owner());
+		TestPlanet.setOwner(new Player(1));
 		
-		assertInstanceOf("Owner", Owner, TestPlanet.Owner);
+		assertInstanceOf("Owner", Player, TestPlanet.Owner);
 	
 	}, 
 
 "test addGroup / Gruen wenn 1 Gruppe zum Planeten hinzugefügt werden kann": function() {  
 
 		var TestPlanet = new Planet(10, 200, 200);
-		var TestGroupPlanet = new Group(new Ship(new Owner(), 1));
+		var TestGroupPlanet = new Group(new Ship(new Player(1), 1));
 		
 		TestPlanet.addGroup(TestGroupPlanet);
 		
@@ -41,9 +41,9 @@ AsyncTestCase("Planet_Test", {
 
 		var TestPlanet = new Planet(10, 200, 200);
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(), 1));
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(), 2));
-		var TestGroupPlanet3 = new Group(new Ship(new Owner(), 3));
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 2));
+		var TestGroupPlanet3 = new Group(new Ship(new Player(1), 3));
 		
 		TestPlanet.addGroup(TestGroupPlanet1);
 		TestPlanet.addGroup(TestGroupPlanet2);
@@ -59,9 +59,9 @@ AsyncTestCase("Planet_Test", {
 
 		var TestPlanet = new Planet(10, 200, 200);
 				
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(), 1));
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(), 2));
-		var TestGroupPlanet3 = new Group(new Ship(new Owner(), 3));
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 2));
+		var TestGroupPlanet3 = new Group(new Ship(new Player(1), 3));
 		
 		TestPlanet.addGroup(TestGroupPlanet1);
 		TestPlanet.addGroup(TestGroupPlanet2);
@@ -87,8 +87,8 @@ AsyncTestCase("Planet_Test", {
 
 		var TestPlanet = new Planet(10, 200, 200);		
 	
-		var TestGroupPlanet1 = new Group(new Ship(new Owner(), 1));
-		var TestGroupPlanet2 = new Group(new Ship(new Owner(), 1));
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 1));
 		
 		var TestGroupPlanet1 = TestPlanet.mergeGroups(TestGroupPlanet1, TestGroupPlanet2);	//Zusammenfassen beider Gruppen in Gruppe1
 		
@@ -103,13 +103,13 @@ AsyncTestCase("Planet_Test", {
 
 	var TestPlanet = new Planet(10, 200, 200);		
 	
-	var TestGroupPlanet1 = new Group(new Ship(new Owner(1), 1));	
-	var TestGroupPlanet2 = new Group(new Ship(new Owner(1), 1));
-	var TestGroupPlanet3 = new Group(new Ship(new Owner(1), 3));	//Wird nicht mit beiden oberen zusammengefasst
+	var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));	
+	var TestGroupPlanet2 = new Group(new Ship(new Player(1), 1));
+	var TestGroupPlanet3 = new Group(new Ship(new Player(1), 3));	//Wird nicht mit beiden oberen zusammengefasst
 	
-	var TestGroupPlanet4 = new Group(new Ship(new Owner(2), 1));
-	var TestGroupPlanet5 = new Group(new Ship(new Owner(2), 2));	//Wird nicht mit umgebenden zusammengefasst
-	var TestGroupPlanet6 = new Group(new Ship(new Owner(2), 1));
+	var TestGroupPlanet4 = new Group(new Ship(new Player(2), 1));
+	var TestGroupPlanet5 = new Group(new Ship(new Player(2), 2));	//Wird nicht mit umgebenden zusammengefasst
+	var TestGroupPlanet6 = new Group(new Ship(new Player(2), 1));
 	
 	TestPlanet.addGroup(TestGroupPlanet1);
 	TestPlanet.addGroup(TestGroupPlanet2);

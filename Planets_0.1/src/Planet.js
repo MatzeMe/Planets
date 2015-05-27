@@ -1,10 +1,10 @@
 function Planet(MassA, xA, yA){ 
 
 	this.Mass = MassA;
-	this.TravelRadius = this.Mass * 30;
+	this.TravelRadius = this.Mass * 30; 
 	this.x = xA;
-	this.y = yA;
-	this.Owner = new Owner(99);
+	this.y = yA; 
+	this.Owner = new Player(99);
 	this.presentGroups = [];
 	this.Conquest;
 	this.Fight;

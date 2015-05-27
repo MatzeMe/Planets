@@ -6,7 +6,7 @@ AsyncTestCase("Fight_Test", {
 			
 "test Initialisierung / Gruen wenn Fight korrekt initialisiert": function() {  
 
-		var Contestants = [new Group(new Ship(new Owner(1),1)), new Group(new Ship(new Owner(2),1))];
+		var Contestants = [new Group(new Ship(new Player(1),1)), new Group(new Ship(new Player(2),1))];
 	
 		var TestFight = new Fight(Contestants);
 		

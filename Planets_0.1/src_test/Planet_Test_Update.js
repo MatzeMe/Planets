@@ -31,12 +31,12 @@ AsyncTestCase("Planet_Test_Update", {
 	
 	*/
 	
-/*"test checkConquest / Gruen, wenn Eroberung startet, den Besitzer des Planeten erfolgreich wechselt und danach gestoppt ist": function(queue) {
+"test checkConquest / Gruen, wenn Eroberung startet, den Besitzer des Planeten erfolgreich wechselt und danach gestoppt ist": function(queue) {
 		
 	var TestPlanet = new Planet(10, 200, 200);	
-	TestPlanet.setOwner(new Owner(1));
+	TestPlanet.setOwner(new Player(1));
 	
-	var TestGroupPlanetA = new Group(new Ship(new Owner(2), 1));					//Gegnerische Gruppe
+	var TestGroupPlanetA = new Group(new Ship(new Player(2), 1));					//Gegnerische Gruppe
 	TestPlanet.addGroup(TestGroupPlanetA);
 	
 	assertNotInstanceOf("checkConquest", Conquest, TestPlanet.Conquest);		    //Keine Eroberung		
@@ -64,12 +64,12 @@ AsyncTestCase("Planet_Test_Update", {
 	    });
 	    window.setTimeout(myCallback, 2000);
 	 });			
-	},*/
+	},
 	
 	"test RemainingProductionTime/Update() / Gruen wenn Update() fertige Produktion erkennt": function(queue) {  
 
 		var TestPlanet = new Planet(10, 200, 200);
-		TestPlanet.setOwner(new Owner(1));
+		TestPlanet.setOwner(new Player(1));
 		assertNotInstanceOf("Group", Group, TestPlanet.presentGroups[0]);
 		
 		TestPlanet.Update();
