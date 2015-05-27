@@ -23,7 +23,7 @@ AsyncTestCase("Planet_Test_Conquest", {
 		assertNotInstanceOf("checkGroups", Conquest, TestPlanet.Conquest);	//Eroberung noch nicht gestartet
 		
 		TestPlanet.checkGroups();
-		
+		 
 		assertInstanceOf("checkGroups", Conquest, TestPlanet.Conquest);		//Eroberung gestartet
 				
 	},
