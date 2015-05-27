@@ -102,7 +102,7 @@ AsyncTestCase("GameControler_Test", {
 		    var myCallback = callbacks.add(function() {
 		    	assertFalse(TestGC.GameOver);
 		    });
-		    window.setTimeout(myCallback, 500);
+		    window.setTimeout(myCallback, 500); 
 		 });
 		
 		

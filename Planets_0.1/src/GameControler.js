@@ -200,7 +200,7 @@ for(var i = 0; i < this.Milkyways.length; i++){
 				textPlanet.appendChild(planetText);
 				}
 				else{
-					planetText = document.createTextNode("Kampf: True ");
+					planetText = document.createTextNode("Kampf: True "); 
 					textPlanet.appendChild(planetText);
 				}
 			
