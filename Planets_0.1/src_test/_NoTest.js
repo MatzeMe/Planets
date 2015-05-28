@@ -15,14 +15,7 @@ AsyncTestCase("GameControler_Test", {
 	 *  
 	 */	
 	
-
-"test Initialisierung / Gruen wenn Gamecontroler korrekt initialisiert": function() {   
-	
-
-	
-		
-			
-	},  
+ 
 	
 
 "test NoTest": function(queue) {  //2Routen, weil Routen Einbahnstrassen sein können

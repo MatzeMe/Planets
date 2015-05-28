@@ -1,18 +1,18 @@
-function Route(startA, targetA, groupA){ 
+function Route(startA, targetA, distanceA){ 
 	
-	this.start = startA;
-	this.target = targetA;
+	this.Start = startA;
+	this.Target = targetA;
 	this.travelers = []; 
-	this.distance = GameControler.sum;				//Aus Planetenkoordinaten berechnen, Formel siehe Gamecontroler.js
-	this.remainingDistance = distance;
+	this.distance = distanceA;				//Aus Planetenkoordinaten berechnen, Formel siehe Gamecontroler.js
+	this.remainingDistance = this.distance;
 	this.travelStart = Date.now();
 	
-	this.updateTravel = function(travelA)
+	this.Update = function(travelA)
 	{ 
 		//!!!! In jeder Route geht die eigene Update() ihre Travel-objekte durch und fragt deren Update ab
 		this.travel = travelA; 
 
-		for(int i = 0; i<travelers.length; i++)
+		for(var i = 0; i<this.travelers.length; i++)
 		{
 			if(updateTravel == true)
 			{
@@ -22,7 +22,7 @@ function Route(startA, targetA, groupA){
 		} 
 		
 	} 
-	  
+	/*  
 	
 	this.startTravel = function(groupA)	// Erzeug das Travel-Objekt und  pusht die Traveler-Gruppe in das Array
 	{  
@@ -38,7 +38,7 @@ function Route(startA, targetA, groupA){
 	
 	
 	
-	this.endTravel = function(travel)  // Löschen des Travel-Objektes aus dem traveler-Array.
+	this.endTravel = function(travel)  // Lï¿½schen des Travel-Objektes aus dem traveler-Array.
 	{
 		this.travelers.splice(this.travelers.indexof(travel.presentGroup),1);
 	}
@@ -49,5 +49,5 @@ function Route(startA, targetA, groupA){
 //	{
 //		
 //	}
-	
+	*/
 }

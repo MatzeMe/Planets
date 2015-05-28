@@ -20,7 +20,7 @@ function GameControler(UniverseA, PlayersA){
 				var sum = Math.sqrt((x*x)+(y*y));
 
 				if(sum <= this.Universe[i].TravelRadius){
-					this.Milkyways.push(new Route(this.Universe[i],  this.Universe[o])); 
+					this.Milkyways.push(new Route(this.Universe[i],  this.Universe[o], sum)); 
 					this.Milkyways[this.Milkyways.length-1].distance = sum;
 				}				
 			}
