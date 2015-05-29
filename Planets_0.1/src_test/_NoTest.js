@@ -66,7 +66,7 @@ AsyncTestCase("GameControler_Test", {
 	    var myCallback = callbacks.add(function() {
 	    	console.log("Gruppe Spieler 1 zurück auf Planet0 => Produktion wird fortgesetzt");
 	    	var GroupTemp = TestUniverse[1].presentGroups[1];
-	    	TestUniverse[1].removeGroup(GroupTemp);
+	    	TestUniverse[1].removeGroup(GroupTemp); 
 	    	TestUniverse[0].addGroup(GroupTemp);
 	    	
 	    });

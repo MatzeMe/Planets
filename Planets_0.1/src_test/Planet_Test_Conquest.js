@@ -118,7 +118,7 @@ AsyncTestCase("Planet_Test_Conquest", {
 		
 
 		assertNotInstanceOf("checkGroups2", Conquest, TestPlanet.Conquest);		//Eroberung noch nicht gestartet	
-		TestPlanet.checkGroups();		
+		TestPlanet.checkGroups();		 
 		assertInstanceOf("checkGroups3", Conquest, TestPlanet.Conquest);		//Eroberung gestartet
 		
 		TestPlanet.removeGroup(TestGroupPlanet1);

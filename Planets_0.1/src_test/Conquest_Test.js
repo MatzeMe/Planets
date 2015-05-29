@@ -1,6 +1,6 @@
 AsyncTestCase("Conquest_Test", {   
 	
-	setUp: function() { }, 		
+	setUp: function() { }, 		 
 	tearDown: function() { },   
 
 			
@@ -53,13 +53,13 @@ AsyncTestCase("Conquest_Test", {
 	
 	
 "test RemainingConquestTime/Update() / Gruen wenn Update() fertige Eroberung erkennt": function(queue) {  
-
+ 
 	var GroupA = new Group(new Ship(new Player(1), 1)); 	//(Planetenmasse, Schiffsgruppe)	
 	var TestConquest = new Conquest(10, GroupA)			//Eroberungszeitzeit für Planetenmasse 10 = 10.000 * 10 = 10000 millisek
 		
 		
 		queue.call('Step 1: Update() wird in 9,0 Sekunden aufgerufen.', function(callbacks) {
-		    var myCallback = callbacks.add(function() {
+		    var myCallback = callbacks.add(function() { 
 		    	TestConquest.Update();
 		    });
 		    window.setTimeout(myCallback, 9000);
