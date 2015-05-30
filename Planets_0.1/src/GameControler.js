@@ -61,7 +61,7 @@ for(var i = 0; i < this.Milkyways.length; i++){
 			drawRoute.style.height = "16px";
 			
 			drawRoute.style.transformOrigin = "0 0";
-			drawRoute.style.transform = "rotate(" + angle + "deg)"; te
+			drawRoute.style.transform = "rotate(" + angle + "deg)";
 			
 			drawRoute.style.left = RouteX;
 			drawRoute.style.top = RouteY; 
@@ -74,7 +74,7 @@ for(var i = 0; i < this.Milkyways.length; i++){
 			
 			drawRoute.style.backgroundColor = "#0066FF"; 
 			var newContent = document.createTextNode(" "); 
-			drawRoute.appendChild(newContent);   
+			drawRoute.appendChild(newContent);    
 			drawingArea.appendChild(drawRoute); 
 			
 		}
