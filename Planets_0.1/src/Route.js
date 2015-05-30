@@ -13,8 +13,8 @@ function Route(startA, targetA, distanceA){
 		{
 			if(this.travelers[i].update() == true)
 			{
-				transferGroupToPlanet(this.travelers[i].presentGroup, this.target);
-				endTravel(this.travelers[i]);
+				this.transferGroupToPlanet(this.travelers[i].presentGroup, this.target);
+				this.endTravel(this.travelers[i]);
 			}
 		} 
 		

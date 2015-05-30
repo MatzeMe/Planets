@@ -58,15 +58,19 @@ for(var i = 0; i < this.Milkyways.length; i++){
 			var drawRoute = document.createElement("div");
 			drawRoute.setAttribute("id", RouteID);
 			drawRoute.style.width = RouteSize;
-			drawRoute.style.height = "5px";
+			drawRoute.style.height = "16px";
 			
 			drawRoute.style.transformOrigin = "0 0";
-			drawRoute.style.transform = "rotate(" + angle + "deg)";
+			drawRoute.style.transform = "rotate(" + angle + "deg)"; te
 			
 			drawRoute.style.left = RouteX;
 			drawRoute.style.top = RouteY; 
 			
 			drawRoute.style.position = "absolute";
+			
+			drawRoute.style.backgroundImage = "url('https://dl.dropboxusercontent.com/u/17359888/Arrows.png')";   
+			drawRoute.style.backgroundPosition = "top left";
+			drawRoute.style.backgroundRepeat = "repeat-x"; 
 			
 			drawRoute.style.backgroundColor = "#0066FF"; 
 			var newContent = document.createTextNode(" "); 
@@ -93,15 +97,19 @@ for(var i = 0; i < this.Milkyways.length; i++){
 			drawPlanet.style.width = PlanetSize;
 			drawPlanet.style.height = PlanetSize;
 			
+			 
+			console.log("asd");
+			console.log(drawPlanet.style.backgroundImage); 
+			
 			drawPlanet.style.left = PlanetX;
 			drawPlanet.style.top = PlanetY; 
 			
-			drawPlanet.style.position = "absolute";
+			drawPlanet.style.position = "absolute";  
 			
-			drawPlanet.style.backgroundColor = "#00FF99"; 
+			drawPlanet.style.backgroundColor = "#00FF99";    
 			var newContent = document.createTextNode(" "); 
 			drawPlanet.appendChild(newContent);   
-			drawingArea.appendChild(drawPlanet);
+			drawingArea.appendChild(drawPlanet);  
 			
 			
 			

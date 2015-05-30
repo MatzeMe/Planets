@@ -111,10 +111,47 @@ AsyncTestCase("Planet_Test_Conquest", {
 		
 	},
 	
-	"test update / Gruen, wenn Update Ende gestarteter Reise erkennt, Gruppe auf Planeten überträgt, Travel-Objekt zerstört": function() {  
-
-		assertTrue(false);
+	
+	
+	
+"test update / Gruen, wenn Update Ende gestarteter Reise erkennt, Gruppe auf Planeten überträgt, Travel-Objekt zerstört": function(queue) {  
+		 
 		
-	},
+		var TestStart = new Planet(10, 200, 200);
+		var TestTarget = new Planet(10, 200, 300);
+		var distance = 150;
+		
+		var TestGroup1 = new Group(new Ship(new Player(1), 1));
+		
+		var TestRoute = new Route(TestStart, TestTarget, distance);
+		
+		assertUndefined(TestRoute.travelers[0]);
+		TestRoute.startTravel(TestGroup1);
+		assertInstanceOf(Travel, TestRoute.travelers[0]);
+		
+		assertUndefined(TestRoute.Target.presentGroups[0]);
+		assertInstanceOf(Group, TestRoute.travelers[0].presentGroup);
+		//traveltime = distance / group.speed -> 150 / 30  * 1000= 5000milisek 	
+			
+			queue.call('Step 1: Update() wird in 4,0 Sekunden aufgerufen, Reisestatus wird überprüft', function(callbacks) {
+			    var myCallback = callbacks.add(function() { 
+			    	
+			    	TestRoute.Update();
+			    	assertInstanceOf(Travel, TestRoute.travelers[0]);
+			    });
+			    window.setTimeout(myCallback, 4000); 
+			 });
+		
+			queue.call('Step 2: Update() wird in 6,0 Sekunden aufgerufen, Reisestatus wird überprüft', function(callbacks) {
+			    var myCallback = callbacks.add(function() { 
+			    	TestRoute.Update();
+			    	assertUndefined(TestRoute.travelers[0]);
+			    	assertInstanceOf(Group, TestRoute.Target.presentGroups[0]);
+			    });
+			    window.setTimeout(myCallback, 2000); 
+			 });
+			
+			
+			},  
 	
 });
