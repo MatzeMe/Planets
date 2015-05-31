@@ -12,9 +12,16 @@ function Planet(MassA, xA, yA, planetIDA){
 	this.allAlone = true;
 	this.TypeOfProduction = 1;
 	this.planetID = planetIDA;
+	this.routesFromHere = [];
 	var type = this.TypeOfProduction;
 	var that = this;
 	
+	
+	this.sendGroupOnTravel = function(GroupA, RouteA){		
+		RouteA.startTravel(GroupA);
+		this.removeGroup(GroupA);		
+	}
+
 	this.changeProduction = function(){
 		
 		switch(that.TypeOfProduction){
@@ -204,34 +211,12 @@ this.Update = function(){
 	
 	this.Move = function(){
 		
-		if(TravelFrom == undefined){
-			TravelFrom = that;
-			console.log(that.planetID);
-		}
-		else if(TravelTo == undefined){
-			TravelTo = that;
-			console.log(that.planetID);
-		}
-		if(TravelFrom != undefined && TravelTo != undefined)
-		{
-			console.log("Travel1");
-			console.log(TravelFrom.planetID);
-			console.log(TravelTo.planetID);
-			for(var o = 0; o < Milkyways.length; o++) {
-				if(Milkyways[o].Start.planetID == TravelFrom.planetID && Milkyways[o].Target.planetID == TravelTo.planetID){
-					console.log("Travel2");
-					for(var y = 0; y < Milkyways[o].Start.presentGroups.length; y++){
-						Milkyways[o].startTravel(Milkyways[o].Start.presentGroups[y]);
-						Milkyways[o].Start.removeGroup(Milkyways[o].Start.presentGroups[y]);
-					}
-				}
-				
-			}
+			
 		
 			TravelFrom = undefined;
 			TravelTo = undefined;
 		
-		}
+		
 	}
 	
 	
