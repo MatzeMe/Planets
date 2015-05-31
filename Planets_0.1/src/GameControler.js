@@ -2,29 +2,29 @@ function GameControler(UniverseA, PlayersA){
 	
 	TravelFrom = undefined;
 	TravelTo = undefined;
+	isPlayedBy = 1;
+	Universe = UniverseA;
+	Milkyways = [];
 	
-	this.Universe = UniverseA;
 	this.Players = PlayersA;
 	this.GameOver = false;
 	this.FrameRate = 30;
 	var that = this;
 	this.last = Date.now();
-	
-	
-	Milkyways = [];
-	
-	for(var i = 0; i < this.Universe.length; i++){
-		for(var o = 0; o < this.Universe.length; o++){
+
+	for(var i = 0; i < Universe.length; i++){
+		for(var o = 0; o < Universe.length; o++){
 			if(i != o){
 				
-				var x = this.Universe[o].x - this.Universe[i].x;
-				var y = this.Universe[o].y - this.Universe[i].y;
+				var x = Universe[o].x - Universe[i].x;
+				var y = Universe[o].y - Universe[i].y;
 				
 				var sum = Math.sqrt((x*x)+(y*y));
 
-				if(sum <= this.Universe[i].TravelRadius){
-					Milkyways.push(new Route(this.Universe[i],  this.Universe[o], sum)); 
-					Milkyways[Milkyways.length-1].distance = sum;
+				if(sum <= Universe[i].TravelRadius){
+					Milkyways.push(new Route(Universe[i],  Universe[o], sum)); 
+					Milkyways[Milkyways.length-1].distance = sum; 
+					Universe[i].routesFromHere.push(Milkyways[Milkyways.length-1]);
 				}				
 			}
 		}		
@@ -41,13 +41,13 @@ function GameControler(UniverseA, PlayersA){
 	
 	Update = function(){  
 				
-		for(var i = 0; i < that.Universe.length; i++ ){
-			that.Universe[i].Update();	 		
+		for(var i = 0; i < Universe.length; i++ ){
+			Universe[i].Update();	 		
 		}
 		
 		that.GameOver = true;
-		for(var i = 0; i < that.Universe.length -1; i++ ){ 
-			if(that.Universe[i].Owner.ID != that.Universe[i+1].Owner.ID){
+		for(var i = 0; i < Universe.length -1; i++ ){ 
+			if(Universe[i].Owner.ID != Universe[i+1].Owner.ID){
 				that.GameOver = false;
 			}			
 		}
@@ -56,17 +56,18 @@ function GameControler(UniverseA, PlayersA){
 			Milkyways[i].Update();
 		}
 		
-		Draw(that.Universe, Milkyways);
+		DrawField(Universe, Milkyways);
 		
 		//if(that.GameOver == false){ 
 			//console.log("GAMEOVER");
 			//Tu Was, das Spiel ist aus, mach dem ganzen eine Ende, los, tue es!
-			setTimeout(Update, 500);  
+			setTimeout(Update, 1000);    
 		//} 
 		
 	}
 	
 	Update();
+	drawButtons();
 
 	
 }
