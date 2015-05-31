@@ -1,4 +1,4 @@
-function Planet(MassA, xA, yA){ 
+function Planet(MassA, xA, yA, planetIDA){ 
 
 	this.Mass = MassA;
 	this.TravelRadius = this.Mass * 30; 
@@ -11,6 +11,25 @@ function Planet(MassA, xA, yA){
 	this.Production;
 	this.allAlone = true;
 	this.TypeOfProduction = 1;
+	this.planetID = planetIDA;
+	var type = this.TypeOfProduction;
+	var that = this;
+	
+	this.changeProduction = function(){
+		
+		switch(that.TypeOfProduction){
+		
+		case 1: that.TypeOfProduction = 2; break;
+		case 2: that.TypeOfProduction = 3; break;
+		case 3: that.TypeOfProduction = 1; break;
+		
+		}
+	
+		
+		that.stopProduction();
+		that.startProduction();
+		
+	}
 	
 	this.setOwner = function(OwnerA){
 	
@@ -138,6 +157,10 @@ function Planet(MassA, xA, yA){
 		this.Production = undefined;
 	}
 	
+
+	
+	
+	
 this.Update = function(){
 		
 		this.checkGroups();
@@ -171,9 +194,45 @@ this.Update = function(){
 			if(prod == true){
 				this.addGroup(new Group(new Ship(this.Owner, this.TypeOfProduction)));
 				
+				
+				
 				this.stopProduction();
-				this.startProduction(this.Mass, this.TypeOfProduction);				
+				this.startProduction();				
 			}	
 		}
 	}
+	
+	this.Move = function(){
+		
+		if(TravelFrom == undefined){
+			TravelFrom = that;
+			console.log(that.planetID);
+		}
+		else if(TravelTo == undefined){
+			TravelTo = that;
+			console.log(that.planetID);
+		}
+		if(TravelFrom != undefined && TravelTo != undefined)
+		{
+			console.log("Travel1");
+			console.log(TravelFrom.planetID);
+			console.log(TravelTo.planetID);
+			for(var o = 0; o < Milkyways.length; o++) {
+				if(Milkyways[o].Start.planetID == TravelFrom.planetID && Milkyways[o].Target.planetID == TravelTo.planetID){
+					console.log("Travel2");
+					for(var y = 0; y < Milkyways[o].Start.presentGroups.length; y++){
+						Milkyways[o].startTravel(Milkyways[o].Start.presentGroups[y]);
+						Milkyways[o].Start.removeGroup(Milkyways[o].Start.presentGroups[y]);
+					}
+				}
+				
+			}
+		
+			TravelFrom = undefined;
+			TravelTo = undefined;
+		
+		}
+	}
+	
+	
 }
