@@ -1,3 +1,112 @@
+//Buttons für Travel
+drawButtons = function(){
+	
+	
+	
+	//Überlagernde Buttonarea erzeugen
+	killElement(document.getElementById("buttonArea")); 
+	
+	var buttonArea = document.createElement("div");
+	buttonArea.setAttribute("id", "buttonArea");
+	buttonArea.style.width = "1000px";
+	buttonArea.style.height = "600px";
+	buttonArea.style.backgroundColor = "black";  	
+	var empty = document.createTextNode(" "); 
+	buttonArea.appendChild(empty);    
+	document.body.appendChild(buttonArea);
+	that = this;
+	
+	for(var i = 0; i < Universe.length; i++){
+	
+		changeProduction = function(event){
+			
+			Universe[event.target.id].changeProduction();  
+			console.log(event.target.id);	
+		}
+		
+		setTravelFrom = function(event){
+			
+			TravelFrom = Universe[event.target.id];
+			drawButtons();
+		}
+		
+		setTravelTo = function(event){
+			
+			if(Universe[event.target.id] != TravelFrom){
+				TravelTo = Universe[event.target.id];
+				console.log(TravelTo);
+				for(var y = 0; y < TravelFrom.routesFromHere.length; y++){
+					if(TravelFrom.routesFromHere[y].Target == TravelTo){
+					var tempTravel = TravelFrom.routesFromHere[y];
+					console.log(tempTravel);
+					}
+				}
+				for(var x = 0; x < TravelFrom.presentGroups.length; x++){
+					if(TravelFrom.presentGroups[x].Owner.ID == isPlayedBy){ 
+						TravelFrom.sendGroupOnTravel(TravelFrom.presentGroups[x], tempTravel);
+					}
+				}
+			}
+			
+			TravelFrom = undefined;
+			TravelTo = undefined;	
+			drawButtons();
+		}
+		
+	var btn = document.createElement("BUTTON");
+	btn.setAttribute("id", i);
+	if(TravelFrom == undefined){
+		var t = document.createTextNode(Universe[i].planetID);        
+		btn.appendChild(t);   
+		btn.onclick=function(){ setTravelFrom(event); }; 
+		buttonArea.appendChild(btn);
+		
+	}
+	else{
+		for(var f = 0; f < TravelFrom.routesFromHere.length; f++){ 
+			if(TravelFrom.routesFromHere[f].Target == Universe[i]){
+				var t = document.createTextNode(Universe[i].planetID);       
+				btn.appendChild(t); 
+				btn.onclick=function(){ setTravelTo(event); };
+				
+				buttonArea.appendChild(btn); 
+			}
+		}
+		
+		
+	}
+	btn.style.width = "20px";
+	btn.style.height = "20px";
+	var ButtonX = this.universe[i].x - this.universe[i].Mass*5 / 2 + this.universe[i].Mass*5 + 5;
+	ButtonX += "px";
+	btn.style.left = ButtonX;
+	var ButtonY = this.universe[i].y - this.universe[i].Mass*5 / 2;
+	ButtonY += "px";
+	btn.style.top = ButtonY; 	
+	btn.style.position = "absolute";
+	
+	
+	var btn2 = document.createElement("BUTTON");
+	btn2.setAttribute("id", i);
+	
+	btn2.onclick=function(){ changeProduction(event); };		
+			
+	btn2.style.width = "20px";
+	btn2.style.height = "20px";
+	var ButtonX = this.universe[i].x - this.universe[i].Mass*5 / 2 - 25;
+	ButtonX += "px";
+	btn2.style.left = ButtonX;
+	var ButtonY = this.universe[i].y - this.universe[i].Mass*5 / 2;
+	ButtonY += "px";
+	btn2.style.top = ButtonY; 	
+	btn2.style.position = "absolute";
+	if(this.universe[i].Owner.ID == isPlayedBy){
+	buttonArea.appendChild(btn2); 
+	}	
+	}
+
+}
+
 function killElement(element) {
 		 if (element) {
 		  var papa = element.parentNode;
@@ -6,9 +115,7 @@ function killElement(element) {
 		}
 
 shipsToText = function (tempPlanet) {
-	 
-	
-	
+	 	
 	var ret = [];
 	var shi = [0,0,0,0,0,0]
 	for(var i = 0; i < tempPlanet.presentGroups.length; i++)
@@ -41,21 +148,19 @@ shipsToText = function (tempPlanet) {
 	
 	}
 
-function Draw(universeA, milkywaysA){  
+function DrawField(universeA, milkywaysA){  
 
 	var that = this;
-	
 	this.milkyways = milkywaysA;
 	this.universe = universeA;
 	
-	this.drawPlanets = function(){
-	
+	//Planeten, Routen, Textfelder einzeichnen
+	this.drawPlanets = function(){	
 		for(var i = 0; i < this.universe.length; i++){
 			
 			//Schiffe zählen & zu Text
 			var tempShips = shipsToText(this.universe[i]);
-		
-			
+				
 			//Position & Größe
 			var PlanetID = "Planet" + i;
 			var PlanetSize = this.universe[i].Mass*5 + "px";	
@@ -72,24 +177,11 @@ function Draw(universeA, milkywaysA){
 			drawPlanet.style.left = PlanetX;
 			drawPlanet.style.top = PlanetY; 	
 			drawPlanet.style.position = "absolute";  	
-			drawPlanet.style.backgroundColor = this.universe[i].Owner.color;    
-			//var newContent = document.createTextNode(" ");	//sichtbar machen
-			//drawPlanet.appendChild(newContent);  
+			drawPlanet.style.backgroundColor = this.universe[i].Owner.color;    			
 			
-			//Funktionalität
-			if(this.universe[i].Owner.ID != 99){
-				drawPlanet.addEventListener("dblclick", this.universe[i].changeProduction);
-			}
-			
-			
-			//drawPlanet.onclick=function(){Move(tempPlanet.valueOf())};
-			drawPlanet.addEventListener("click", this.universe[i].Move);
-			//drawPlanet.onclick=function(){Move(that.universe[i]); console.log(this.universe[i])};
-			
-			
-			
-			if(this.universe[i].Owner.ID == 99){ 
-							
+			//Wenn Planet keinen Besitzer hat
+			if(this.universe[i].Owner.ID == 99){
+				//Kein Besitzer, aber wird erobert
 				if(this.universe[i].Conquest instanceof Conquest){
 					//Einzeiliges Display Conquest
 					var drawEnemies = document.createElement("div");	 	
@@ -107,6 +199,7 @@ function Draw(universeA, milkywaysA){
 					drawingArea.appendChild(drawEnemies);  
 									
 				}	
+				//Kein Besitzer, aber Kampf findet statt
 				if(this.universe[i].Fight instanceof Fight){
 					//Zweizeiliges Display Kampf
 					var drawEnemies = document.createElement("div");	 	
@@ -138,7 +231,7 @@ function Draw(universeA, milkywaysA){
 					drawingArea.appendChild(drawEnemies);  
 				}	
 			}
-			else{
+			else{//Wenn Planet Besitzer hat
 				
 				//Schiffe auf Planeten
 				var newContent = document.createTextNode(tempShips[0]);
@@ -156,9 +249,8 @@ function Draw(universeA, milkywaysA){
 					drawPlanet.appendChild(newContent);
 				}
 				if(this.universe[i].Conquest instanceof Conquest){
-					//Einzeiliges Display Conquest
+					//Einzeiliger Anhang, wenn Planet Besitzer hat und Eroberung stattfindet
 					var drawEnemies = document.createElement("div");	 	
-					//drawEnemies.style.width = PlanetSize;
 					drawEnemies.style.height = "15px";							
 					drawEnemies.style.left = PlanetX;
 					PlanetY = this.universe[i].y - this.universe[i].Mass*5 / 2 + 5 + this.universe[i].Mass*5;
@@ -174,7 +266,7 @@ function Draw(universeA, milkywaysA){
 				}	
 				
 				if(this.universe[i].Fight instanceof Fight){
-					//Einzeiliges Display Kampf
+					//Einzeiliger Anhang, wenn Planet Besitzer hat und Kampf stattfindet
 					var drawEnemies = document.createElement("div");	 	
 					drawEnemies.style.width = PlanetSize;
 					drawEnemies.style.height = "15px";							
@@ -193,16 +285,14 @@ function Draw(universeA, milkywaysA){
 					
 					var newContent = document.createTextNode(tempShips[1]);
 					drawEnemies.appendChild(newContent);
-					drawingArea.appendChild(drawEnemies);  
-					
-				}	
-				
+					drawingArea.appendChild(drawEnemies);  				
+				}			
 			}
 			drawingArea.appendChild(drawPlanet);  
-	}
+		}
 	}
 	
-	
+	//Routen Einzeichnen
 	this.drawMilkyWays = function(){
 		
 		for(var i = 0; i < milkyways.length; i++){
@@ -236,7 +326,10 @@ function Draw(universeA, milkywaysA){
 			drawingArea.appendChild(drawRoute); 
 			
 			
-		}}
+		}
+	}
+	
+	
 	
 		
 		//Zeichenfläche löschen
@@ -247,15 +340,11 @@ function Draw(universeA, milkywaysA){
 		drawingArea.setAttribute("id", "DrawingArea");
 		drawingArea.style.width = "1000px";
 		drawingArea.style.height = "600px";
-		drawingArea.style.backgroundColor = "black";  
-		
-		//drawingArea.addEventListener ("selectstart", "return false;");
-		drawingArea.onselectstart=function(){return false;};
-		//drawingArea.addEventListener("select", myScript);
-		
+		drawingArea.style.backgroundColor = "black";  	
 		var empty = document.createTextNode(" "); 
-		drawingArea.appendChild(empty);    
-		document.body.appendChild(drawingArea);
+		drawingArea.appendChild(empty);   
+		drawingArea.onselectstart=new Function ("return false");
+		document.body.appendChild(drawingArea); 
 		
 		//Routen einzeichnen 
 		this.drawMilkyWays();  
@@ -263,4 +352,4 @@ function Draw(universeA, milkywaysA){
 		this.drawPlanets();
 					
 		}
-		
+
