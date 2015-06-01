@@ -2,14 +2,14 @@ function GameControler(UniverseA, PlayersA){
 	
 	TravelFrom = undefined;
 	TravelTo = undefined;
-	isPlayedBy = 1;
+	isPlayedBy = 1; 
 	Universe = UniverseA;
 	Milkyways = [];
 	
 	this.Players = PlayersA;
 	this.GameOver = false;
 	this.FrameRate = 30;
-	var that = this;
+	var that = this; 
 	this.last = Date.now();
 
 	for(var i = 0; i < Universe.length; i++){
@@ -61,7 +61,7 @@ function GameControler(UniverseA, PlayersA){
 		//if(that.GameOver == false){ 
 			//console.log("GAMEOVER");
 			//Tu Was, das Spiel ist aus, mach dem ganzen eine Ende, los, tue es!
-			setTimeout(Update, 1000);    
+			setTimeout(Update, 50);     
 		//} 
 		
 	}

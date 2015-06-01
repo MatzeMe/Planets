@@ -22,7 +22,7 @@ drawButtons = function(){
 			
 			Universe[event.target.id].changeProduction();  
 			console.log(event.target.id);	
-		}
+		}  
 		
 		setTravelFrom = function(event){
 			
@@ -194,7 +194,10 @@ function DrawField(universeA, milkywaysA){
 					drawEnemies.style.position = "absolute";  
 					drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].Owner.color;
 								
-					var newContent = document.createTextNode(tempShips[0] + " " + this.universe[i].Conquest.RemainingConquestTime); 
+					var result = Math.round((this.universe[i].Conquest.RemainingConquestTime/1000) * 100) / 100;
+					
+					
+					var newContent = document.createTextNode(tempShips[0] + " " + result.toFixed(2)); 
 					drawEnemies.appendChild(newContent);
 					drawingArea.appendChild(drawEnemies);  
 									
@@ -241,7 +244,11 @@ function DrawField(universeA, milkywaysA){
 				
 				//Produktion auf Planeten
 				if(this.universe[i].Production instanceof Production){
-				var newContent = document.createTextNode(this.universe[i].TypeOfProduction + " " + this.universe[i].Production.RemainingProductionTime);
+				
+				var result = Math.round((this.universe[i].Production.RemainingProductionTime/1000) * 100) / 100;
+				
+				
+				var newContent = document.createTextNode(this.universe[i].TypeOfProduction + " " + result.toFixed(2));
 				drawPlanet.appendChild(newContent);
 				}
 				else{
@@ -259,7 +266,9 @@ function DrawField(universeA, milkywaysA){
 					drawEnemies.style.position = "absolute";  
 					drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].Owner.color;
 								
-					var newContent = document.createTextNode(tempShips[1] + " " + this.universe[i].Conquest.RemainingConquestTime);
+					var result = Math.round((this.universe[i].Conquest.RemainingConquestTime/1000) * 100) / 100;
+					
+					var newContent = document.createTextNode(tempShips[1] + " " + result.toFixed(2));
 					drawEnemies.appendChild(newContent); 
 					drawingArea.appendChild(drawEnemies);  
 									
@@ -325,6 +334,41 @@ function DrawField(universeA, milkywaysA){
 			drawRoute.appendChild(newContent);    
 			drawingArea.appendChild(drawRoute); 
 			
+			for(var n = 0; n < milkyways[i].travelers.length; n++){
+			
+			
+			var drawtravelers = document.createElement("div");	 	
+			//drawtravelers.style.width = "100px";
+			drawtravelers.style.height = "15px";
+			RouteSize = milkyways[i].distance/2 - 50 + "px";
+			drawtravelers.style.left = RouteSize;
+			var travelersTop = 20 * (n+1);
+			travelersTop += "px";
+			//drawtravelers.style.top = travelersTop; 
+			drawtravelers.style.top = "20px"; 
+			drawtravelers.style.position = "relative";   
+			drawtravelers.style.display="table";
+			
+			drawtravelers.style.transformOrigin = "50 50";
+			drawtravelers.style.transform = "rotate(" + -angle + "deg)";
+			
+			
+			
+			 
+			if(milkyways[i].travelers[n].presentGroup.Owner.color.valueOf() == "red".valueOf()){
+				drawtravelers.style.backgroundColor = "red"; 
+			}
+			else
+				{
+				drawtravelers.style.backgroundColor = "blue";  
+				}
+			 
+			var result = Math.round((milkyways[i].travelers[n].remainingTravelTime/1000) * 100) / 100;
+		
+			var newContent = document.createTextNode("Type " + milkyways[i].travelers[n].presentGroup.Type + ": " + milkyways[i].travelers[n].presentGroup.Ships.length + " " + result.toFixed(2));
+			drawtravelers.appendChild(newContent); 
+			drawRoute.appendChild(drawtravelers);     
+			}
 			
 		}
 	}
@@ -338,12 +382,12 @@ function DrawField(universeA, milkywaysA){
 		//Zeichenfläche erzeugen
 		var drawingArea = document.createElement("div");
 		drawingArea.setAttribute("id", "DrawingArea");
-		drawingArea.style.width = "1000px";
+		drawingArea.style.width = "1000px"; 
 		drawingArea.style.height = "600px";
 		drawingArea.style.backgroundColor = "black";  	
 		var empty = document.createTextNode(" "); 
 		drawingArea.appendChild(empty);   
-		drawingArea.onselectstart=new Function ("return false");
+		drawingArea.onselectstart=new Function ("return false"); 
 		document.body.appendChild(drawingArea); 
 		
 		//Routen einzeichnen 

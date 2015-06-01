@@ -13,7 +13,7 @@ AsyncTestCase("GameControler_Test", {
 	 * 
 	 * 	framerate korrekt  
 	 *  
-	 */	
+	 */	 
 	
  
 	
@@ -46,9 +46,9 @@ AsyncTestCase("GameControler_Test", {
 	    var myCallback = callbacks.add(function() {
 
 	    });
-	    window.setTimeout(myCallback, 1000); 
+	    window.setTimeout(myCallback, 10000);  
 	 });
-	queue.call('Step 2: Group1, Player1, auf Planet2', function(callbacks) {
+	/*queue.call('Step 2: Group1, Player1, auf Planet2', function(callbacks) {
 	    var myCallback = callbacks.add(function() {
 
 	    });
@@ -74,7 +74,7 @@ AsyncTestCase("GameControler_Test", {
 
 	    });
 	    window.setTimeout(myCallback, 20000);  
-	 });
+	 });*/
 	
 	},  
 });
