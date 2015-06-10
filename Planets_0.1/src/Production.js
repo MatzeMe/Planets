@@ -1,25 +1,35 @@
-function Production(MassA, TypeA){ 
-	
-	this.Type = TypeA;
-	this.ProductionRunning = true;
-	this.ProductionStarted = Date.now();
+/*	Production.js
+ * 
+ * 	Author: rszabad(si3ben)
+ * 	Date: SS15, 8.6.15
+ * 	Course: Test-driven Development mit JavaScript
+ * 
+ * 	Erstellt die anfängliche Produktionszeit aus der Masse und dem produzierten Schiffstyp und berechnet die noch übrige. Meldet Ende der Produktion.
+ *  Wird immer dann erstellt, wenn Produziert wird und bei deren Unterbrechung oder Vollendung gelöscht und dann neu erstellt (Planet).
+ *
+ */
 
-	switch(this.Type) {
-    case 1: this.ProductionTime = 100000 / MassA;
+function Production(massA, typeA){ 
+	
+	this.type = typeA;								//gewünschter Schiffstyp
+	this.productionStarted = Date.now();
+
+	switch(this.type) {								//Berechnung der Schiffstypspezifischen Produktionszeit
+    case 1: this.productionTime = 100000 / massA;
     		break;
-    case 2: this.ProductionTime = 200000 / MassA;
+    case 2: this.productionTime = 200000 / massA;
 			break; 
-    case 3: this.ProductionTime = 300000 / MassA; 
+    case 3: this.productionTime = 300000 / massA; 
 			break;
 	}
 
-	this.RemainingProductionTime = this.ProductionTime; 
+	this.remainingProductionTime = this.productionTime; 
 	
-	this.Update = function(){
+	this.update = function(){	//Produktionszeit abgelaufen == true als Rückgabe
 		
-		this.RemainingProductionTime = this.ProductionTime - (Date.now() - this.ProductionStarted);
-		if(this.RemainingProductionTime <= 0){
-			this.RemainingProductionTime = 0; 
+		this.remainingProductionTime = this.productionTime - (Date.now() - this.productionStarted);
+		if(this.remainingProductionTime <= 0){
+			this.remainingProductionTime = 0; 
 			return true;
 		}
 		else{

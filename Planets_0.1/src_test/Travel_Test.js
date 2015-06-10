@@ -48,7 +48,7 @@ AsyncTestCase("Travel_Test", {
 	 });
 	
 	queue.call('Step 2: Assert, dass RemainingTravelTime 2 Sekunden beträgt', function() {
-		assertTrue("RemainingTravelTime", (TestTravel.remainingTravelTime>1900 && TestTravel.remainingTravelTime < 2100));
+		assertTrue("RemainingTravelTime", (TestTravel.remainingTravelTime>1800 && TestTravel.remainingTravelTime < 2200));
 	 
 	});
 	

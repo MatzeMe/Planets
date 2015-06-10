@@ -1,33 +1,43 @@
-function Group(ShipA){ 
+/*	Group.js
+ * 
+ * 	Author: rszabad(si3ben)
+ * 	Date: SS15, 8.6.15
+ * 	Course: Test-driven Development mit JavaScript
+ * 
+ * 	Hält alle Schiffe eines Typs, eines Spielers an einem Ort.
+ *
+ */
+
+function Group(shipA){ 
 	
-	this.Ships = [];
-	this.Ships.push(ShipA);
-	this.Owner = ShipA.Owner;	//Nimmt Werte des ersten Schiffes um Eigenschaften der Gruppe festzulegen
-	this.Speed = ShipA.Speed;
-	this.Type = ShipA.Type;
-	this.Destroyed = false;
+	this.ships = [];
+	this.ships.push(shipA);
+	this.owner = shipA.owner;	//Nimmt Werte des ersten Schiffes um Eigenschaften der Gruppe festzulegen
+	this.speed = shipA.speed;
+	this.type = shipA.type;
+	this.destroyed = false;		//Flag um Zerstörung == keine Schiffe vorhanden anzuzeigen
 	
 	//Stellt fest, ob ein Schiff oder ein Array übergeben wurde und pusht Schiffe in Gruppen-Array
-	this.addShip = function(ShipB){
-		if(ShipB instanceof Ship){
-			this.Ships.push(ShipB);
+	this.addShip = function(shipB){
+		if(shipB instanceof Ship){
+			this.ships.push(shipB);
 		} 
 		
-		if(ShipB instanceof Array) {	
-			for(var i = 0; i < ShipB.length; i++){
-				this.Ships.push(ShipB[i]);
+		if(shipB instanceof Array) {	
+			for(var i = 0; i < shipB.length; i++){
+				this.ships.push(shipB[i]);
 			}
 		}
 	} 
 	
 	//Entfernt gegebene Anzahl von Schiffen von hinten aus dem Array und setzt evtl. Zerstört-Flag falls Schiffe = 0
 	this.removeShip = function(number){
-		if(number >= this.Ships.length){
-			number = this.Ships.length;
+		if(number >= this.ships.length){
+			number = this.ships.length;
 			this.destroyed = true;
 		}
 		for(var i = 0; i < number; i++){
-			this.Ships.pop();
+			this.ships.pop();
 		}			
 	}
 	

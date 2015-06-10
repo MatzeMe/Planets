@@ -8,12 +8,12 @@ TestCase("Ship_Test", {
 
 	var TestSchiff = new Ship(new Player(1), 1);
 	
-	assertInstanceOf("Owner", Player, TestSchiff.Owner);
-	assertNumber("Type", TestSchiff.Type);
-	assertNumber("Speed", TestSchiff.Speed);
-	assertNumber("BuildingTime", TestSchiff.BuildingTime);
-	assertNumber("LifePoints", TestSchiff.LifePoints);
-	assertNumber("DealtDamage", TestSchiff.DealtDamage);
-	assertTrue("TypeRange", (TestSchiff.Type == 1 || TestSchiff.Type == 2 || TestSchiff.Type == 3));   
+	assertInstanceOf("Owner", Player, TestSchiff.owner);
+	assertNumber("Type", TestSchiff.type);
+	assertNumber("Speed", TestSchiff.speed);
+	assertNumber("BuildingTime", TestSchiff.buildingTime);
+	assertNumber("LifePoints", TestSchiff.lifePoints);
+	assertNumber("DealtDamage", TestSchiff.dealtDamage);
+	assertTrue("TypeRange", (TestSchiff.type == 1 || TestSchiff.type == 2 || TestSchiff.type == 3));   
 	},  	
 });

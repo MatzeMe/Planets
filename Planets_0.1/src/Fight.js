@@ -1,5 +1,5 @@
-function Fight(ContestantsA){ 
+function Fight(contestantsA){ 
 	
-	this.Contestants = ContestantsA;
+	this.contestants = contestantsA;
 	
 }

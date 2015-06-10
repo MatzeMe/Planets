@@ -9,10 +9,10 @@ TestCase("Group_Test", {
 	
 		var TestGroup = new Group(new Ship(new Player(1), 1));  
 		
-		assertArray("Array", TestGroup.Ships);
-		assertInstanceOf("Owner", Player, TestGroup.Owner);
-		assertNumber("Speed", TestGroup.Speed);	
-		assertInstanceOf("ships", Ship, TestGroup.Ships[0]);
+		assertArray("Array", TestGroup.ships);
+		assertInstanceOf("Owner", Player, TestGroup.owner);
+		assertNumber("Speed", TestGroup.speed);	
+		assertInstanceOf("ships", Ship, TestGroup.ships[0]);
 	},  
 	
 	
@@ -22,7 +22,7 @@ TestCase("Group_Test", {
 		
 	 	TestGroup.addShip(new Ship(new Player(1), 1)); 
 	 	
-	 	assertInstanceOf("Ship2", Ship, TestGroup.Ships[1]);				   
+	 	assertInstanceOf("Ship2", Ship, TestGroup.ships[1]);				   
 	}, 
 
 	
@@ -37,10 +37,10 @@ TestCase("Group_Test", {
 			 TestGroup2.addShip(new Ship(new Player(1), 1));
 		 }
 		 
-		 TestGroup.addShip(TestGroup2.Ships);
+		 TestGroup.addShip(TestGroup2.ships);
 		 
-		 for(var i = 0; i < TestGroup.Ships.Length; i++){
-		 assertInstanceOf("Ship", Ship, TestGroup.Ships[i]);
+		 for(var i = 0; i < TestGroup.ships.Length; i++){
+		 assertInstanceOf("Ship", Ship, TestGroup.ships[i]);
 		 }
 	}, 	
 	
@@ -58,11 +58,11 @@ TestCase("Group_Test", {
 		 TestGroup.removeShip(AnzahlEntfernen);		//Hintersten Schiffe entfernen
 		 
 		 for(var i = 0; i < AnzahlErstellen + 1 - AnzahlEntfernen; i++){
-			 assertNotUndefined("Ship", TestGroup.Ships[i]);
+			 assertNotUndefined("Ship", TestGroup.ships[i]);
 		 }
 		 
 		 for(var i =  AnzahlErstellen + 1 - AnzahlEntfernen; i < AnzahlErstellen + 1; i++){
-			 assertUndefined("Ship", TestGroup.Ships[i]);
+			 assertUndefined("Ship", TestGroup.ships[i]);
 		 }
 		 
 	}, 	

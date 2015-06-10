@@ -13,11 +13,11 @@ AsyncTestCase("Conquest_Test", {
 	
 	var TestConquest = new Conquest(10, GroupA)	
 	
-	assertNumber("Mass", TestConquest.Mass);
-	assertInstanceOf("Conquerers", Group, TestConquest.Conquerors);
-	assertNumber("ConquestStarted", TestConquest.ConquestStarted);
-	assertNumber("ConquestTime", TestConquest.ConquestTime);
-	assertNumber("RemainingConquestTime", TestConquest.RemainingConquestTime);
+	assertNumber("Mass", TestConquest.mass);
+	assertInstanceOf("Conquerers", Group, TestConquest.conquerors);
+	assertNumber("ConquestStarted", TestConquest.conquestStarted);
+	assertNumber("ConquestTime", TestConquest.conquestTime);
+	assertNumber("RemainingConquestTime", TestConquest.remainingConquestTime);
 	
 	},  	
 	
@@ -27,7 +27,7 @@ AsyncTestCase("Conquest_Test", {
 		var GroupA = new Group(new Ship(new Player(1), 1));
 		var TestConquest = new Conquest(10, GroupA)	//(Planetenmasse, Schiffsgruppe)
 				
-		assertBoolean("Update", TestConquest.Update());
+		assertBoolean("Update", TestConquest.update());
 			
 		},  
 
@@ -40,13 +40,13 @@ AsyncTestCase("Conquest_Test", {
 	
 	queue.call('Step 1: Update() wird in 3 Sekunden aufgerufen.', function(callbacks) {
 	    var myCallback = callbacks.add(function() {
-	    	TestConquest.Update();
+	    	TestConquest.update();
 	    });
 	    window.setTimeout(myCallback, 3000);
 	 });
 	
 	queue.call('Step 2: Assert, dass RemainingConquestTime 7 Sekunden beträgt', function() {
-		assertTrue("RemainingConquestTime", (TestConquest.RemainingConquestTime>6050 && TestConquest.RemainingConquestTime < 7050));
+		assertTrue("RemainingConquestTime", (TestConquest.remainingConquestTime>6050 && TestConquest.remainingConquestTime < 7050));
 	 });
 	
 	},  
@@ -60,24 +60,24 @@ AsyncTestCase("Conquest_Test", {
 		
 		queue.call('Step 1: Update() wird in 9,0 Sekunden aufgerufen.', function(callbacks) {
 		    var myCallback = callbacks.add(function() { 
-		    	TestConquest.Update();
+		    	TestConquest.update();
 		    });
 		    window.setTimeout(myCallback, 9000);
 		 });
 			
 		queue.call('Step 2: Assert, dass Eroberung noch nicht abgeschlossen', function() {
-			assertFalse("False", TestConquest.Update());
+			assertFalse("False", TestConquest.update());
 		 });
 		
 		queue.call('Step 3: Update() wird in 11,0 Sekunden aufgerufen.', function(callbacks) {
 		    var myCallback = callbacks.add(function() {
-		    	TestConquest.Update();
+		    	TestConquest.update();
 		    });
 		    window.setTimeout(myCallback, 2000);
 		 });
 		
 		queue.call('Step 2: Assert, dass Eroberung abgeschlossen', function() {
-			assertTrue("True", TestConquest.Update());
+			assertTrue("True", TestConquest.update());
 		 });	
 		},  
 });

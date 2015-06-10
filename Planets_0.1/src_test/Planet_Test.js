@@ -8,8 +8,8 @@ AsyncTestCase("Planet_Test", {
 
 		var TestPlanet = new Planet(10, 200, 200); 
 		
-		assertNumber("Mass", TestPlanet.Mass);
-		assertNumber("TravelRadius", TestPlanet.TravelRadius);
+		assertNumber("Mass", TestPlanet.mass);
+		assertNumber("TravelRadius", TestPlanet.travelRadius);
 		assertNumber("x", TestPlanet.x);
 		assertNumber("y", TestPlanet.y);
 		assertBoolean("allAlone", TestPlanet.allAlone);
@@ -22,7 +22,7 @@ AsyncTestCase("Planet_Test", {
 		
 		TestPlanet.setOwner(new Player(1));
 		
-		assertInstanceOf("Owner", Player, TestPlanet.Owner);
+		assertInstanceOf("Owner", Player, TestPlanet.owner);
 	
 	}, 
 
@@ -77,8 +77,8 @@ AsyncTestCase("Planet_Test", {
 		assertInstanceOf("removeGroup", Group, TestPlanet.presentGroups[1]);
 		assertNotInstanceOf("removeGroup", Group, TestPlanet.presentGroups[2]);	//[2] leer
 		
-		assertEquals("removeGroup", 2, TestPlanet.presentGroups[0].Type);		//Gruppe 2&3 aufgerückt
-		assertEquals("removeGroup", 3, TestPlanet.presentGroups[1].Type);
+		assertEquals("removeGroup", 2, TestPlanet.presentGroups[0].type);		//Gruppe 2&3 aufgerückt
+		assertEquals("removeGroup", 3, TestPlanet.presentGroups[1].type);
 	}, 
 
 
@@ -93,10 +93,10 @@ AsyncTestCase("Planet_Test", {
 		var TestGroupPlanet1 = TestPlanet.mergeGroups(TestGroupPlanet1, TestGroupPlanet2);	//Zusammenfassen beider Gruppen in Gruppe1
 		
 		assertInstanceOf("mergeGroups", Group, TestGroupPlanet1);
-		assertInstanceOf("mergeGroups", Ship,  TestGroupPlanet1.Ships[0]);
-		assertInstanceOf("mergeGroups", Ship,  TestGroupPlanet1.Ships[1]);
+		assertInstanceOf("mergeGroups", Ship,  TestGroupPlanet1.ships[0]);
+		assertInstanceOf("mergeGroups", Ship,  TestGroupPlanet1.ships[1]);
 		
-		assertNotInstanceOf("mergeGroups", Ship, TestGroupPlanet2.Ships[0]);
+		assertNotInstanceOf("mergeGroups", Ship, TestGroupPlanet2.ships[0]);
 	}, 
 
 "test checkGroups / Gruen wenn mehrere Gruppen gleichen Typs & Besitzers erkannt und zusammengefasst werden": function() {  
@@ -128,17 +128,17 @@ AsyncTestCase("Planet_Test", {
 	}
 	assertNotInstanceOf("checkGroups", Group, TestPlanet.presentGroups[4]);
 	
-	assertEquals("checkGroups", 1, TestPlanet.presentGroups[0].Owner.ID); 
-	assertEquals("checkGroups", 1, TestPlanet.presentGroups[0].Type); 
+	assertEquals("checkGroups", 1, TestPlanet.presentGroups[0].owner.ID); 
+	assertEquals("checkGroups", 1, TestPlanet.presentGroups[0].type); 
 	
-	assertEquals("checkGroups", 1, TestPlanet.presentGroups[1].Owner.ID);
-	assertEquals("checkGroups", 3, TestPlanet.presentGroups[1].Type);
+	assertEquals("checkGroups", 1, TestPlanet.presentGroups[1].owner.ID);
+	assertEquals("checkGroups", 3, TestPlanet.presentGroups[1].type);
 	
-	assertEquals("checkGroups", 2, TestPlanet.presentGroups[2].Owner.ID);
-	assertEquals("checkGroups", 1, TestPlanet.presentGroups[2].Type);
+	assertEquals("checkGroups", 2, TestPlanet.presentGroups[2].owner.ID);
+	assertEquals("checkGroups", 1, TestPlanet.presentGroups[2].type);
 	
-	assertEquals("checkGroups", 2, TestPlanet.presentGroups[3].Owner.ID);
-	assertEquals("checkGroups", 2, TestPlanet.presentGroups[3].Type);
+	assertEquals("checkGroups", 2, TestPlanet.presentGroups[3].owner.ID);
+	assertEquals("checkGroups", 2, TestPlanet.presentGroups[3].type);
 	},
 	
 	

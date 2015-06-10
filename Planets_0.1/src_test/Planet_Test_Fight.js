@@ -48,24 +48,24 @@ AsyncTestCase("Planet_Test_Fight", {
 		TestPlanet.checkGroups();		
 		assertInstanceOf("startFight", Fight, TestPlanet.Fight);		//Kampf
 		
-		assertEquals("startFight", 1, TestPlanet.Fight.Contestants[0].Owner.ID);	//Die Beiden genauem Schiffe sind vorhanden
-		assertEquals("startFight", 1, TestPlanet.Fight.Contestants[0].Type);		
-		assertEquals("startFight", 2, TestPlanet.Fight.Contestants[1].Owner.ID);
-		assertEquals("startFight", 1, TestPlanet.Fight.Contestants[1].Type);
-		assertUndefined("startFight", TestPlanet.Fight.Contestants[2]);				//Leer
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[0].owner.ID);	//Die Beiden genauem Schiffe sind vorhanden
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[0].type);		
+		assertEquals("startFight", 2, TestPlanet.Fight.contestants[1].owner.ID);
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[1].type);
+		assertUndefined("startFight", TestPlanet.Fight.contestants[2]);				//Leer
 		
 		var TestGroupPlanet3 = new Group(new Ship(new Player(2), 3));	
 		TestPlanet.addGroup(TestGroupPlanet3);	
 		
 		TestPlanet.checkGroups();	
 		
-		assertEquals("startFight", 1, TestPlanet.Fight.Contestants[0].Owner.ID);	//Die Drei genauen Schiffe sind vorhanden
-		assertEquals("startFight", 1, TestPlanet.Fight.Contestants[0].Type);		
-		assertEquals("startFight", 2, TestPlanet.Fight.Contestants[1].Owner.ID);
-		assertEquals("startFight", 1, TestPlanet.Fight.Contestants[1].Type);
-		assertEquals("startFight", 2, TestPlanet.Fight.Contestants[2].Owner.ID);
-		assertEquals("startFight", 3, TestPlanet.Fight.Contestants[2].Type);
-		assertUndefined("startFight", TestPlanet.Fight.Contestants[3]);				//Leer
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[0].owner.ID);	//Die Drei genauen Schiffe sind vorhanden
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[0].type);		
+		assertEquals("startFight", 2, TestPlanet.Fight.contestants[1].owner.ID);
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[1].type);
+		assertEquals("startFight", 2, TestPlanet.Fight.contestants[2].owner.ID);
+		assertEquals("startFight", 3, TestPlanet.Fight.contestants[2].type);
+		assertUndefined("startFight", TestPlanet.Fight.contestants[3]);				//Leer
 		
 		
 		//Hier müsste noch geprüft werden, ob die sich daraufhin ändernden Parameter sich auch wirklich ändern. Dafür muss aber erst das eigentliche Kampfsystem stehen

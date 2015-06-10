@@ -1,73 +1,73 @@
-function GameControler(UniverseA, PlayersA){ 
-	
-	TravelFrom = undefined;
-	TravelTo = undefined;
-	isPlayedBy = 1; 
-	Universe = UniverseA;
-	Milkyways = [];
-	
-	this.Players = PlayersA;
-	this.GameOver = false;
-	this.FrameRate = 30;
-	var that = this; 
-	this.last = Date.now();
+/*	GameControler.js
+ * 
+ * 	Author: rszabad(si3ben)
+ * 	Date: SS15, 8.6.15
+ * 	Course: Test-driven Development mit JavaScript
+ * 
+ * 	Vorläufiger Gamecontroler zur Verwaltung des Spieles und Spielablaufs
+ */
 
-	for(var i = 0; i < Universe.length; i++){
-		for(var o = 0; o < Universe.length; o++){
+function GameControler(universeA, playersA){ 
+	
+	travelFrom = undefined;		//Von den Travel-Buttons erreichbare Variable, muss in den Gamecontroler beim Player ausgelagert werden
+	travelTo = undefined;		//Von den Travel-Buttons erreichbare Variable, muss in den Gamecontroler beim Player ausgelagert werden
+	isPlayedBy = 1; 			//Vorläufige Variablezur Angabe des Spielers, muss in den Gamecontroler beim Player ausgelagert werden
+	
+	universe = universeA;		//alle Planeten
+	milkyways = [];				//alle Routen
+	
+	this.players = playersA;	//Spieler-Objekte
+	this.gameOver = false;		
+	var that = this; 			//this verweist in den callback-Funktionen auf etwas anderes, muss also extra mitgenommen werden
+
+	//Erstellung aller Routen zwischen den Planeten in Abhängigkeit von deren ReiseRadius
+	for(var i = 0; i < universe.length; i++){
+		for(var o = 0; o < universe.length; o++){
 			if(i != o){
 				
-				var x = Universe[o].x - Universe[i].x;
-				var y = Universe[o].y - Universe[i].y;
+				var x = universe[o].x - universe[i].x;
+				var y = universe[o].y - universe[i].y; 
 				
 				var sum = Math.sqrt((x*x)+(y*y));
 
-				if(sum <= Universe[i].TravelRadius){
-					Milkyways.push(new Route(Universe[i],  Universe[o], sum)); 
-					Milkyways[Milkyways.length-1].distance = sum; 
-					Universe[i].routesFromHere.push(Milkyways[Milkyways.length-1]);
+				if(sum <= universe[i].travelRadius){
+					milkyways.push(new Route(universe[i],  universe[o], sum)); 
+					milkyways[milkyways.length-1].distance = sum; 
+					universe[i].routesFromHere.push(milkyways[milkyways.length-1]);
 				}				
 			}
 		}		
 	}
-		
 	
-	
-	
-
-	
-	
-	
-	
-	
-	Update = function(){  
+	//update ruft sich regelmäßig selbst auf und fragt in einer Kaskade von oben nach unten alle seine GameObjekte nach Änderungen ab (ruft deren update()-Funktionen auf)
+	update = function(){  
 				
-		for(var i = 0; i < Universe.length; i++ ){
-			Universe[i].Update();	 		
+		for(var i = 0; i < universe.length; i++ ){
+			universe[i].update();	 		
 		}
 		
-		that.GameOver = true;
-		for(var i = 0; i < Universe.length -1; i++ ){ 
-			if(Universe[i].Owner.ID != Universe[i+1].Owner.ID){
-				that.GameOver = false;
+		that.gameOver = true;										//Prüfen ob alle Planeten einem Spieler gehören = Siegbedingung
+		for(var i = 0; i < universe.length -1; i++ ){ 
+			if(universe[i].owner.ID != universe[i+1].owner.ID){
+				that.gameOver = false;
 			}			
 		}
 		
-		for(var i = 0; i < Milkyways.length; i++ ){
-			Milkyways[i].Update();
+		for(var i = 0; i < milkyways.length; i++ ){
+			milkyways[i].update();
 		}
 		
-		DrawField(Universe, Milkyways);
+		drawField(universe, milkyways);		//Zeichnen der Spielfläche, sollte zum Gamecontroler beim Player/Client ausgelagert werden
 		
-		//if(that.GameOver == false){ 
-			//console.log("GAMEOVER");
-			//Tu Was, das Spiel ist aus, mach dem ganzen eine Ende, los, tue es!
-			setTimeout(Update, 50);     
+		//if(that.gameOver == false){ 		//ACHTUNG: ausgeschalten, weil bei simplen Tests z.B. mit nur einem Planeten sofort Spielabbruch eintritt
+			//console.log("GAMEOVER");		//MUSS also vor Abgabe eingeschalten werden
+			setTimeout(update, 50);     	//Methode ruft sich selbst auf
 		//} 
 		
 	}
 	
-	Update();
-	drawButtons();
+	update();			//Einmaliges Aufrufen zum Start
+	drawButtons();		//Einmaliges Aufrufen zum Start
 
 	
 }
