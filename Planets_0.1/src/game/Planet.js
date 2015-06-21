@@ -32,6 +32,8 @@ function Planet(massA, xA, yA, planetIDA){
 	
 		this.checkConquest();
 		
+		this.checkFight();		//prüft den Fight nicht, triggert nur seine (Update() an)
+		
 		this.checkProduction();
 	}
 	
@@ -181,7 +183,8 @@ function Planet(massA, xA, yA, planetIDA){
 	
 	this.startFight = function(){	
 		this.Fight = new Fight(this);
-		this.Fight.start();
+		//wird so nicht funktionieren, startFight wird nur 1 mal aufgerufen, nicht bei jedem update() rs
+		//this.Fight.start();
 		somethingChanged("start fight");
 	}
 	
@@ -211,6 +214,13 @@ function Planet(massA, xA, yA, planetIDA){
 				this.setOwner(this.presentGroups[0].owner);
 				this.stopConquest();			
 			}	
+		}	
+	}
+	
+	//Triggert das Fightobjekt, um sich upzudaten und evtl. Kämpfe vorzunehmen
+	this.checkFight = function(){	
+		if(this.Fight instanceof Fight){	
+			this.Fight.update();			
 		}	
 	}
 	

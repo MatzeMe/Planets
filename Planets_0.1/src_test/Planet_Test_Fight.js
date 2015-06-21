@@ -48,24 +48,24 @@ AsyncTestCase("Planet_Test_Fight", {
 		TestPlanet.checkGroups();		
 		assertInstanceOf("startFight", Fight, TestPlanet.Fight);		//Kampf
 		
-		assertEquals("startFight", 1, TestPlanet.Fight.contestants.presentGroups[0].owner.ID);	//Die Beiden genauem Schiffe sind vorhanden
-		assertEquals("startFight", 1, TestPlanet.Fight.contestants.presentGroups[0].type);		
-		assertEquals("startFight", 2, TestPlanet.Fight.contestants.presentGroups[1].owner.ID);
-		assertEquals("startFight", 1, TestPlanet.Fight.contestants.presentGroups[1].type);
-		assertUndefined("startFight", TestPlanet.Fight.contestants.presentGroups[2]);				//Leer
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[0].owner.ID);	//Die Beiden genauem Schiffe sind vorhanden
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[0].type);		
+		assertEquals("startFight", 2, TestPlanet.Fight.contestants[1].owner.ID);
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[1].type);
+		assertUndefined("startFight", TestPlanet.Fight.contestants[2]);				//Leer
 		
 		var TestGroupPlanet3 = new Group(new Ship(new Player(2), 3));	
 		TestPlanet.addGroup(TestGroupPlanet3);	
 		
 		TestPlanet.checkGroups();	
 		
-		assertEquals("startFight", 1, TestPlanet.Fight.contestants.presentGroups[0].owner.ID);	//Die Drei genauen Schiffe sind vorhanden
-		assertEquals("startFight", 1, TestPlanet.Fight.contestants.presentGroups[0].type);		
-		assertEquals("startFight", 2, TestPlanet.Fight.contestants.presentGroups[1].owner.ID);
-		assertEquals("startFight", 1, TestPlanet.Fight.contestants.presentGroups[1].type);
-		assertEquals("startFight", 2, TestPlanet.Fight.contestants.presentGroups[2].owner.ID);
-		assertEquals("startFight", 3, TestPlanet.Fight.contestants.presentGroups[2].type);
-		assertUndefined("startFight", TestPlanet.Fight.contestants.presentGroups[3]);				//Leer
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[0].owner.ID);	//Die Drei genauen Schiffe sind vorhanden
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[0].type);		
+		assertEquals("startFight", 2, TestPlanet.Fight.contestants[1].owner.ID);
+		assertEquals("startFight", 1, TestPlanet.Fight.contestants[1].type);
+		assertEquals("startFight", 2, TestPlanet.Fight.contestants[2].owner.ID);
+		assertEquals("startFight", 3, TestPlanet.Fight.contestants[2].type);
+		assertUndefined("startFight", TestPlanet.Fight.contestants[3]);				//Leer
 		
 		
 		//Hier müsste noch geprüft werden, ob die sich daraufhin ändernden Parameter sich auch wirklich ändern. Dafür muss aber erst das eigentliche Kampfsystem stehen
@@ -111,25 +111,5 @@ AsyncTestCase("Planet_Test_Fight", {
 		assertNotInstanceOf("startFight", Fight, TestPlanet.Fight);
 	
 	},
-	
-"test feuert typ1 zuerst auf type 2": function() {
 		
-		var TestPlanet = new Planet(10, 200, 200);		
-		
-		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
-		var TestGroupPlanet3 = new Group(new Ship(new Player(1), 2));
-		var TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));	
-		TestPlanet.addGroup(TestGroupPlanet1);		
-		TestPlanet.addGroup(TestGroupPlanet2);
-		TestPlanet.addGroup(TestGroupPlanet3);
-		
-		TestPlanet.checkGroups();		
-		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants.presentGroups[1].type);
-		
-		TestPlanet.checkGroups();
-		assertNotInstanceOf("startFight", 1, TestPlanet.Fight.contestants.presentGroups[1].type);
-	
-	},
-	
-	
 });

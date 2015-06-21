@@ -25,17 +25,37 @@ function Fight(contestantsA){
 	this.fightTime = 3000;
 	this.remainingFightTime = this.fightTime;
 		
-	this.start = function {
+	this.update = function (){
 		// lässt kampf 3 sec warten
 		this.remainingFightTime = this.fightTime - (Date.now() - this.fightStarted);
 		if(this.remainingFightTime <= 0){
 			
 		// setz gruppen zusammen so das es keine doppelten gibt
-		this.contestants.checkGroups();
+			// macht der Planet bei jedem Update() (derzeit alle 50ms) rs
+		//this.contestants.checkGroups();
 		
 		//lässt alle schiffe feuern
-		for(var i = 0; i < this.contestants.presentGroups.lenght;i++) {
-			if(this.ausgeteilterDMG[i] != null)
+			
+			
+			/*
+			 * Im Planet-Objekt wird nur das Array mit den Gruppen übergeben, nicht der ganze Planet,
+			 * sonst haben wir am Ende im Kreis irgendwelche Objekte zugewiesen -> ich krieg evtl. Probleme
+			 * das mit JSON zu verschicken.
+			 * Das müsste dann im Code an den ganzen Dingen mit //contestants.presentGroups// -> //contestants// geändert werden.
+			 * 
+			 * Hab das Planetobjekt so abgeändert, dass es die update()-funktion von Fight jetzt regelmäßig aufruft.
+			 * Das mit den 3Sekunden abmessen dürfte also funktionieren.
+			 * 
+			 * Durch den Code für das kämpfen selbst gehe ich jetzt nicht.
+			 * 
+			 * 
+			 * Hab den neuen Testfall für den Fight aus Planet_Test_Fight in Fight_Test verschoben.
+			 * Nicht weiter von Belang, hatte die Testfälle nur aufgesplittet nach den eigentlichen Klassenfunktionen
+			 * (Fight_Test) und den Funktionen, die die Klasse handlen (Planet_Test_Fight), damit das ein wenig übersichtlicher bleibt
+			 */ 
+			
+		for(var i = 0; i < this.contestants.presentGroups.length;i++) {	
+			if(this.ausgeteilterDMG[i] != null)	
 				this.contestants.presentGroups[i].removeShip(this.ausgeteilterDMG[i]/this.contestants.presentGroups[i].ships.lifePoints);		
 		}
 		
@@ -80,7 +100,7 @@ function Fight(contestantsA){
 			for(var j = 0; j < this.contestants.presentGroups.lenght;j++) {
 				//wenn schiffe von anderem besitzter und typ gleich der feuerpriorität
 				if(schiff.owner != this.contestants.presentGroups[j].owner && this.contestants.presentGroups[j].type == feuerreinfolge[i]){
-					ausgeteilterDMG[j] += schiff.ships.dealtDamage * schiff.ships.length + function {
+					ausgeteilterDMG[j] += schiff.ships.dealtDamage * schiff.ships.length + function (){
 						//setzt zusätzlichen schadne durch prioriät
 						if(i == 0) return 2;
 						if(i == 1) return 1;
