@@ -35,7 +35,7 @@ function Fight(contestantsA){
 		//this.contestants.checkGroups();
 		
 		//lässt alle schiffe feuern
-			
+			 
 			
 			/*
 			 * Im Planet-Objekt wird nur das Array mit den Gruppen übergeben, nicht der ganze Planet,
