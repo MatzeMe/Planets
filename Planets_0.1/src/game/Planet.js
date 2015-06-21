@@ -182,7 +182,7 @@ function Planet(massA, xA, yA, planetIDA){
 	}
 	
 	this.startFight = function(){	
-		this.Fight = new Fight(this);
+		this.Fight = new Fight(this.presentGroups);
 		//wird so nicht funktionieren, startFight wird nur 1 mal aufgerufen, nicht bei jedem update() rs
 		//this.Fight.start();
 		somethingChanged("start fight");
