@@ -191,7 +191,7 @@ function Planet(massA, xA, yA, planetIDA){
 	this.stopFight = function(){
 		this.Fight = undefined;
 		somethingChanged("stop fight");
-	}
+	} 
 	
 	this.startProduction = function(){
 		this.Production = new Production(this.mass, this.typeOfProduction);
