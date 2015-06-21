@@ -180,7 +180,8 @@ function Planet(massA, xA, yA, planetIDA){
 	}
 	
 	this.startFight = function(){	
-		this.Fight = new Fight(this.presentGroups);
+		this.Fight = new Fight(this);
+		this.Fight.start();
 		somethingChanged("start fight");
 	}
 	
