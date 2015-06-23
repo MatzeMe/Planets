@@ -32,7 +32,7 @@ function Planet(massA, xA, yA, planetIDA){
 	
 		this.checkConquest();
 		
-		this.checkFight();		//prüft den Fight nicht, triggert nur seine (Update() an)
+		//this.checkFight();		//prüft den Fight nicht, triggert nur seine (Update() an)
 		
 		this.checkProduction();
 	}
