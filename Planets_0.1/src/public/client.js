@@ -1,6 +1,6 @@
 $(document).ready(function(){
     // WebSocket
-    var socket = io();
+    socket = io();
     var chosenMap = 1;
     var numberOfPlayers = 0;
     var id = 0;
@@ -28,8 +28,15 @@ socket.on('createUniverse', function(data){
     	if(id == data.player2){
     		iAmPlayer = 2;
     	}   
+    	
+     	//Universe: ServerGameControler.universe, Milkyways: ServerGameControler.milkyways
       	
     	ClientGameControler1 = new ClientGameControler(data.Universe, iAmPlayer, document.getElementById("contents"), this);
+    	
+    	//console.log("AAA" +ClientGameControler1.universe);
+    	
+    	ClientGameControler1.milkyways = data.Milkyways;
+    	
     	console.log("player " + iAmPlayer + ": universe created");
     	
     	
@@ -37,8 +44,18 @@ socket.on('createUniverse', function(data){
     
     socket.on('updateUniverse', function(data){
       	 	
+    	
+    	//	io.sockets.emit('updateUniverse', {Universe: ServerUniverse, MilkyWays: ServerMilkyways});
+    	
+    	//console.log("BBB" +ClientGameControler1.universe);
+    	
     	ClientGameControler1.universe = data.Universe;
-    	ClientGameControler1.milkyways = data.MilkyWays;
+    	
+    	//ClientGameControler1.milkyways = data.MilkyWays;
+    	ClientGameControler1.setMilkyways(data.MilkyWays);
+    	
+    	drawButtons(ClientGameControler1.universe, ClientGameControler1.milkyways);
+    	
     	console.log("player " + iAmPlayer + ": universe updated");
     	
     	
@@ -56,13 +73,14 @@ socket.on('createUniverse', function(data){
 
     });
     
-    travelButtonPressed = function(travelFrom, tempRoute, playerId){
+    function travelButtonPressed(travelFrom, tempRoute, playerId){
 	  	
+    	//travelButtonPressed(travelFrom, tempRoute, isPlayedBy);
+    	
     	var planetId = travelFrom.planetID;
     	var routeId = tempRoute.routeID;
     	
-    	socket.emit('startTravel', planetId, routeId, playerId);
-       	
+    	socket.emit('startTravel', {planetID: planetId, routeID: routeId, playerID: playerId});
     	console.log("start travel");
    	
     }
