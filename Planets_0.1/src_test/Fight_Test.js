@@ -1,6 +1,17 @@
 AsyncTestCase("Fight_Test", {   
 	
-	setUp: function() { }, 		
+	setUp: function() { //returned standart plani mit spieler 1 jeweils 1 schiff je typ
+		var testPlanet = new Planet(10,200,200);
+		
+		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet3 = new Group(new Ship(new Player(1), 2));
+		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 3));	
+		TestPlanet.addGroup(TestGroupPlanet1);		
+		TestPlanet.addGroup(TestGroupPlanet2);
+		TestPlanet.addGroup(TestGroupPlanet3);
+		
+		return testPlanet
+	}, 		
 	tearDown: function() { },   
 
 			
@@ -18,22 +29,62 @@ AsyncTestCase("Fight_Test", {
 	
 	"test feuert typ1 zuerst auf type 2": function() {
 		
-		var TestPlanet = new Planet(10, 200, 200);		
+		var TestPlanet = setUP();		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
-		var TestGroupPlanet3 = new Group(new Ship(new Player(1), 2));
-		var TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));	
-		TestPlanet.addGroup(TestGroupPlanet1);		
-		TestPlanet.addGroup(TestGroupPlanet2);
-		TestPlanet.addGroup(TestGroupPlanet3);
+		var TestGroupPlanet1 = new Group(new Ship(new Player(2), 1));			
+		TestPlanet.addGroup(TestGroupPlanet1);
+
 		
-		TestPlanet.checkGroups();		
-		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants.presentGroups[1].type);
+		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants[1].type);
 		
 		TestPlanet.checkGroups();
-		assertNotInstanceOf("startFight", 1, TestPlanet.Fight.contestants.presentGroups[1].type);
+		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants[1].type);
 	
 	},
 	
+	"test feuert typ2 zuerst auf type 3": function() {
+		
+		var TestPlanet = setUP();		
+		
+		var TestGroupPlanet1 = new Group(new Ship(new Player(2), 2));			
+		TestPlanet.addGroup(TestGroupPlanet1);
+
+				
+		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants[2].type);
+		
+		TestPlanet.checkGroups();
+		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants[2].type);
+	
+	},
+	
+	"test feuert typ3 zuerst auf type 1": function() {
+		
+		var TestPlanet = setUP();		
+		
+		var TestGroupPlanet1 = new Group(new Ship(new Player(2), 3));			
+		TestPlanet.addGroup(TestGroupPlanet1);
+
+				
+		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants[0].type);
+		
+		TestPlanet.checkGroups();
+		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants[0].type);
+	
+	},
+	
+	"test wird bei mehr feuerkraft als 1 typ verbraucht auf andere tpyen umgeschaltet": function() {
+		
+		var TestPlanet = setUP();		
+		
+		var TestGroupPlanet1 = new Group(new Ship(new Player(2), 3),new Ship(new Player(2), 3));			
+		TestPlanet.addGroup(TestGroupPlanet1);
+
+				
+		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants[3].type);
+		
+		TestPlanet.checkGroups();
+		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants[3].type);
+	
+	},
 	
 });

@@ -3,14 +3,37 @@
  * 	Author: Patrik Schedel
  * 	Course: Test-driven Development mit JavaScript
  * 
- * 	verwaltet die kämpfe auf Planeten, es wird der Planet als input übergeben (zur code redundanz vermeidung, zugriff auf bereits bestehnde funktionen)
- *  kämpfe finden alle 3 sec statt. der kampf ist eine endlos schleife solange feindschiffe vorhanden sind.
+ * 	verwaltet die kämpfe auf Planeten, es wird die gruppe der schiffe übergeben, planet regruppiert vorher so das von jedem schiffstyp pro Owner nur einer vorhanden ist
+ *  kämpfe finden alle 3 sec statt, update wird regelmäßig im planeten aufgerufen
  *  vor dem kampf müssen schiffsgruppen zusammengefasst werden,
- *  es muss von jedme schiff zuerst auf den favorisierten schiffstyp, dan auf den eigenen schiffstyp und dan auf den schlechten schiffstyp geschossen werden,
- *  der schaden an den schiffen muss gespeichert werden und erst nach dem alle schiffe gefeuert haben ausgeteilt werden
- *  es müssen schadensübergriffe von einem typ zum anderen berücksichtigt werden.
+ *  es muss von jedme schiff zuerst auf den favorisierten schiffstyp, dan auf den eigenen schiffstyp und dan auf den schlechten schiffstyp geschossen werden, (funktion lockonTargetandFire)
+ *  der schaden an den schiffen muss gespeichert werden und erst nach dem alle schiffe gefeuert haben ausgeteilt werden (schadensarry)
+ *  es müssen schadensübergriffe von einem typ zum anderen berücksichtigt werden. (fehlt noch, idee für umstetzung?)
  *  
  *
+ */
+
+/*
+			 * Im Planet-Objekt wird nur das Array mit den Gruppen übergeben, nicht der ganze Planet,
+			 * sonst haben wir am Ende im Kreis irgendwelche Objekte zugewiesen -> ich krieg evtl. Probleme
+			 * das mit JSON zu verschicken.
+			 * Das müsste dann im Code an den ganzen Dingen mit //contestants.presentGroups// -> //contestants// geändert werden.
+			 * 
+			 * Hab das Planetobjekt so abgeändert, dass es die update()-funktion von Fight jetzt regelmäßig aufruft.
+			 * Das mit den 3Sekunden abmessen dürfte also funktionieren.
+			 * 
+			 * Durch den Code für das kämpfen selbst gehe ich jetzt nicht.
+			 * 
+			 * 
+			 * Hab den neuen Testfall für den Fight aus Planet_Test_Fight in Fight_Test verschoben.
+			 * Nicht weiter von Belang, hatte die Testfälle nur aufgesplittet nach den eigentlichen Klassenfunktionen
+			 * (Fight_Test) und den Funktionen, die die Klasse handlen (Planet_Test_Fight), damit das ein wenig übersichtlicher bleibt
+			 */ 
+
+/*
+ * 	Funktion angepasst, es sollte nun nur auf die gruppe zugreifen,
+ * 	testfälle in Fight_Test ergänzt
+ * 
  */
 
 function Fight(contestantsA){ 
@@ -33,42 +56,17 @@ function Fight(contestantsA){
 		// setz gruppen zusammen so das es keine doppelten gibt
 			// macht der Planet bei jedem Update() (derzeit alle 50ms) rs
 		//this.contestants.checkGroups();
-		
+			
 		//lässt alle schiffe feuern
-			 
-			
-			/*
-			 * Im Planet-Objekt wird nur das Array mit den Gruppen übergeben, nicht der ganze Planet,
-			 * sonst haben wir am Ende im Kreis irgendwelche Objekte zugewiesen -> ich krieg evtl. Probleme
-			 * das mit JSON zu verschicken.
-			 * Das müsste dann im Code an den ganzen Dingen mit //contestants.presentGroups// -> //contestants// geändert werden.
-			 * 
-			 * Hab das Planetobjekt so abgeändert, dass es die update()-funktion von Fight jetzt regelmäßig aufruft.
-			 * Das mit den 3Sekunden abmessen dürfte also funktionieren.
-			 * 
-			 * Durch den Code für das kämpfen selbst gehe ich jetzt nicht.
-			 * 
-			 * 
-			 * Hab den neuen Testfall für den Fight aus Planet_Test_Fight in Fight_Test verschoben.
-			 * Nicht weiter von Belang, hatte die Testfälle nur aufgesplittet nach den eigentlichen Klassenfunktionen
-			 * (Fight_Test) und den Funktionen, die die Klasse handlen (Planet_Test_Fight), damit das ein wenig übersichtlicher bleibt
-			 */ 
-			
-		for(var i = 0; i < this.contestants.presentGroups.length;i++) {	
+		for(var i = 0; i < this.contestants.length;i++) {	
 			if(this.ausgeteilterDMG[i] != null)	
-				this.contestants.presentGroups[i].removeShip(this.ausgeteilterDMG[i]/this.contestants.presentGroups[i].ships.lifePoints);		
+				this.contestants[i].removeShip(this.ausgeteilterDMG[i]/this.contestants[i].ships.lifePoints);		
 		}
 		
 		//verteilt schaden und removed zerstörte schiffe
-		for(var i = 0; i < this.contestants.presentGroups.lenght;i++) {
-			this.LockOnTargetAndFire(this.contestants.presentGroups[i]);				
+		for(var i = 0; i < this.contestants.lenght;i++) {
+			this.LockOnTargetAndFire(this.contestants[i]);				
 		}
-		
-		
-		// ruft den kampf wieder auf wenn noch feindschiffe vorhanden
-		this.contestants.checkGroups();
-		if(!this.contestants.allAlone)
-			this.start();
 		}
 	}
 	
@@ -97,9 +95,9 @@ function Fight(contestantsA){
 		//läuft priorität durch wegen schussreinfolge
 		for(var i = 0;i < 3;i++){
 			//läuft alle schiffe durch
-			for(var j = 0; j < this.contestants.presentGroups.lenght;j++) {
+			for(var j = 0; j < this.contestants.lenght;j++) {
 				//wenn schiffe von anderem besitzter und typ gleich der feuerpriorität
-				if(schiff.owner != this.contestants.presentGroups[j].owner && this.contestants.presentGroups[j].type == feuerreinfolge[i]){
+				if(schiff.owner != this.contestants[j].owner && this.contestants[j].type == feuerreinfolge[i]){
 					ausgeteilterDMG[j] += schiff.ships.dealtDamage * schiff.ships.length + function (){
 						//setzt zusätzlichen schadne durch prioriät
 						if(i == 0) return 2;
