@@ -59,6 +59,7 @@ function Planet(massA, xA, yA, planetIDA){
 	
 		this.stopProduction();	//stoppt und startet Produktion, damit neuer Schiffstyp produziert wird
 		this.startProduction();
+		console.log("AAA");
 		
 	}
 	
@@ -121,6 +122,7 @@ function Planet(massA, xA, yA, planetIDA){
 			for(var i = 0; i < this.presentGroups.length - 1; i++){
 				if(this.presentGroups[i].owner.ID != this.presentGroups[i + 1].owner.ID){
 					this.allAlone = false;
+					
 				}
 			}		
 		}
@@ -151,8 +153,10 @@ function Planet(massA, xA, yA, planetIDA){
 		}
 		
 		//Prüfen ob Allein und Planet einen Besitzer hat und Produktion noch nicht läuft
-		if(this.allAlone == true && this.owner.ID != 99 && !(this.Production instanceof Production)){
+		if(this.allAlone == true && this.owner.ID != 99 && !(this.Production instanceof Production) && !(this.Conquest instanceof Conquest) && !(this.Fight instanceof Fight)){
 			this.startProduction();
+			console.log(this.allAlone);
+			console.log("BBB");
 		}
 		
 		//Prüfen ob laufende Produktion abgebrochen werden müsste (Schiffe mehrerer Spieler vorhanden)
@@ -231,7 +235,8 @@ function Planet(massA, xA, yA, planetIDA){
 			if(prod == true){						//Wenn Produktion fertig, Erstellen einer neuen Gruppe mit einem Schiff des entsprechenden Typs
 				this.addGroup(new Group(new Ship(this.owner, this.typeOfProduction)));			
 				this.stopProduction();				//Neustart der Produktion
-				this.startProduction();				
+				this.startProduction();	
+				console.log("CCC");
 			}	
 		}
 	}

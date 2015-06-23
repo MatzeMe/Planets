@@ -27,7 +27,7 @@
 //Buttons für Travel und Production
 drawButtons = function(universe, milkyways){
 	
-	
+	socket.emit('ask for update', 'asd');
 	
 	changeProduction = function(event){					//Fängt ID des gedrückten Buttons ab und ändert die Produktion am Planeten mit selber ID (zugehöriger Planet)
 		
@@ -161,6 +161,8 @@ drawButtons = function(universe, milkyways){
 	}	
 	} 
 
+	socket.emit('ask for update', 'asd');
+	
 }
 
 function killElement(element) {					//Löschen von Elementen
