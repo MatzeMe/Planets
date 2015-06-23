@@ -7,14 +7,12 @@
  * 	Vorläufiger Gamecontroler zur Verwaltung des Spieles und Spielablaufs
  */
 
+
+	
+
+
 function ClientGameControler(universeA, playerA, contentsA, creatorObject){ 
 	
-	travelFrom = undefined;		//Von den Travel-Buttons erreichbare Variable, muss in den Gamecontroler beim Player ausgelagert werden
-	travelTo = undefined;		//Von den Travel-Buttons erreichbare Variable, muss in den Gamecontroler beim Player ausgelagert werden
-	isPlayedBy = playerA; 			//Vorläufige Variablezur Angabe des Spielers, muss in den Gamecontroler beim Player ausgelagert werden
-	client = creatorObject;
-	
-	cont = contentsA;
 	
 	this.universe = universeA;		//Planeten
 	this.milkyways = [];				//Routen
@@ -22,30 +20,55 @@ function ClientGameControler(universeA, playerA, contentsA, creatorObject){
 	this.gameOver = false;		
 	var that = this; 			//this verweist in den callback-Funktionen auf etwas anderes, muss also extra mitgenommen werden
 
+	travelFrom = undefined;		//Von den Travel-Buttons erreichbare Variable, muss in den Gamecontroler beim Player ausgelagert werden
+	travelTo = undefined;		//Von den Travel-Buttons erreichbare Variable, muss in den Gamecontroler beim Player ausgelagert werden
+	isPlayedBy = playerA; 			//Vorläufige Variablezur Angabe des Spielers, muss in den Gamecontroler beim Player ausgelagert werden
+	client = creatorObject;
+	
+	cont = contentsA;
+	
 	//Erstellung aller Routen zwischen den Planeten in Abhängigkeit von deren ReiseRadius
-	for(var i = 0; i < this.universe.length; i++){
-		for(var o = 0; o < this.universe.length; o++){
-			if(i != o){
-				
-				var x = this.universe[o].x - this.universe[i].x;
-				var y = this.universe[o].y - this.universe[i].y; 
-				
-				var sum = Math.sqrt((x*x)+(y*y));
-
-				if(sum <= this.universe[i].travelRadius){
-					this.milkyways.push(new Route(this.universe[i],  this.universe[o], sum, i)); 
-					this.milkyways[this.milkyways.length-1].distance = sum; 
-					this.universe[i].routesFromHere.push(this.milkyways[this.milkyways.length-1]);
-				}				
+	
+	this.setMilkyways = function(milky){
+	
+		for(var i = 0; i < this.milkyways.length; i++){
+			
+			this.milkyways[i].travelers = [];
+			this.milkyways[i].travelers = milky[i].travelers.concat();
+			
+		}
+		
+		/*for(var i = 0; i < this.universe.length; i++){
+			for(var o = 0; o < this.universe.length; o++){
+				if(i != o){
+					
+					var x = this.universe[o].x - this.universe[i].x;
+					var y = this.universe[o].y - this.universe[i].y; 
+					
+					var sum = Math.sqrt((x*x)+(y*y));
+	
+					if(sum <= this.universe[i].travelRadius){
+						this.milkyways.push(new Route(this.universe[i],  this.universe[o], sum, i)); 
+						this.milkyways[this.milkyways.length-1].distance = sum; 
+						this.universe[i].routesFromHere.push(this.milkyways[this.milkyways.length-1]);
+					}				
+				}
 			}
-		}	
+			
+			
+			//console.log("CCC" + this.universe[i].routesFromHere);
+			
+		}	*/
+		
 	}
+	
+	
 	
 	//update ruft sich regelmäßig selbst auf und fragt in einer Kaskade von oben nach unten alle seine GameObjekte nach Änderungen ab (ruft deren update()-Funktionen auf)
 	update = function(){  
 				
 		
-		for(var i = 0; i < that.universe.length; i++){
+		/*for(var i = 0; i < that.universe.length; i++){
 			for(var o = 0; o < that.universe.length; o++){
 				if(i != o){
 					
@@ -61,7 +84,7 @@ function ClientGameControler(universeA, playerA, contentsA, creatorObject){
 					}				
 				}
 			}	
-		}
+		}*/
 		
 		/*for(var i = 0; i < that.universe.length; i++ ){
 			//that.universe[i].update();	
@@ -85,6 +108,9 @@ function ClientGameControler(universeA, playerA, contentsA, creatorObject){
 			setTimeout(update, 100);     	//Methode ruft sich selbst auf
 		} 
 		
+		/*for(var i = 0; i < that.universe.length; i++ ){
+			console.log("Planet" + i + that.universe[i].Conquest);
+		}*/
 	}
 	
 	update();			//Einmaliges Aufrufen zum Start
