@@ -48,17 +48,17 @@ function Planet(massA, xA, yA, planetIDA){
 	//Ändert die Produktion reihum
 	this.changeProduction = function(){
 		
-		switch(that.typeOfProduction){
+		switch(this.typeOfProduction){
 		
-		case 1: that.typeOfProduction = 2; break;
-		case 2: that.typeOfProduction = 3; break;
-		case 3: that.typeOfProduction = 1; break;
+		case 1: this.typeOfProduction = 2; break;
+		case 2: this.typeOfProduction = 3; break;
+		case 3: this.typeOfProduction = 1; break;
 		somethingChanged("production");
 		}
 	
 	
-		that.stopProduction();	//stoppt und startet Produktion, damit neuer Schiffstyp produziert wird
-		that.startProduction();
+		this.stopProduction();	//stoppt und startet Produktion, damit neuer Schiffstyp produziert wird
+		this.startProduction();
 		
 	}
 	
