@@ -20,6 +20,8 @@ function GameControler(universeA, playersA){
 	this.gameOver = false;		
 	var that = this; 			//this verweist in den callback-Funktionen auf etwas anderes, muss also extra mitgenommen werden
 
+	this.routeCounter = 0;
+	
 	//Erstellung aller Routen zwischen den Planeten in Abhängigkeit von deren ReiseRadius
 	for(var i = 0; i < this.universe.length; i++){
 		for(var o = 0; o < this.universe.length; o++){
@@ -31,9 +33,10 @@ function GameControler(universeA, playersA){
 				var sum = Math.sqrt((x*x)+(y*y));
 
 				if(sum <= this.universe[i].travelRadius){
-					this.milkyways.push(new Route(this.universe[i],  this.universe[o], sum, i)); 
+					this.milkyways.push(new Route(this.universe[i],  this.universe[o], sum, this.routeCounter)); 
 					this.milkyways[this.milkyways.length-1].distance = sum; 
-				//	this.universe[i].routesFromHere.push(this.milkyways[this.milkyways.length-1]);
+					this.universe[i].routesFromHere.push(this.routeCounter);
+					this.routeCounter++;
 				}				
 			}
 		}	
