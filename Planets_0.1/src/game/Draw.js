@@ -27,31 +27,48 @@
 //Buttons für Travel und Production
 drawButtons = function(universe, milkyways){
 	
+	
+	
 	changeProduction = function(event){					//Fängt ID des gedrückten Buttons ab und ändert die Produktion am Planeten mit selber ID (zugehöriger Planet)
 		
-		this.universe[event.target.id].changeProduction();   
+		socket.emit('Production', {planetID: event.target.id});
+		
+		//this.universe[event.target.id].changeProduction();   
 	}  
 	
 	settravelFrom = function(event){					//Fängt ID des gedrückten Buttons ab und trägt den startlaneten der Reise ein
 		
 		travelFrom = this.universe[event.target.id];
-		drawButtons();
+		console.log("travelFrom = " + travelFrom);
+		drawButtons(this.universe, this.milkyways);
 	}
 	
 	settravelTo = function(event){						//Fängt ID des gedrückten Buttons ab und trägt die Zielposition der Reise ein
 		
 		if(this.universe[event.target.id] != travelFrom){	//Ziel != start
 			travelTo = this.universe[event.target.id];
-
+			console.log("travelto = " + travelFrom);
 			
 			for(var y = 0; y < travelFrom.routesFromHere.length; y++){	//Durchgehen aller vom startplaneten ausgehenden Routen und heraussuchen der zu start und Ziel gehörigen
-				if(travelFrom.routesFromHere[y].target== travelTo){
-				var tempRoute = travelFrom.routesFromHere[y];			//zugehörige Route
+				if(this.milkyways[travelFrom.routesFromHere[y]].target.planetID == travelTo.planetID){	
+				//if(travelFrom.routesFromHere[y].target == travelTo){
+				var tempRoute = this.milkyways[travelFrom.routesFromHere[y]];			//zugehörige Route
 				}
 			}
 			for(var x = 0; x < travelFrom.presentGroups.length; x++){	//Alle am startplaneten vorhandenen und zum Spieler gehörenden Gruppen werden auf die Route geschickt (sollte noch durch eine einstellbare Teilmenge erweitert werden)
 				if(travelFrom.presentGroups[x].owner.ID == isPlayedBy){ 
-					travelButtonPressed(travelFrom, tempRoute, isPlayedBy);
+					
+					
+					console.log(travelFrom.planetID + ", " + tempRoute.routeID + ", " + isPlayedBy);
+					
+					socket.emit('Travel', {planetID: travelFrom.planetID, routeID: tempRoute.routeID, playerID: isPlayedBy});
+									
+					//var io = require('socket.io-emitter')();
+										
+					//io.emit('startTravel', {planetID: travelFrom.planetID, routeID: tempRoute.routeID, playerID: isPlayedBy});
+					 // io.emit('time', new Date);
+										
+					//travelButtonPressed(travelFrom, tempRoute, isPlayedBy);
 					//travelFrom.sendGroupOnTravel(travelFrom.presentGroups[x], tempRoute);
 				}
 			}
@@ -59,7 +76,7 @@ drawButtons = function(universe, milkyways){
 		  
 		travelFrom = undefined;		//Nullsetzen der start- und Zielvariablen
 		travelTo = undefined;	
-		drawButtons();				//Neuaufruf der Funktion um Veränderungen anzuzeigen
+		drawButtons(this.universe, this.milkyways);				//Neuaufruf der Funktion um Veränderungen anzuzeigen
 	}
 	
 	//Überlagernde Buttonarea erzeugen
@@ -76,26 +93,39 @@ drawButtons = function(universe, milkyways){
 	
 	for(var i = 0; i < this.universe.length; i++){					//Erzeugung der Buttons zu jedem Planeten
 			 
-	var btn = document.createElement("BUTTON");					
-	btn.setAttribute("id", i);
-	if(travelFrom == undefined ){											//Wenn noch kein startplanet ausgewählt, rufen Buttons die Funktion dafür auf
-		if(isPlayedBy == this.universe[i].owner.ID){						//Buttons nur an Spielerplaneten
-			var t = document.createTextNode(this.universe[i].planetID);        	
-			btn.appendChild(t);   
-			btn.onclick=function(){ settravelFrom(event); };
-			buttonArea.appendChild(btn);
-		}
-	}
-	else{																	//Wenn startplanet bereits ausgewählt, rufen Buttons die Funktion zum zuweisen des Zielplaneten auf
-		for(var f = 0; f < travelFrom.routesFromHere.length; f++){ 			
-			if(travelFrom.routesFromHere[f].target== this.universe[i]){			//Nur Buttons an infrage kommenden Zielplaneten werden angezeigt (Beschränkung durch Richtung der Routen)
-				var t = document.createTextNode(this.universe[i].planetID);       
-				btn.appendChild(t); 
-				btn.onclick=function(){ settravelTo(event); };
-				
-				buttonArea.appendChild(btn); 
+		//console.log("DDD" + this.universe[i].routesFromHere);
+		
+		var btn = document.createElement("BUTTON");					
+		btn.setAttribute("id", i);
+		
+		var hasOwnShips = false;
+		for(var l = 0; l < this.universe[i].presentGroups.length; l++){
+			if(this.universe[i].presentGroups[l].owner.ID == isPlayedBy){
+				hasOwnShips = true;
 			}
 		}
+		
+		if(travelFrom == undefined ){											//Wenn noch kein startplanet ausgewählt, rufen Buttons die Funktion dafür auf
+			if(isPlayedBy == this.universe[i].owner.ID || hasOwnShips == true){						//Buttons nur an Spielerplaneten oder Planeten mit eigenen Schiffen
+				var t = document.createTextNode(this.universe[i].planetID);        	
+				btn.appendChild(t);   
+				btn.onclick=function(){ settravelFrom(event); };
+				buttonArea.appendChild(btn);
+			}
+		}
+		else{																	//Wenn startplanet bereits ausgewählt, rufen Buttons die Funktion zum zuweisen des Zielplaneten auf
+			for(var f = 0; f < travelFrom.routesFromHere.length; f++){ 		
+				
+				if(this.milkyways[travelFrom.routesFromHere[f]].target.planetID == this.universe[i].planetID){		
+					console.log(this.milkyways[travelFrom.routesFromHere[f]].target.planetID + " --- " + this.universe[i].planetID);
+				//if(travelFrom.routesFromHere[f].target == this.universe[i]){			//Nur Buttons an infrage kommenden Zielplaneten werden angezeigt (Beschränkung durch Richtung der Routen)
+					var t = document.createTextNode(this.universe[i].planetID);       
+					btn.appendChild(t); 
+					btn.onclick=function(){ settravelTo(event); };
+					
+					buttonArea.appendChild(btn); 
+				}
+			}
 		
 		
 	}
@@ -207,8 +237,13 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 			
 			//Wenn Planet keinen Besitzer hat
 			if(this.universe[i].owner.ID == 99){
+				
+				console.log("Planet" + i + this.universe[i].Conquest);
 				//Kein Besitzer, aber wird erobert
-				if(this.universe[i].Conquest instanceof Conquest){
+				if(this.universe[i].Conquest != undefined){
+					
+					console.log("Conquest Objekt vorhanden");
+					
 					//Einzeilige Anzeige vorhandener Schiffe bei Eroberung unter Planet
 					var drawEnemies = document.createElement("div");	 	
 					drawEnemies.style.height = "15px";							
@@ -220,15 +255,21 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 					drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
 								
 					var result = Math.round((this.universe[i].Conquest.remainingConquestTime/1000) * 100) / 100;	//verbleibende Zeit bis zum Erfolg der Eroberung
-							
-					var newContent = document.createTextNode(tempships[0] + " " + result.toFixed(2)); //Nur 1. Reihe des Feldes wird ausgegeben, denn nur ein Spieler ist hier am Planeten ohne Besitzer
+					
+					if(this.universe[i].presentGroups[0].owner.ID == 1){
+						var newContent = document.createTextNode(tempships[0] + " " + result.toFixed(2)); //Nur 1. Reihe des Feldes wird ausgegeben, denn nur ein Spieler ist hier am Planeten ohne Besitzer
+					}
+					else{
+						var newContent = document.createTextNode(tempships[1] + " " + result.toFixed(2)); //Nur 2. Reihe des Feldes wird ausgegeben, denn nur ein Spieler ist hier am Planeten ohne Besitzer
+					}
+					
 					drawEnemies.appendChild(newContent);
 					drawingArea.appendChild(drawEnemies);  
 									
 				}	
 				
 				//Kein Besitzer, aber Kampf findet statt (Es sind beide Spieler am Planeten)
-				if(this.universe[i].Fight instanceof Fight){
+				if(this.universe[i].Fight != undefined){
 					//Einzeilige Anzeige vorhandener Schiffe bei Kampf unter Planet
 					var drawEnemies = document.createElement("div");	 	
 					drawEnemies.style.width = PlanetSize;
@@ -282,7 +323,7 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 					drawPlanet.appendChild(newContent);
 				}
 				
-				if(this.universe[i].Conquest instanceof Conquest){
+				if(this.universe[i].Conquest != undefined){
 					
 					//Einzeilige Anzeige vorhandener Schiffe bei Eroberung unter Planet
 					var drawEnemies = document.createElement("div");	 	
@@ -302,7 +343,7 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 									
 				}	
 				
-				if(this.universe[i].Fight instanceof Fight){
+				if(this.universe[i].Fight != undefined){
 					//Einzeilige Anzeige vorhandener Schiffe bei Kampf unter Planet
 					var drawEnemies = document.createElement("div");	 	
 					drawEnemies.style.width = PlanetSize;
