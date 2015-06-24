@@ -36,19 +36,19 @@ function Route(startA, targetA, distanceA, idA){
 	this.startTravel = function(groupA)	// Wird aufgerufen, wenn eine Gruppe auf Route reisen soll. Erzeugt das Travel-Objekt und  pusht die Traveler-Gruppe in das Array
 	{  
 		this.travelers.push(new Travel(groupA, this.distance)); 
-		somethingChanged("start travel");
+		somethingChanged("planet: " + this.start.ID +" --> start travel");
 	}
 	
 	this.transferGroupToPlanet = function(groupB)	//Transferiert gewünschte Gruppe zum Zielplaneten
 	{
 		this.target.presentGroups.push(groupB);
-		somethingChanged("transfer group to planet");
+		somethingChanged("route: " + this.routeID +" --> transfer group to planet");
 	}
 	
 	this.endTravel = function(travelA)  // Löschen des Travel-Objektes aus dem traveler-Array.
 	{
 		this.travelers.splice(this.travelers.indexOf(travelA),1);
-		somethingChanged("end travel");
+		somethingChanged("route: " + this.routeID +" --> end travel");
 	}
 		
 	
