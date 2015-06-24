@@ -32,7 +32,7 @@ function Planet(massA, xA, yA, planetIDA){
 	
 		this.checkConquest();
 		
-		//this.checkFight();		//prüft den Fight nicht, triggert nur seine (Update() an)
+		this.checkFight();		//prüft den Fight nicht, triggert nur seine (Update() an)
 		
 		this.checkProduction();
 	}
@@ -53,13 +53,13 @@ function Planet(massA, xA, yA, planetIDA){
 		case 1: this.typeOfProduction = 2; break;
 		case 2: this.typeOfProduction = 3; break;
 		case 3: this.typeOfProduction = 1; break;
-		somethingChanged("production");
+		somethingChanged("planet: " + this.planetID + " --> production changed");
 		}
 	
 	
 		this.stopProduction();	//stoppt und startet Produktion, damit neuer Schiffstyp produziert wird
 		this.startProduction();
-		console.log("AAA");
+
 		
 	}
 	
@@ -67,19 +67,19 @@ function Planet(massA, xA, yA, planetIDA){
 	this.setOwner = function(ownerA){
 	
 		this.owner = ownerA;
-		somethingChanged("owner");
+		somethingChanged("planet: " + this.planetID + " --> owner changed");
 	}
 	
 	//Fügt den anwesenden Gruppe eine Gruppe hinzu
 	this.addGroup = function(groupA){
 		this.presentGroups.push(groupA);
-		somethingChanged("add group");
+		somethingChanged("planet: " + this.planetID + " --> add group");
 	}
 	
 	//entfernt eine Gruppe aus den anwesenden
 	this.removeGroup = function(groupA){	
 		this.presentGroups.splice(this.presentGroups.indexOf(groupA), 1); //entfernt gewünschte Gruppe und schließt die Lücke im Array
-		somethingChanged("remove group");
+		somethingChanged("planet: " + this.planetID + " --> remove group");
 	}
 	
 	//fasst die Schiffe zweier Gruppen in einer zusammen
@@ -101,7 +101,7 @@ function Planet(massA, xA, yA, planetIDA){
 				for(var o = i + 1; o < this.presentGroups.length; o++){
 					if(this.presentGroups[i].owner.ID == this.presentGroups[o].owner.ID && this.presentGroups[i].type == this.presentGroups[o].type){
 						this.presentGroups[i] = this.mergeGroups(this.presentGroups[i], this.presentGroups[o]);
-						somethingChanged("merge group");
+						somethingChanged("planet: " + this.planetID + " --> merge group");
 					}
 				}
 				
@@ -155,8 +155,8 @@ function Planet(massA, xA, yA, planetIDA){
 		//Prüfen ob Allein und Planet einen Besitzer hat und Produktion noch nicht läuft
 		if(this.allAlone == true && this.owner.ID != 99 && !(this.Production instanceof Production) && !(this.Conquest instanceof Conquest) && !(this.Fight instanceof Fight)){
 			this.startProduction();
-			console.log(this.allAlone);
-			console.log("BBB");
+
+
 		}
 		
 		//Prüfen ob laufende Produktion abgebrochen werden müsste (Schiffe mehrerer Spieler vorhanden)
@@ -177,34 +177,34 @@ function Planet(massA, xA, yA, planetIDA){
 	//"Start" und "Stop" der Verschiedenen Spielobjekte
 	this.startConquest = function(){
 		this.Conquest = new Conquest(this.mass, this.presentGroups);
-		somethingChanged("start conquest");
+		somethingChanged("planet: " + this.planetID + " --> start conquest");
 	}
 	
 	this.stopConquest = function(){
 		this.Conquest = undefined;
-		somethingChanged("stop conquest");
+		somethingChanged("planet: " + this.planetID + " --> stop conquest");
 	}
 	
 	this.startFight = function(){	
 		this.Fight = new Fight(this.presentGroups);
 		//wird so nicht funktionieren, startFight wird nur 1 mal aufgerufen, nicht bei jedem update() rs
 		//this.Fight.start();
-		somethingChanged("start fight");
+		somethingChanged("planet: " + this.planetID + " --> start fight");
 	}
 	
 	this.stopFight = function(){
 		this.Fight = undefined;
-		somethingChanged("stop fight");
+		somethingChanged("planet: " + this.planetID + " --> stop fight");
 	} 
 	
 	this.startProduction = function(){
 		this.Production = new Production(this.mass, this.typeOfProduction);
-		somethingChanged("start production");
+		somethingChanged("planet: " + this.planetID + " --> start production");
 	}
 	
 	this.stopProduction = function(){
 		this.Production = undefined;
-		somethingChanged("stop production");
+		somethingChanged("planet: " + this.planetID + " --> stop production");
 	}
 	
 
@@ -236,7 +236,7 @@ function Planet(massA, xA, yA, planetIDA){
 				this.addGroup(new Group(new Ship(this.owner, this.typeOfProduction)));			
 				this.stopProduction();				//Neustart der Produktion
 				this.startProduction();	
-				console.log("CCC");
+
 			}	
 		}
 	}
