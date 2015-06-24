@@ -6,10 +6,10 @@ var express = require('express')
 
 var numberOfPlayers = 0;
 var chosenMap = 1;
-var ids = 300;
+//var ids = 300;
 var player1 = undefined;
 var player2 = undefined;
-var state = 0;
+state = 0;
 
 var ServerUniverse;
 var ServerMilkyways;
@@ -42,8 +42,8 @@ eval(fs.readFileSync('game/Route.js')+'');
 eval(fs.readFileSync('game/Ship.js')+'');
 eval(fs.readFileSync('game/Travel.js')+'');
 
-var GameControler1;
-
+var GameControler1 = undefined;
+var allClients =[];
 
 
 function somethingChanged(string) {
@@ -83,37 +83,63 @@ app.get('/', function (req, res) {
 
 io.sockets.on('connection', function (socket) {
 	
-	socket.emit('getID', ids);
-	ids++;
-	console.log("user connected");
+	
+	allClients.push(socket);
+	
+	//socket.emit('getID', ids);
+	//ids++;
+	console.log("server --> user connected " + socket.id);
 	io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state});
 	
 	socket.on('disconnect', function(){
-	    console.log('user disconnected');
+		
+		var i = allClients.indexOf(socket);
+		allClients.splice(i,1);
+		
+		console.log('server --> user disconnected ' + socket.id);
+		
+		if(socket.id == player1 || socket.id == player2){
+			console.log('server --> player disconnected ' + socket.id);
+			
+			player1 = undefined;
+			player2 = undefined;
+			numberOfPlayers = 0;
+			chosenMap = 1;
+			//GameControler1.gameOver = true;
+			GameControler1 = null;
+				
+			state = 0;
+			
+			io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state});
+	
+			console.log('server --> game aborted');
+		}
+		
+	    
 	  });
 	
 	socket.on('ask for update', function(msg){
-		console.log("asked for update");
+		//console.log(msg);
 		io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state});
-		console.log("updated");
+		//console.log("asked for and updated");
 		
-		/*setInterval(function(){
+		setInterval(function(){
 			io.sockets.emit('updateUniverse', {Universe: ServerUniverse, MilkyWays: ServerMilkyways});
 			console.log("forced update");
-			}, 250);*/
+			}, 500);
 		
 	  });
 	
 	
 	
 	socket.on('Travel', function(data){
-		console.log("asked for travel");
+		//console.log("asked for travel");
 		
 		//{planetID: travelFrom.planetID, routeID: tempRoute.routeID, playerID: isPlayedBy}
 		
 		//this.sendGroupOnTravel = function(GroupA, RouteA){
 		
-		console.log(data.planetID + ", " + data.routeID + ", " + data.playerID);
+		//console.log(data.planetID + ", " + data.routeID + ", " + data.playerID);
 		
 		for(var i = 0; i < ServerGameControler.universe[data.planetID].presentGroups.length; i++){
 			if(ServerGameControler.universe[data.planetID].presentGroups[i].owner.ID == data.playerID){
@@ -121,12 +147,12 @@ io.sockets.on('connection', function (socket) {
 			}
 		}
 		
-		console.log("traveled");
+		//console.log("traveled");
 	  });
 
 	
 	socket.on('Production', function(data){
-		console.log("asked for production");
+		//console.log("asked for production");
 		
 		//socket.emit('Production', {planetID: event.target.id});
 		
@@ -139,7 +165,7 @@ io.sockets.on('connection', function (socket) {
 				
 		if(numberOfPlayers == 0){
 			numberOfPlayers++;
-			player1 = data.id;
+			player1 = socket.id;
 			chosenMap = data.map;
 			io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state});
 		}		
@@ -149,7 +175,7 @@ io.sockets.on('connection', function (socket) {
 		
 		if(numberOfPlayers == 1){
 			numberOfPlayers++;
-			player2 = data.id;
+			player2 = socket.id;
 			state = 1;
 			io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state});
 			
@@ -165,7 +191,7 @@ io.sockets.on('connection', function (socket) {
 			
 			
 			io.sockets.emit('createUniverse', {Universe: ServerGameControler.universe, Milkyways: ServerGameControler.milkyways, player1: player1, player2: player2});
-			console.log("universe created and shipped");
+			console.log("server --> universe created and shipped");
 			
 		}		
 	});	
@@ -175,4 +201,4 @@ io.sockets.on('connection', function (socket) {
 
 
 // Portnummer in die Konsole schreiben
-console.log('Der Server läuft nun unter http://127.0.0.1:' + conf.port + '/');
+console.log('Server running: http://127.0.0.1:' + conf.port + '/');
