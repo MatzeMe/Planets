@@ -17,7 +17,7 @@ function Group(shipA){
 	this.type = shipA.type;
 	this.destroyed = false;		//Flag um Zerstörung == keine Schiffe vorhanden anzuzeigen
 	
-	//Stellt fest, ob ein Schiff oder ein Array übergeben wurde und pusht Schiffe in Gruppen-Array
+	//Stellt fest, ob ein Schiff oder ein Array von Schiffen übergeben wurde und pusht Schiff(e) in Gruppen-Array
 	this.addShip = function(shipB){
 		if(shipB instanceof Ship){
 			this.ships.push(shipB);

@@ -4,34 +4,20 @@ AsyncTestCase("Planet_Test_Conquest", {
 	tearDown: function() { },   
 	
 	
-	/*
-	 * this.Start = startA;
-	this.Target = targetA;
-	this.travelers = []; 
-	this.distance = distanceA;
-	 * 
-	 * 	Planeten in start und target
-	 * 	travelers ist array
-	 * 	distance  == number
-	 * 
-	 *  starttravel
-	 *  travel-objekt vorhanden
-	 *  
-	 *  transfergroupToPlanet
-	 *  gruppe auf planet vorhanden
-	 *  
-	 *  endtravel
-	 *  reise-objekt aus travellers verschwunden
-	 * 
-	 */
+	/*this.start = startA;		//Start der Route
+	this.target = targetA;		//Ziel der Route
+	this.travelers = []; 		//Travel-Objekte
+	this.distance = distanceA;	//Länge der Route
+	this.routeID = idA;*/
 	
 	"test Initialisierung / Gruen, wenn Route korrekt Initialisiert": function() {  
 
 		var TestPlanet1 = new Planet(10, 200, 200);
 		var TestPlanet2 = new Planet(10, 200, 300);
 		var distance = 100;
+		var ID = 5;
 			
-		var TestRoute = new Route(TestPlanet1, TestPlanet2, distance);
+		var TestRoute = new Route(TestPlanet1, TestPlanet2, distance, ID);
 		
 		assertInstanceOf("Planet1",Planet,TestRoute.Start);
 		assertInstanceOf("Planet2",Planet,TestRoute.Target); 
@@ -40,18 +26,21 @@ AsyncTestCase("Planet_Test_Conquest", {
 		
 		assertNumber("distance", TestRoute.distance);
 		
+		assertNumber("ID", TestRoute.routeID);
+		
 	},
 	
 	
-	"test startTravel / Gruen, wenn Travel-Objekt nach Ausführung vorhanden": function() {  
+	"test startTravel / Gruen, wenn Travel-Objekt nach Beginn der Reise einer Gruppe vorhanden": function() {  
 
 		var TestStart = new Planet(10, 200, 200);
 		var TestTarget = new Planet(10, 200, 300);
 		var distance = 100;
+		var ID = 5;
 		
 		var TestGroup = new Group(new Ship(new Player(1), 1));	
 			
-		var TestRoute = new Route(TestStart, TestTarget, distance);
+		var TestRoute = new Route(TestStart, TestTarget, distance, ID);
 		
 		assertUndefined("Travelers", TestRoute.travelers[0]);
 		
@@ -67,10 +56,11 @@ AsyncTestCase("Planet_Test_Conquest", {
 		var TestStart = new Planet(10, 200, 200);
 		var TestTarget = new Planet(10, 200, 300);
 		var distance = 100;
+		var ID = 5;
 		
 		var TestGroup = new Group(new Ship(new Player(1), 1));	
 			
-		var TestRoute = new Route(TestStart, TestTarget, distance);
+		var TestRoute = new Route(TestStart, TestTarget, distance, ID);
 		
 		assertUndefined("Group", TestTarget.presentGroups[0]);
 				
@@ -82,17 +72,18 @@ AsyncTestCase("Planet_Test_Conquest", {
 	},
 	
 
-"test endTravel / Gruen, wenn Travel-Objekt aus travelers verschwunden": function() {  
+"test endTravel / Gruen, wenn Travel-Objekt aus travelers-Array verschwunden": function() {  
 
 		var TestStart = new Planet(10, 200, 200);
 		var TestTarget = new Planet(10, 200, 300);
 		var distance = 100;
+		var ID = 5;
 		
 		var TestGroup1 = new Group(new Ship(new Player(1), 1));
 		var TestGroup2 = new Group(new Ship(new Player(1), 2));
 		var TestGroup3 = new Group(new Ship(new Player(1), 3));
 		
-		var TestRoute = new Route(TestStart, TestTarget, distance);
+		var TestRoute = new Route(TestStart, TestTarget, distance, ID);
 		
 		TestRoute.startTravel(TestGroup1);
 		TestRoute.startTravel(TestGroup2);

@@ -45,7 +45,7 @@ AsyncTestCase("Conquest_Test", {
 	    window.setTimeout(myCallback, 3000);
 	 });
 	
-	queue.call('Step 2: Assert, dass RemainingConquestTime 7 Sekunden beträgt', function() {
+	queue.call('Step 2: Assert, dass RemainingConquestTime ~7 Sekunden beträgt', function() {
 		assertTrue("RemainingConquestTime", (TestConquest.remainingConquestTime>6050 && TestConquest.remainingConquestTime < 7050));
 	 });
 	
