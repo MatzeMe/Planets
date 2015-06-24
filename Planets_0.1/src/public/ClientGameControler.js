@@ -103,10 +103,10 @@ function ClientGameControler(universeA, playerA, contentsA, creatorObject){
 		*/
 		drawField(that.universe, that.milkyways);		//Zeichnen der Spielfläche, sollte zum Gamecontroler beim Player/Client ausgelagert werden
 		
-		if(that.gameOver == false){ 		//ACHTUNG: ausgeschalten, weil bei simplen Tests z.B. mit nur einem Planeten sofort Spielabbruch eintritt
+		//if(that.gameOver == false){ 		//ACHTUNG: ausgeschalten, weil bei simplen Tests z.B. mit nur einem Planeten sofort Spielabbruch eintritt
 			//console.log("GAMEOVER");		//MUSS also vor Abgabe eingeschalten werden
 			setTimeout(update, 100);     	//Methode ruft sich selbst auf
-		} 
+		//} 
 		
 		/*for(var i = 0; i < that.universe.length; i++ ){
 			console.log("Planet" + i + that.universe[i].Conquest);
