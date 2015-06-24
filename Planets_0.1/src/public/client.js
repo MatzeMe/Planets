@@ -22,10 +22,10 @@ $(document).ready(function(){
     
 socket.on('createUniverse', function(data){
     	
-    	if(id == data.player1){
+    	if(socket.id == data.player1){
     		iAmPlayer = 1;
     	}
-    	if(id == data.player2){
+    	if(socket.id == data.player2){
     		iAmPlayer = 2;
     	}   
     	
@@ -58,7 +58,7 @@ socket.on('createUniverse', function(data){
     	
     	console.log("player " + iAmPlayer + ": universe updated");
     	
-    	
+    	drawButtons(ClientGameControler1.universe, ClientGameControler1.milkyways);
     });
     
     //Wird immer aufgerufen, wenn sich etwas geändert hat, passt Ausgabe an die States an 0 = Spielvorbereitung, 1 = Spiel, 
@@ -133,19 +133,56 @@ socket.on('createUniverse', function(data){
    
     function clientUpdate(){
     
-    console.log(state);
     	
-    contents = 	document.getElementById("contents");
+    	/*console.log("state " +state);
+
+						killElement(document.getElementById("contents"));
+						killElement(document.getElementById("buttonArea"));
+						
+						contents = document.createElement("div");
+						contents.id = "contents";
+
+						var empty = document.createTextNode(" ");
+						contents.appendChild(empty);	
+						
+						document.body.appendChild(contents);
+						
+						//contents = document.getElementById("contents");
+
+						killElement(document.getElementById("welcomeArea"));
+
+						var welcomeArea = document.createElement("div");
+						welcomeArea.id = "welcomeArea";
+
+						var empty = document.createTextNode(" ");
+						welcomeArea.appendChild(empty);
+
+						contents.appendChild(welcomeArea);*/
     	
-    killElement(document.getElementById("welcomeArea")); 
-	
-    var welcomeArea = document.createElement("div");
-    welcomeArea.id = "welcomeArea";
-    
-    var empty = document.createTextNode(" ");
-    welcomeArea.appendChild(empty); 
-    
-    contents.appendChild(welcomeArea);
+    	console.log("state " +state);
+
+		killElement(document.getElementById("contents"));
+		killElement(document.getElementById("buttonArea"));
+		
+		contents = document.createElement("div");
+		contents.id = "contents";
+
+		var empty = document.createTextNode(" ");
+		contents.appendChild(empty);	
+		
+		document.body.appendChild(contents);
+		
+		//contents = document.getElementById("contents");
+
+		killElement(document.getElementById("welcomeArea"));
+
+		var welcomeArea = document.createElement("div");
+		welcomeArea.id = "welcomeArea";
+
+		var empty = document.createTextNode(" ");
+		welcomeArea.appendChild(empty);
+
+		contents.appendChild(welcomeArea);
     
 if(state == 0){
 		
