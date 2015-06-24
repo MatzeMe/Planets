@@ -11,9 +11,10 @@ AsyncTestCase("GameControler_Test", {
 	 * 
 	 * 	sieg feststellen
 	 * 
-	 * 	framerate korrekt 
+	 * 	
 	 *  
 	 */	
+		
 	
 
 "test Initialisierung / Gruen wenn Gamecontroler korrekt initialisiert": function() {   
@@ -26,21 +27,21 @@ AsyncTestCase("GameControler_Test", {
 	
 		var TestGC = new GameControler(TestUniverse, TestPlayer);
 	
-		assertInstanceOf("Planet", Planet, TestGC.Universe[0]);
-		assertInstanceOf("Planet", Planet, TestGC.Universe[1]);
-		assertNotInstanceOf("Planet", Planet, TestGC.Universe[2]);
+		assertInstanceOf("Planet", Planet, TestGC.universe[0]);
+		assertInstanceOf("Planet", Planet, TestGC.universe[1]);
+		assertNotInstanceOf("Planet", Planet, TestGC.universe[2]);
 		
-		assertInstanceOf("Route", Route, TestGC.Milkyways[0]);
-		assertInstanceOf("Route", Route, TestGC.Milkyways[1]); 
-		assertNotInstanceOf("Route", Route, TestGC.Milkyways[2]); 
+		assertInstanceOf("Route", Route, TestGC.milkyways[0]);
+		assertInstanceOf("Route", Route, TestGC.milkyways[1]); 
+		assertNotInstanceOf("Route", Route, TestGC.milkyways[2]); 
 		
-		assertInstanceOf("Player", Player, TestGC.Players[0]); 
-		assertInstanceOf("Player", Player, TestGC.Players[1]);
-		assertNotInstanceOf("Player", Player, TestGC.Players[2]);
+		assertInstanceOf("Player", Player, TestGC.players[0]); 
+		assertInstanceOf("Player", Player, TestGC.players[1]);
+		assertNotInstanceOf("Player", Player, TestGC.players[2]);
 		
-		assertFalse("GameOver", TestGC.GameOver); 
+		assertFalse("GameOver", TestGC.gameOver); 
 		
-		assertNumber("FrameRate", TestGC.FrameRate);
+		assertNumber("RouteCounter", TestGC.routeCounter);
 			
 	},  
 	

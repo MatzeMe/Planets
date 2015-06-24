@@ -2,7 +2,6 @@ AsyncTestCase("Planet_Test", {
 	
 	setUp: function() { }, 		
 	tearDown: function() { },   
-
 			
 "test Initialisierung / Gruen wenn Planet korrekt initialisiert": function() {  
 
@@ -12,38 +11,57 @@ AsyncTestCase("Planet_Test", {
 		assertNumber("TravelRadius", TestPlanet.travelRadius);
 		assertNumber("x", TestPlanet.x);
 		assertNumber("y", TestPlanet.y);
+		assertInstanceOf("Owner", Player, Testplanet.owner);
+		assertArray("PresentGroups", Testplanet.presentGroups);
+		assertUndefined("Conquest", Testplanet.Conquest);
+		assertUndefined("Fight", Testplanet.Fight);
+		assertUndefined("Production", Testplanet.Production);
 		assertBoolean("allAlone", TestPlanet.allAlone);
+		assertNumber("TypeOfProduction", TestPlanet.typeOfProduction);
+		assertNumber("PlanetID", TestPlanet.planetID);
+		assertArray("RoutesFromHere", routesFromHere);
 		
 	},  	
 
 "test setOwner / Gruen wenn setOwner funktioniert": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200);
+		var TestPlanet = new Planet(10, 200, 200, 0);
+		
+		assertEquals("Owner", 99, TestPlanet.owner);	//Vorher default Owner
 		
 		TestPlanet.setOwner(new Player(1));
 		
-		assertInstanceOf("Owner", Player, TestPlanet.owner);
+		assertEquals("Owner", 1, TestPlanet.owner);		//Hinterher
 	
 	}, 
 
 "test addGroup / Gruen wenn 1 Gruppe zum Planeten hinzugefügt werden kann": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200);
+		var TestPlanet = new Planet(10, 200, 200, 0);
 		var TestGroupPlanet = new Group(new Ship(new Player(1), 1));
+		
+		assertUndefined("addGroup", TestPlanet.presentGroups[0]);
+		assertUndefined("addGroup", TestPlanet.presentGroups[1]);
 		
 		TestPlanet.addGroup(TestGroupPlanet);
 		
 		assertInstanceOf("addGroup", Group, TestPlanet.presentGroups[0]);
+		assertUndefined("addGroup", TestPlanet.presentGroups[1]);
 		
 	}, 	
 	
 "test addGroup / Gruen wenn mehrere Gruppen  zum Planeten hinzugefügt werden können": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200);
+		var TestPlanet = new Planet(10, 200, 200, 0);
 		
 		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
 		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 2));
 		var TestGroupPlanet3 = new Group(new Ship(new Player(1), 3));
+		
+		assertUndefined("addGroup", TestPlanet.presentGroups[0]);
+		assertUndefined("addGroup", TestPlanet.presentGroups[1]);
+		assertUndefined("addGroup", TestPlanet.presentGroups[2]);
+		assertUndefined("addGroup", TestPlanet.presentGroups[3]);
 		
 		TestPlanet.addGroup(TestGroupPlanet1);
 		TestPlanet.addGroup(TestGroupPlanet2);
@@ -52,16 +70,23 @@ AsyncTestCase("Planet_Test", {
 		assertInstanceOf("addGroup", Group, TestPlanet.presentGroups[0]);
 		assertInstanceOf("addGroup", Group, TestPlanet.presentGroups[1]);
 		assertInstanceOf("addGroup", Group, TestPlanet.presentGroups[2]);
+		assertUndefined("addGroup", TestPlanet.presentGroups[3]);
+
 		
 	}, 	
 	
-"test removeGroup / Gruen wenn Gruppen von Planeten entfernt werden können": function() {  
+"test removeGroup / Gruen wenn Gruppen von Planeten entfernt werden können und leere Felder geschlossen werden": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200);
+		var TestPlanet = new Planet(10, 200, 200, 0);
 				
 		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
 		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 2));
 		var TestGroupPlanet3 = new Group(new Ship(new Player(1), 3));
+		
+		assertUndefined("addGroup", TestPlanet.presentGroups[0]);
+		assertUndefined("addGroup", TestPlanet.presentGroups[1]);
+		assertUndefined("addGroup", TestPlanet.presentGroups[2]);
+		assertUndefined("addGroup", TestPlanet.presentGroups[3]);
 		
 		TestPlanet.addGroup(TestGroupPlanet1);
 		TestPlanet.addGroup(TestGroupPlanet2);
@@ -85,7 +110,7 @@ AsyncTestCase("Planet_Test", {
 	
 "test mergeGroups / Gruen wenn 2 Gruppen des selben Typs zusammengefasst werden und Schiffe 1 mal vorhanden sind": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200);		
+		var TestPlanet = new Planet(10, 200, 200, 0);		
 	
 		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
 		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 1));
@@ -101,7 +126,7 @@ AsyncTestCase("Planet_Test", {
 
 "test checkGroups / Gruen wenn mehrere Gruppen gleichen Typs & Besitzers erkannt und zusammengefasst werden": function() {  
 
-	var TestPlanet = new Planet(10, 200, 200);		
+	var TestPlanet = new Planet(10, 200, 200, 0);		
 	
 	var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));	
 	var TestGroupPlanet2 = new Group(new Ship(new Player(1), 1));
