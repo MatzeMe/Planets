@@ -33,13 +33,38 @@ drawButtons = function(universe, milkyways){
 		
 		socket.emit('Production', {planetID: event.target.id});
 		
+		
 		//this.universe[event.target.id].changeProduction();   
 	}  
+	
+	
+	changeRange = function(event){					//Fängt ID des gedrückten Buttons ab und ändert die Produktion am Planeten mit selber ID (zugehöriger Planet)
+				
+		//console.log(document.getElementById(event.target.id).value);
+		
+		rangeValue = document.getElementById(event.target.id).value;
+		   
+		//console.log("range : " +rangeValue);
+	}  
+	
+	
+	changeCheckboxes = function(event){					//Fängt ID des gedrückten Buttons ab und ändert die Produktion am Planeten mit selber ID (zugehöriger Planet)
+		
+		//console.log(document.getElementById(event.target.id).value);
+		
+		for(var i = 0; i < 3; i++){
+			checkboxes[i] = document.getElementById(("checkbox" + i)).checked;
+			//console.log(document.getElementById(("checkbox" + i)).checked);
+		}
+		   
+		
+	}
+	
 	
 	settravelFrom = function(event){					//Fängt ID des gedrückten Buttons ab und trägt den startlaneten der Reise ein
 		
 		travelFrom = this.universe[event.target.id];
-		console.log("travelFrom = " + travelFrom);
+		//console.log("travelFrom = " + travelFrom);
 		drawButtons(this.universe, this.milkyways);
 	}
 	
@@ -47,7 +72,7 @@ drawButtons = function(universe, milkyways){
 		
 		if(this.universe[event.target.id] != travelFrom){	//Ziel != start
 			travelTo = this.universe[event.target.id];
-			console.log("travelto = " + travelFrom);
+			//console.log("travelto = " + travelFrom);
 			
 			for(var y = 0; y < travelFrom.routesFromHere.length; y++){	//Durchgehen aller vom startplaneten ausgehenden Routen und heraussuchen der zu start und Ziel gehörigen
 				if(this.milkyways[travelFrom.routesFromHere[y]].target.planetID == travelTo.planetID){	
@@ -59,9 +84,9 @@ drawButtons = function(universe, milkyways){
 				if(travelFrom.presentGroups[x].owner.ID == isPlayedBy){ 
 					
 					
-					console.log(travelFrom.planetID + ", " + tempRoute.routeID + ", " + isPlayedBy);
+					//console.log(travelFrom.planetID + ", " + tempRoute.routeID + ", " + isPlayedBy);
 					
-					socket.emit('Travel', {planetID: travelFrom.planetID, routeID: tempRoute.routeID, playerID: isPlayedBy});
+					socket.emit('Travel', {planetID: travelFrom.planetID, routeID: tempRoute.routeID, playerID: isPlayedBy, shipTypes: checkboxes, percentage: rangeValue});
 									
 					//var io = require('socket.io-emitter')();
 										
@@ -117,7 +142,7 @@ drawButtons = function(universe, milkyways){
 			for(var f = 0; f < travelFrom.routesFromHere.length; f++){ 		
 				
 				if(this.milkyways[travelFrom.routesFromHere[f]].target.planetID == this.universe[i].planetID){		
-					console.log(this.milkyways[travelFrom.routesFromHere[f]].target.planetID + " --- " + this.universe[i].planetID);
+				//	console.log(this.milkyways[travelFrom.routesFromHere[f]].target.planetID + " --- " + this.universe[i].planetID);
 				//if(travelFrom.routesFromHere[f].target == this.universe[i]){			//Nur Buttons an infrage kommenden Zielplaneten werden angezeigt (Beschränkung durch Richtung der Routen)
 					var t = document.createTextNode(this.universe[i].planetID);       
 					btn.appendChild(t); 
@@ -161,6 +186,49 @@ drawButtons = function(universe, milkyways){
 	}	
 	} 
 
+	for(var l = 0; l < 3; l++){
+	
+	var label = document.createElement("LABEL");
+	var number = document.createTextNode((l+1)); 
+	
+	label.appendChild(number); 
+	labelX = (30 + (l*40)) + "px";
+	label.style.left = labelX;
+	label.style.top = "30px"; 	
+	label.style.position = "absolute";
+	label.style.color = "White";
+		
+	var checkBox = document.createElement("INPUT")	;//Erzeugung und grundlegende Eigenschaften der Gruppenauswahl Checkboxes
+	checkBox.setAttribute("type", "checkbox");
+	checkBox.setAttribute("id", "checkbox"+l);
+	checkBox.style.width = "20px";
+	checkBox.style.height = "20px";
+	checkBox.checked = checkboxes[l];
+	label.appendChild(checkBox); 
+	buttonArea.appendChild(label); 
+	
+	
+	checkBox.onclick=function(){ changeCheckboxes(event); };
+	
+	}
+	
+	var range = document.createElement("INPUT");
+	range.setAttribute("type", "range");
+	range.setAttribute("id", "range");
+	range.style.width = "200px";
+	range.style.height = "20px";
+	range.style.left = "220px";
+	range.style.top = "30px"; 	
+	range.style.position = "absolute";
+	
+	range.min = 0;
+	range.max = 100;
+	range.step = 25;
+	range.value = rangeValue;
+	
+	range.onclick=function(){ changeRange(event); }
+	
+	buttonArea.appendChild(range); 
 	//socket.emit('ask for update', 'drawButton --> ask for update');
 	
 }
@@ -240,11 +308,11 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 			//Wenn Planet keinen Besitzer hat
 			if(this.universe[i].owner.ID == 99){
 				
-				console.log("Planet" + i + this.universe[i].Conquest);
+				//console.log("Planet" + i + this.universe[i].Conquest);
 				//Kein Besitzer, aber wird erobert
 				if(this.universe[i].Conquest != undefined){
 					
-					console.log("Conquest Objekt vorhanden");
+				//	console.log("Conquest Objekt vorhanden");
 					
 					//Einzeilige Anzeige vorhandener Schiffe bei Eroberung unter Planet
 					var drawEnemies = document.createElement("div");	 	
@@ -312,7 +380,7 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 				drawPlanet.appendChild(br);
 				
 				//Anzeige der Produktion auf dem Planeten
-				if(this.universe[i].Production instanceof Production){
+				if(this.universe[i].Production != undefined){
 				
 				var result = Math.round((this.universe[i].Production.remainingProductionTime/1000) * 100) / 100;
 				
