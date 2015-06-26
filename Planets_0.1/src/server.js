@@ -123,11 +123,11 @@ io.sockets.on('connection', function (socket) {
 		io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state});
 		//console.log("asked for and updated");
 		
-		setInterval(function(){
+		/*setInterval(function(){
 			io.sockets.emit('updateUniverse', {Universe: ServerUniverse, MilkyWays: ServerMilkyways});
 			console.log("forced update");
 			}, 500);
-		
+		*/
 	  });
 	
 	
@@ -141,9 +141,44 @@ io.sockets.on('connection', function (socket) {
 		
 		//console.log(data.planetID + ", " + data.routeID + ", " + data.playerID);
 		
-		for(var i = 0; i < ServerGameControler.universe[data.planetID].presentGroups.length; i++){
+		/*planetID: travelFrom.planetID, 
+		  
+		 routeID: tempRoute.routeID, 
+		 playerID: isPlayedBy, 
+		 shipTypes: shipTypes, 
+		 percentage: percentage
+		*/
+		
+		var numberOfShips = [0,0,0];
+		var numberFromPercentage = [0,0,0];
+		
+		
+		for(var i = 0; i < ServerGameControler.universe[data.planetID].presentGroups.length; i++){	//Auszählen der Schiffe	
 			if(ServerGameControler.universe[data.planetID].presentGroups[i].owner.ID == data.playerID){
-				ServerGameControler.universe[data.planetID].sendGroupOnTravel(ServerGameControler.universe[data.planetID].presentGroups[i], ServerGameControler.milkyways[data.routeID]);
+				if(ServerGameControler.universe[data.planetID].presentGroups[i].type == 1){
+					numberOfShips[0] += ServerGameControler.universe[data.planetID].presentGroups[i].ships.length;
+				}
+				if(ServerGameControler.universe[data.planetID].presentGroups[i].type == 2){
+					numberOfShips[1] += ServerGameControler.universe[data.planetID].presentGroups[i].ships.length;
+				}
+				if(ServerGameControler.universe[data.planetID].presentGroups[i].type == 3){
+					numberOfShips[2] += ServerGameControler.universe[data.planetID].presentGroups[i].ships.length;
+				}
+			}	
+		}
+		
+		console.log("number of ships "+numberOfShips);
+					
+			
+		for (var i = 0; i < 3; i++){
+			numberFromPercentage[i] = Math.round(numberOfShips[i] / 100 * data.percentage);
+		}
+		
+		console.log("number from percentage " + numberFromPercentage);
+		
+		for(var i = 0; i < ServerGameControler.universe[data.planetID].presentGroups.length; i++){
+			if(ServerGameControler.universe[data.planetID].presentGroups[i].owner.ID == data.playerID && data.shipTypes[(ServerGameControler.universe[data.planetID].presentGroups[i].type-1)] == true){
+				ServerGameControler.universe[data.planetID].sendGroupOnTravel(ServerGameControler.universe[data.planetID].presentGroups[i], ServerGameControler.milkyways[data.routeID], numberFromPercentage[(ServerGameControler.universe[data.planetID].presentGroups[i].type-1)]);
 			}
 		}
 		

@@ -17,9 +17,9 @@ function Planet(massA, xA, yA, planetIDA){
 	this.y = yA; 
 	this.owner = new Player(99);		//default
 	this.presentGroups = [];			//anwesende Gruppen aller Spieler
-	this.Conquest;
-	this.Fight;
-	this.Production;
+	this.Conquest = undefined;
+	this.Fight = undefined;
+	this.Production = undefined;
 	this.allAlone = true;				//Indikator, ob nur ein Spieler Schiffe auf dem Planeten hat
 	this.typeOfProduction = 1;			//Schifftyp, der Produziert werden soll
 	this.planetID = planetIDA;
@@ -39,12 +39,37 @@ function Planet(massA, xA, yA, planetIDA){
 	
 	
 	//Schickt ausgewählte Gruppe auf Reise auf genannter Route
-	this.sendGroupOnTravel = function(GroupA, RouteA){		
-		RouteA.startTravel(GroupA);
-		this.removeGroup(GroupA);		
+	this.sendGroupOnTravel = function(GroupA, RouteA, numberOfShips){		
+		
+		console.log("number of ships"+numberOfShips);
+		if(numberOfShips > 0){
+			if(numberOfShips < GroupA.ships.length){
+				var tempGroup = this.splitGroup(GroupA, numberOfShips);
+				RouteA.startTravel(tempGroup);
+			}
+			else{
+				tempGroup = GroupA;
+				RouteA.startTravel(tempGroup);
+				this.removeGroup(GroupA);
+			}
+		}
+		
+		//this.removeGroup(GroupA);
 	}
 
-
+	this.splitGroup = function(GroupA, numberOfShips){		
+		
+		var tempShip = GroupA.ships.shift();
+		
+		var tempGroup = new Group(tempShip);
+		console.log("***" );
+		
+		if(numberOfShips > 1){
+			tempGroup.addShip(GroupA.ships.splice(0, (numberOfShips-1)));
+		}
+		return tempGroup;
+	}
+ 
 	//Ändert die Produktion reihum
 	this.changeProduction = function(){
 		
@@ -58,7 +83,7 @@ function Planet(massA, xA, yA, planetIDA){
 	
 	
 		this.stopProduction();	//stoppt und startet Produktion, damit neuer Schiffstyp produziert wird
-		this.startProduction();
+		this.startProduction();  
 
 		
 	}
@@ -187,8 +212,6 @@ function Planet(massA, xA, yA, planetIDA){
 	
 	this.startFight = function(){	
 		this.Fight = new Fight(this.presentGroups);
-		//wird so nicht funktionieren, startFight wird nur 1 mal aufgerufen, nicht bei jedem update() rs
-		//this.Fight.start();
 		somethingChanged("planet: " + this.planetID + " --> start fight");
 	}
 	

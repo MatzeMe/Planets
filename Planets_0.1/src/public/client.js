@@ -73,17 +73,19 @@ socket.on('createUniverse', function(data){
 
     });
     
-    function travelButtonPressed(travelFrom, tempRoute, playerId){
+    /*function travelButtonPressed(travelFrom, tempRoute, playerId){
 	  	
     	//travelButtonPressed(travelFrom, tempRoute, isPlayedBy);
     	
     	var planetId = travelFrom.planetID;
     	var routeId = tempRoute.routeID;
+    	var shipTypes = checkboxes;
+    	var percentage = rangeValue;
     	
-    	socket.emit('startTravel', {planetID: planetId, routeID: routeId, playerID: playerId});
+    	socket.emit('startTravel', {planetID: planetId, routeID: routeId, playerID: playerId, shipTypes: shipTypes, percentage: percentage});
     	console.log("start travel");
    	
-    }
+    }*/
     
     function startButtonPressed(){
     	  	
