@@ -53,6 +53,10 @@ function Fight(contestantsA) {
 		this.remainingFightTime = this.fightTime
 				- (Date.now() - this.fightStarted);
 		if (this.remainingFightTime <= 0) {
+			
+			// setzt die fight time wieder neu das es nach 3 sec wieder startet
+			this.fightStarted = Date.now();
+			this.remainingFightTime = this.fightTime;
 
 			// setz gruppen zusammen so das es keine doppelten gibt
 			// macht der Planet bei jedem Update() (derzeit alle 50ms) rs
@@ -69,9 +73,6 @@ function Fight(contestantsA) {
 					this.contestants[i].removeShip(this.ausgeteilterDMG[i]
 							/ this.contestants[i].ships.lifePoints);
 			}
-			// setzt die fight time wieder neu das es nach 3 sec wieder startet
-			this.fightStarted = Date.now();
-			this.fightTime = 3000;
 		}
 	}
 
@@ -106,7 +107,7 @@ function Fight(contestantsA) {
 				// feuerpriorität
 				if (schiff.owner != this.contestants[j].owner
 						&& this.contestants[j].type == feuerreinfolge[i]) {
-					ausgeteilterDMG[j] += schiff.ships.dealtDamage
+					ausgeteilterDMG[j] += schiff.ships.dealtDamage * schiff.lenght
 							* schiff.ships.length + function() {
 								// setzt zusätzlichen schadne durch prioriät
 								if (i == 0)
