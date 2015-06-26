@@ -69,6 +69,9 @@ function Fight(contestantsA) {
 					this.contestants[i].removeShip(this.ausgeteilterDMG[i]
 							/ this.contestants[i].ships.lifePoints);
 			}
+			// setzt die fight time wieder neu das es nach 3 sec wieder startet
+			this.fightStarted = Date.now();
+			this.fightTime = 3000;
 		}
 	}
 
