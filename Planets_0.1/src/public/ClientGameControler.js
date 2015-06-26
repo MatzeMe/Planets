@@ -27,6 +27,9 @@ function ClientGameControler(universeA, playerA, contentsA, creatorObject){
 	
 	cont = contentsA;
 	
+	rangeValue = 0;
+	checkboxes = [false, true, false, false];
+	
 	//Erstellung aller Routen zwischen den Planeten in Abhängigkeit von deren ReiseRadius
 	
 	this.setMilkyways = function(milky){
@@ -101,6 +104,38 @@ function ClientGameControler(universeA, playerA, contentsA, creatorObject){
 			//that.milkyways[i].update();
 		}
 		*/
+		
+		for(var i = 0; i < that.universe.length; i++){		
+			if(that.universe[i].Conquest != undefined){
+				that.universe[i].Conquest.remainingConquestTime = that.universe[i].Conquest.conquestTime - (Date.now() - that.universe[i].Conquest.conquestStarted);	//Eroberungszeit abgelaufen == true als Rückgabe			
+				if(that.universe[i].Conquest.remainingConquestTime < 0){
+					that.universe[i].Conquest.remainingConquestTime = 0;
+				}
+			}
+			
+			if(that.universe[i].Production != undefined){			
+				that.universe[i].Production.remainingProductionTime = that.universe[i].Production.productionTime - (Date.now() - that.universe[i].Production.productionStarted);
+				if(that.universe[i].Production.remainingProductionTime < 0){
+					that.universe[i].Production.remainingProductionTime = 0;
+				}
+			}		
+		}
+		
+		
+		
+		for(var m = 0; m < that.milkyways.length; m++){
+			if(that.milkyways[m] != undefined){
+			for(var n = 0; n < that.milkyways[m].travelers.length; n++){
+				
+				that.milkyways[m].travelers[n].remainingTravelTime = that.milkyways[m].travelers[n].travelTime - (Date.now() - that.milkyways[m].travelers[n].travelStarted);
+				if(that.milkyways[m].travelers[n].remainingTravelTime < 0){
+					that.milkyways[m].travelers[n].remainingTravelTime = 0;
+				}
+			}
+		}}
+			
+		
+		
 		drawField(that.universe, that.milkyways);		//Zeichnen der Spielfläche, sollte zum Gamecontroler beim Player/Client ausgelagert werden
 		
 		//if(that.gameOver == false){ 		//ACHTUNG: ausgeschalten, weil bei simplen Tests z.B. mit nur einem Planeten sofort Spielabbruch eintritt
