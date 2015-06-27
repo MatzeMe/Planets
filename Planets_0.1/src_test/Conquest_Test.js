@@ -16,9 +16,12 @@ AsyncTestCase("Conquest_Test", {
 	assertNumber("Mass", TestConquest.mass);
 	assertInstanceOf("Conquerers", Group, TestConquest.conquerors);
 	assertNumber("ConquestStarted", TestConquest.conquestStarted);
-	assertNumber("ConquestTime", TestConquest.conquestTime);
-	assertNumber("RemainingConquestTime", TestConquest.remainingConquestTime);
 	
+	assertNumber("ConquestTime", TestConquest.conquestTime);
+	assertEquals("ConquestTime", 10000, TestConquest.conquestTime);
+	
+	assertNumber("RemainingConquestTime", TestConquest.remainingConquestTime);
+	assertEquals("RemainingConquestTime", 10000, TestConquest.remainingConquestTime); 
 	},  	
 	
 	
