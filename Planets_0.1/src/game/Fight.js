@@ -61,9 +61,9 @@ function Fight(contestantsA) {
 				if(schiffsgruppe.owner.ID != this.contestants[j].owner.ID){//prüft ob die besitzer verschieden sind
 					if(this.contestants[j].type == feuerreinfolge[i]){//prüft ob der schiffstyp dem aktuellen ziel entspricht
 						if(this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length >= totalDMG) {}
-							ausgeteilterDMG[j] += totalDMG;
+							this.ausgeteilterDMG[j] += totalDMG;
 					} else {
-								ausgeteilterDMG[j] += this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length;
+						this.ausgeteilterDMG[j] += this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length;
 								totalDMG -= this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length;
 						}
 						break; //um unötige durchläufe zu unterbrechen und zum nächsten ziel zu wechseln						
@@ -72,7 +72,7 @@ function Fight(contestantsA) {
 			}
 			totalDMG /= 2;
 		}
-	}
+	
 
 	// zielschiff suchen unter berückstigung der priorität und auf diese gruppe
 	// feuern,
@@ -88,7 +88,7 @@ function Fight(contestantsA) {
 				// feuerpriorität
 				if (kampfgruppe.owner != this.contestants[j].owner
 						&& this.contestants[j].type == feuerreinfolge[i]) {
-					ausgeteilterDMG[j] += kampfgruppe.ships[0].dealtDamage
+					this.ausgeteilterDMG[j] += kampfgruppe.ships[0].dealtDamage
 							* kampfgruppe.ships.length * function() {
 								// setzt zusätzlichen schadne durch prioriät
 								if (i == 0)
@@ -121,10 +121,8 @@ function Fight(contestantsA) {
 			// verteilt schaden und removed zerstörte schiffe
 			for ( var i = 0; i < this.contestants.length; i++) {
 				if (this.ausgeteilterDMG[i] != null)
-					this.contestants[i].removeShip(this.ausgeteilterDMG[i]
-							/ this.contestants[i].ships[0].lifePoints);
+					this.contestants[i].removeShip(this.ausgeteilterDMG[i] / this.contestants[i].ships[0].lifePoints);
 			}
 		}
 	}
-
 }
