@@ -5,35 +5,11 @@
  * 
  * 	verwaltet die kämpfe auf Planeten, es wird die gruppe der schiffe übergeben, planet regruppiert vorher so das von jedem schiffstyp pro Owner nur einer vorhanden ist
  *  kämpfe finden alle 3 sec statt, update wird regelmäßig im planeten aufgerufen
- *  vor dem kampf müssen schiffsgruppen zusammengefasst werden,
  *  es muss von jedme schiff zuerst auf den favorisierten schiffstyp, dan auf den eigenen schiffstyp und dan auf den schlechten schiffstyp geschossen werden, (funktion lockonTargetandFire)
  *  der schaden an den schiffen muss gespeichert werden und erst nach dem alle schiffe gefeuert haben ausgeteilt werden (schadensarry)
  *  es müssen schadensübergriffe von einem typ zum anderen berücksichtigt werden. (fehlt noch, idee für umstetzung?)
  *  
  *
- */
-
-/*
- * Im Planet-Objekt wird nur das Array mit den Gruppen übergeben, nicht der ganze Planet,
- * sonst haben wir am Ende im Kreis irgendwelche Objekte zugewiesen -> ich krieg evtl. Probleme
- * das mit JSON zu verschicken.
- * Das müsste dann im Code an den ganzen Dingen mit //contestants.presentGroups// -> //contestants// geändert werden.
- * 
- * Hab das Planetobjekt so abgeändert, dass es die update()-funktion von Fight jetzt regelmäßig aufruft.
- * Das mit den 3Sekunden abmessen dürfte also funktionieren.
- * 
- * Durch den Code für das kämpfen selbst gehe ich jetzt nicht.
- * 
- * 
- * Hab den neuen Testfall für den Fight aus Planet_Test_Fight in Fight_Test verschoben.
- * Nicht weiter von Belang, hatte die Testfälle nur aufgesplittet nach den eigentlichen Klassenfunktionen
- * (Fight_Test) und den Funktionen, die die Klasse handlen (Planet_Test_Fight), damit das ein wenig übersichtlicher bleibt
- */
-
-/*
- * 	Funktion angepasst, es sollte nun nur auf die gruppe zugreifen,
- * 	testfälle in Fight_Test ergänzt
- * 
  */
 
 function Fight(contestantsA) {
@@ -48,67 +24,72 @@ function Fight(contestantsA) {
 	this.fightTime = 3000;
 	this.remainingFightTime = this.fightTime;
 
-	this.update = function() {
-		// lässt kampf 3 sec warten
-		this.remainingFightTime = this.fightTime
-				- (Date.now() - this.fightStarted);
-		if (this.remainingFightTime <= 0) {
-			
-			// setzt die fight time wieder neu das es nach 3 sec wieder startet
-			this.fightStarted = Date.now();
-			this.remainingFightTime = this.fightTime;
-
-			// setz gruppen zusammen so das es keine doppelten gibt
-			// macht der Planet bei jedem Update() (derzeit alle 50ms) rs
-			// this.contestants.checkGroups();
-
-			// lässt alle schiffe feuern
-			for ( var i = 0; i < this.contestants.lenght; i++) {
-				this.LockOnTargetAndFire(this.contestants[i]);
+	// prioritäten reinfolge, auf welches schiff welcher typ zuerst feuert
+	this.setSchussreinfolge = function(type) {
+		var feuerreinfolge = [];
+		switch (type) {
+		// aufschlüsselung der prioritäten
+		case 1: //typ 1 zuerst auf 2, dan auf sich selbst, dan auf 3
+			feuerreinfolge[0] = 2;
+			feuerreinfolge[1] = 1;
+			feuerreinfolge[2] = 3;
+			break;
+		case 2://typ 2 zuerst auf 3, dan auf sich selbst, dan auf 1
+			feuerreinfolge[0] = 3;
+			feuerreinfolge[1] = 2;
+			feuerreinfolge[2] = 1;
+			break;
+		case 3://typ 3 zuerst auf 1, dan auf sich selbst, dan auf 2
+			feuerreinfolge[0] = 1;
+			feuerreinfolge[1] = 3;
+			feuerreinfolge[2] = 2;
+			break;
+		}
+		return feuerreinfolge;
+	}
+	
+	// überhang schaden wird nun auf andere schiffsgruppen übertragen, schaden wird ins dmgarray eingetragen
+	this.FirePerShip = function(schiffsgruppe) {
+		var feuerreinfolge = this.setSchussreinfolge(schiffsgruppe.type);
+		var totalDMG = schiffsgruppe.ships[0].dealtDamage * schiffsgruppe.ships.length * 2;
+		//totalDMG verdoppel da erste feindzielgruppe doppelten dmg kriegt
+		
+		// läuft priorität durch wegen schussreinfolge
+		for ( var i = 0; i < 3; i++) {
+			// läuft alle schiffe durch
+			for ( var j = 0; j < this.contestants.length; j++) {
+				if(schiffsgruppe.owner.ID != this.contestants[j].owner.ID){//prüft ob die besitzer verschieden sind
+					if(this.contestants[j].type == feuerreinfolge[i]){//prüft ob der schiffstyp dem aktuellen ziel entspricht
+						if(this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length >= totalDMG) {}
+							ausgeteilterDMG[j] += totalDMG;
+					} else {
+								ausgeteilterDMG[j] += this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length;
+								totalDMG -= this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length;
+						}
+						break; //um unötige durchläufe zu unterbrechen und zum nächsten ziel zu wechseln						
+					}
+				}			
 			}
-
-			// verteilt schaden und removed zerstörte schiffe
-			for ( var i = 0; i < this.contestants.length; i++) {
-				if (this.ausgeteilterDMG[i] != null)
-					this.contestants[i].removeShip(this.ausgeteilterDMG[i]
-							/ this.contestants[i].ships.lifePoints);
-			}
+			totalDMG /= 2;
 		}
 	}
 
 	// zielschiff suchen unter berückstigung der priorität und auf diese gruppe
 	// feuern,
 	// schaden in DMG array eintragen
-	this.LockOnTargetAndFire = function(schiff) {
-		var feuerreinfolge = []; // prioritäten reinfolge
-		switch (schiff.type) {
-		// aufschlüsselung der prioritäten
-		case 1:
-			feuerreinfolge[0] = 2;
-			feuerreinfolge[1] = 1;
-			feuerreinfolge[2] = 3;
-			break;
-		case 2:
-			feuerreinfolge[0] = 3;
-			feuerreinfolge[1] = 2;
-			feuerreinfolge[2] = 1;
-			break;
-		case 3:
-			feuerreinfolge[0] = 1;
-			feuerreinfolge[1] = 3;
-			feuerreinfolge[2] = 2;
-			break;
-		}
+	this.LockOnTargetAndFire = function(kampfgruppe) {
+		var feuerreinfolge = this.setSchussreinfolge(kampfgruppe.type); 
+
 		// läuft priorität durch wegen schussreinfolge
 		for ( var i = 0; i < 3; i++) {
 			// läuft alle schiffe durch
-			for ( var j = 0; j < this.contestants.lenght; j++) {
+			for ( var j = 0; j < this.contestants.length; j++) {
 				// wenn schiffe von anderem besitzter und typ gleich der
 				// feuerpriorität
-				if (schiff.owner != this.contestants[j].owner
+				if (kampfgruppe.owner != this.contestants[j].owner
 						&& this.contestants[j].type == feuerreinfolge[i]) {
-					ausgeteilterDMG[j] += schiff.ships.dealtDamage * schiff.lenght
-							* schiff.ships.length + function() {
+					ausgeteilterDMG[j] += kampfgruppe.ships[0].dealtDamage
+							* kampfgruppe.ships.length * function() {
 								// setzt zusätzlichen schadne durch prioriät
 								if (i == 0)
 									return 2;
@@ -119,6 +100,29 @@ function Fight(contestantsA) {
 							}
 					break;
 				}
+			}
+		}
+	}	
+	
+	this.update = function() {
+		// lässt kampf 3 sec warten
+		this.remainingFightTime = this.fightTime
+				- (Date.now() - this.fightStarted);
+		if (this.remainingFightTime <= 0) {
+
+			// setzt die fight time wieder neu das es nach 3 sec wieder startet
+			this.fightStarted = Date.now();
+
+			// lässt alle schiffe feuern
+			for ( var i = 0; i < this.contestants.length; i++) {
+				this.LockOnTargetAndFire(this.contestants[i]);
+			}
+
+			// verteilt schaden und removed zerstörte schiffe
+			for ( var i = 0; i < this.contestants.length; i++) {
+				if (this.ausgeteilterDMG[i] != null)
+					this.contestants[i].removeShip(this.ausgeteilterDMG[i]
+							/ this.contestants[i].ships[0].lifePoints);
 			}
 		}
 	}

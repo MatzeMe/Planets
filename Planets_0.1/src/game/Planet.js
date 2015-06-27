@@ -169,7 +169,7 @@ function Planet(massA, xA, yA, planetIDA){
 				
 		//Prüfen ob nicht Allein, Kampf nicht bereits läuft, dann starten
 		if(this.allAlone == false && !(this.Fight instanceof Fight)){
-			this.startFight(this.presentGroups);  
+			this.startFight();  
 		}
 		
 		//Prüfen ob Kampf läuft und abgebrochen werden müsste (Schiffe nur noch eines Spielers vorhanden)
