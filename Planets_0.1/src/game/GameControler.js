@@ -48,10 +48,16 @@ function GameControler(universeA, playersA){
 			}
 			
 			that.gameOver = true;										//Prüfen ob alle Planeten einem Spieler gehören = Siegbedingung
-			for(var i = 0; i < that.universe.length -1; i++ ){ 
-				if(that.universe[i].owner.ID != that.universe[i+1].owner.ID){
-					that.gameOver = false;
+			var tempArray = [];
+			for(var i = 0; i < that.universe.length; i++ ){ 
+				if(that.universe[i].owner.ID != 99){
+					 tempArray.push(that.universe[i].owner.ID);
 				}			
+			}
+			for(var i = 0; i <  tempArray.length -1; i++ ){ 
+				if(tempArray[i] != tempArray[i+1]){
+					that.gameOver = false;
+				}
 			}
 			
 			for(var i = 0; i < that.milkyways.length; i++ ){
