@@ -105,7 +105,7 @@ function Fight(contestantsA) {
 	}	
 	
 	this.update = function() {
-		// lässt kampf 3 sec warten
+		// lässt kampf 3 sec warten 
 		this.remainingFightTime = this.fightTime
 				- (Date.now() - this.fightStarted);
 		if (this.remainingFightTime <= 0) {
