@@ -10,12 +10,18 @@
 
 function Group(shipA){ 
 	
+	if(shipA == undefined){
+		this.destroyed = true;
+	}
+	else{
 	this.ships = [];
 	this.ships.push(shipA);
 	this.owner = shipA.owner;	//Nimmt Werte des ersten Schiffes um Eigenschaften der Gruppe festzulegen
 	this.speed = shipA.speed;
 	this.type = shipA.type;
 	this.destroyed = false;		//Flag um Zerstörung == keine Schiffe vorhanden anzuzeigen
+	}
+	
 	
 	//Stellt fest, ob ein Schiff oder ein Array von Schiffen übergeben wurde und pusht Schiff(e) in Gruppen-Array
 	this.addShip = function(shipB){

@@ -4,8 +4,8 @@ TestCase("Group_Test", {
 	tearDown: function() { },  
 		
 
-"test Initialisierung / Gruen wenn Group korrekt initialisiert": function() {  
-	
+	"test Initialisierung / Gruen wenn Group korrekt initialisiert": function() {  
+		
 		var TestGroup = new Group(new Ship(new Player(1), 1));  
 		
 		assertArray("Array", TestGroup.ships);
@@ -13,7 +13,16 @@ TestCase("Group_Test", {
 		assertNumber("Speed", TestGroup.speed);
 		assertEquals("Type", 1 || 2 || 3, TestGroup.type);	
 		assertInstanceOf("Ship", Ship, TestGroup.ships[0]);
-		assertFalse("Destroyed", TestGroup.destroyed);
+		assertFalse("Destroyed", TestGroup.destroyed); 
+		
+	},  
+	
+"test Initialisierung / Gruen wenn Group ohne Schiff korrekt initialisiert = sofort destroyed": function() {  
+		
+		var TestGroup = new Group();  
+		
+
+		assertTrue("Destroyed", TestGroup.destroyed);
 		
 	},  
 	
