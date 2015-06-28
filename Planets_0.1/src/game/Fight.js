@@ -58,22 +58,32 @@ function Fight(contestantsA) {
 		for ( var i = 0; i < 3; i++) {
 			// läuft alle schiffe durch
 			for ( var j = 0; j < this.contestants.length; j++) {
-				if(schiffsgruppe.owner.ID != this.contestants[j].owner.ID){//prüft ob die besitzer verschieden sind
-					if(this.contestants[j].type == feuerreinfolge[i]){//prüft ob der schiffstyp dem aktuellen ziel entspricht
-						if(this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length >= totalDMG) {}
+				//prüft ob die besitzer verschieden sind
+				if(schiffsgruppe.owner.ID != this.contestants[j].owner.ID){
+					//prüft ob der schiffstyp dem aktuellen ziel entspricht
+					if(this.contestants[j].type == feuerreinfolge[i]){
+						//prüft ob schaden auf weitere schiffsgruppe übertragen werden muss
+						if((this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length) >= totalDMG) {
+							//trägt schaden ein
 							this.ausgeteilterDMG[j] += totalDMG;
+							totalDMG = 0;
+							i = 4; // abbruch bedingung da aller schaden ausgeteilt
 					} else {
+						//trägt DMG für schiffsgruppe ein
 						this.ausgeteilterDMG[j] += this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length;
-								totalDMG -= this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length;
+						//träg verbleibenden schaden ein
+						totalDMG -= this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length;
 						}
-						break; //um unötige durchläufe zu unterbrechen und zum nächsten ziel zu wechseln						
+						//um unötige durchläufe zu unterbrechen und zum nächsten ziel zu wechseln
+						break; 						
 					}
-				}			
+				}
+			totalDMG /= 2; //halbiert dmg mit sinkender priorität
 			}
-			totalDMG /= 2;
+			
 		}
 	
-
+/* funktion alt, neue funktion oben
 	// zielschiff suchen unter berückstigung der priorität und auf diese gruppe
 	// feuern,
 	// schaden in DMG array eintragen
@@ -102,7 +112,7 @@ function Fight(contestantsA) {
 				}
 			}
 		}
-	}	
+	}	*/
 	
 	this.update = function() {
 		// lässt kampf 3 sec warten 
@@ -112,10 +122,15 @@ function Fight(contestantsA) {
 
 			// setzt die fight time wieder neu das es nach 3 sec wieder startet
 			this.fightStarted = Date.now();
+			
+			//setzt dmgarray auf null, fals schon schaden von vorherigen runden eingetragen
+			for(var i =0; i < this.contestants.length; i++) {
+				this.ausgeteilterDMG[i] = 0;
+			}
 
 			// lässt alle schiffe feuern
 			for ( var i = 0; i < this.contestants.length; i++) {
-				this.LockOnTargetAndFire(this.contestants[i]);
+				this.FirePerShip(this.contestants[i]);
 			}
 
 			// verteilt schaden und removed zerstörte schiffe
