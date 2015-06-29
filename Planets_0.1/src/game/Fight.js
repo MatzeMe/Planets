@@ -63,16 +63,19 @@ function Fight(contestantsA) {
 					//prüft ob der schiffstyp dem aktuellen ziel entspricht
 					if(this.contestants[j].type == feuerreinfolge[i]){
 						//prüft ob schaden auf weitere schiffsgruppe übertragen werden muss
-						if((this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length) >= totalDMG) {
-							//trägt schaden ein
+						console.log("aaa " + j)
+						console.log(this.contestants[j] + " "	);
+						console.log(totalDMG + " "	);
+						if((this.contestants[j].ships[0].lifePoints * this.contestants[j].ships.length) >= totalDMG) {
+							//trägt schaden ein					
 							this.ausgeteilterDMG[j] += totalDMG;
 							totalDMG = 0;
 							i = 4; // abbruch bedingung da aller schaden ausgeteilt
 					} else {
 						//trägt DMG für schiffsgruppe ein
-						this.ausgeteilterDMG[j] += this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length;
+						this.ausgeteilterDMG[j] += this.contestants[j].ships[0].lifePoints * this.contestants[j].ships.length;
 						//träg verbleibenden schaden ein
-						totalDMG -= this.contestants[j].ship[0].lifePoints * this.contestants[j].ship.length;
+						totalDMG -= this.contestants[j].ships[0].lifePoints * this.contestants[j].ships.length;
 						}
 						//um unötige durchläufe zu unterbrechen und zum nächsten ziel zu wechseln
 						break; 						
@@ -82,7 +85,7 @@ function Fight(contestantsA) {
 			}
 			
 		}
-	
+	}
 /* funktion alt, neue funktion oben
 	// zielschiff suchen unter berückstigung der priorität und auf diese gruppe
 	// feuern,
