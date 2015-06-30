@@ -52,6 +52,7 @@ function Fight(contestantsA) {
 	this.FirePerShip = function(schiffsgruppe) {
 		var feuerreinfolge = this.setSchussreinfolge(schiffsgruppe.type);
 		var totalDMG = schiffsgruppe.ships[0].dealtDamage * schiffsgruppe.ships.length * 2;
+		console.log("Fight: dealtDMG " + schiffsgruppe.ships[0].dealtDamage + " stückzahl schiffe " + schiffsgruppe.ships.length)
 		//totalDMG verdoppel da erste feindzielgruppe doppelten dmg kriegt
 		
 		// läuft priorität durch wegen schussreinfolge
@@ -64,7 +65,7 @@ function Fight(contestantsA) {
 					if(this.contestants[j].type == feuerreinfolge[i]){
 						//prüft ob schaden auf weitere schiffsgruppe übertragen werden muss
 						console.log("aaa " + j)
-						console.log(this.contestants[j] + " "	);
+						console.log("schiffslebenspunkte" + this.contestants[j].ships[0].lifePoints);
 						console.log(totalDMG + " "	);
 						if((this.contestants[j].ships[0].lifePoints * this.contestants[j].ships.length) >= totalDMG) {
 							//trägt schaden ein					
@@ -133,6 +134,7 @@ function Fight(contestantsA) {
 
 			// lässt alle schiffe feuern
 			for ( var i = 0; i < this.contestants.length; i++) {
+				console.log("schiffgruppe " + i)
 				this.FirePerShip(this.contestants[i]);
 			}
 
