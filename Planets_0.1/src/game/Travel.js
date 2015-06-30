@@ -9,6 +9,17 @@
  *
  */
 
+/*
+ * fehler funden, wenn ich mehre schiffstypen habe, diese als 1 gruppe versenden möchte werden sie Travelmäßig in jeweils eine eigene gruppe gepackt,
+ * somit gibt es pro schiffstyp mindestens 1 Travel und jede gruppe kommt für sich selber an
+ * ich bin mir nicht sicher, ich dachte es wäre so gedacht, das die schiffe einen flotten verband bilden und dan eben mit der geschwindigkeit
+ * des langsamsten schiffes reisen,
+ * 
+ * 
+ */
+
+
+
 function Travel(groupA, distanceA)
 {
 	this.distance = distanceA;	//Länge der Route
