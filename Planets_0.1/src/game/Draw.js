@@ -23,6 +23,26 @@
  *  	Zeichnet das Spielfeld aus Planeten und Routen
  */
 
+/*
+ * Situation die zum absturz führt:
+ * Spieler 1 ist besitzer von planeten und hat schiffe auf planet,
+ * Spieler 2 sendet 2 schiffstypen auf planet zum angriff,
+ * Spieler 1 zieht schiffe nach beginn des Kampfes ab
+ * Spieler 2 sendet wärende des Conquers alle seine schiffe auf den Selben planeten wie spieler 1
+ * -> Grafig von Spieler 2 hängt sich auf,
+ * Spieler 2 schiff kommt an und conquer startet ohne probleme
+ * Spieler 2 schiff kommen auf plani von spieler 1 an, kampf findet statt, keine probleme
+ * Spieler 1 keine probleme, spieler 2 handlungsunfähig
+ * 
+ * 
+ * Balken um versende zahl zu ändern, wird andauernd neu gezeichnet, macht es schwirig schiffe zu versenden,
+ * kann man balken irgendwie vom rezeichen abhalten und dauerhaft da lassen? 
+ * also blos balken abfragen wenn schiffe versendet werden
+ * 
+ * 
+ */
+
+
 
 //Buttons für Travel und Production
 drawButtons = function(universe, milkyways){
