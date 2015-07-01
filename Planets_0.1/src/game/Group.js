@@ -18,6 +18,8 @@ function Group(shipA){
 	this.ships.push(shipA);
 	this.owner = shipA.owner;	//Nimmt Werte des ersten Schiffes um Eigenschaften der Gruppe festzulegen
 	this.speed = shipA.speed;
+	this.dmgPerShip = shipA.dealtDamage;
+	this.lpPerShip = shipA.lifePoints;
 	this.type = shipA.type;
 	this.destroyed = false;		//Flag um Zerstörung == keine Schiffe vorhanden anzuzeigen
 	}
