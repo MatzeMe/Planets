@@ -62,7 +62,7 @@ function Fight(contestantsA) {
 				//prüft ob die besitzer verschieden sind und flotte nicht bereits zerstört
 				if(schiffsgruppe.owner.ID != this.contestants[j].owner.ID && !this.contestants[j].destroyed){
 					//prüft ob der schiffstyp dem aktuellen ziel entspricht
-					if(this.contestants[j].type == feuerreinfolge[i] && this.contestants[j].ship[0].lifePoints != undefined){
+					if(this.contestants[j].type == feuerreinfolge[i] && this.contestants[j].ships[0].lifePoints != undefined){
 						//prüft ob schaden auf weitere schiffsgruppe übertragen werden muss
 						console.log("schiffstype " + schiffsgruppe.type + " feuert auf " + this.contestants[j].type);
 						console.log("schiffslebenspunkte des ziels " + this.contestants[j].ships[0].lifePoints);
@@ -118,11 +118,48 @@ function Fight(contestantsA) {
 		}
 	}	*/
 	
+	//fasst die Schiffe zweier Gruppen in einer zusammen
+	this.mergeGroups = function(groupA, groupB){		
+		groupA.ships = groupA.ships.concat(groupB.ships);
+		groupB.ships = [];
+		groupB.destroyed = true;
+		return groupA;
+		
+	}
+	
+	//Führt verschiedene Checks durch und reagiert
+	this.checkGroups = function(){
+		
+		//Gleiche Schiffstypen in Gruppen zusammenfassen
+		for(var i = 0; i < this.contestants.length; i++){
+			if(this.contestants[i].destroyed == false){
+				
+				for(var o = i + 1; o < this.contestants.length; o++){
+					if(this.contestants[i].owner.ID == this.contestants[o].owner.ID && this.contestants[i].type == this.contestants[o].type){
+						this.contestants[i] = this.mergeGroups(this.contestants[i], this.contestants[o]);
+					}
+				}
+				
+				
+			}
+		}
+		
+		//Leere Gruppen löschen
+		for(var i = 0; i < this.contestants.length; i++){
+			if(this.contestants[i].destroyed == true){
+				this.removeGroup(this.contestants[i]);
+			}
+		}
+	}
+	
 	this.update = function() {
 		// lässt kampf 3 sec warten 
 		this.remainingFightTime = this.fightTime
 				- (Date.now() - this.fightStarted);
 		if (this.remainingFightTime <= 0) {
+			
+			//prüft gruppen vor dem kampf
+			this.checkGroups();
 
 			// setzt die fight time wieder neu das es nach 3 sec wieder startet
 			this.fightStarted = Date.now();
