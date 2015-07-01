@@ -60,12 +60,12 @@ function Fight(contestantsA) {
 			// läuft alle schiffe durch
 			for ( var j = 0; j < this.contestants.length; j++) {
 				//prüft ob die besitzer verschieden sind und flotte nicht bereits zerstört
-				if(schiffsgruppe.owner.ID != this.contestants[j].owner.ID && !this.contestants.destroyed){
+				if(schiffsgruppe.owner.ID != this.contestants[j].owner.ID && !this.contestants[j].destroyed){
 					//prüft ob der schiffstyp dem aktuellen ziel entspricht
-					if(this.contestants[j].type == feuerreinfolge[i]){
+					if(this.contestants[j].type == feuerreinfolge[i] && this.contestants[j].ship[0].lifePoints != undefined){
 						//prüft ob schaden auf weitere schiffsgruppe übertragen werden muss
-						console.log("aaa " + j)
-						console.log("schiffslebenspunkte" + this.contestants[j].ships[0].lifePoints);
+						console.log("schiffstype " + schiffsgruppe.type + " feuert auf " + this.contestants[j].type);
+						console.log("schiffslebenspunkte des ziels " + this.contestants[j].ships[0].lifePoints);
 						console.log("totalDMG " + totalDMG + " prio " + i	);
 						if((this.contestants[j].ships[0].lifePoints * this.contestants[j].ships.length) >= totalDMG) {
 							//trägt schaden ein					
@@ -135,7 +135,7 @@ function Fight(contestantsA) {
 			// lässt alle schiffe feuern
 			for ( var i = 0; i < this.contestants.length; i++) {
 				console.log("schiffgruppe " + i + " owner " + this.contestants[i].owner.ID)
-				if(!this.contestants.destroyed) //prüfe ob flotte nicht bereits zerstört
+				if(!this.contestants[i].destroyed) //prüfe ob flotte nicht bereits zerstört
 				this.FirePerShip(this.contestants[i]);
 			}
 
@@ -143,7 +143,7 @@ function Fight(contestantsA) {
 			for ( var i = 0; i < this.contestants.length; i++) {
 				if (this.ausgeteilterDMG[i] != 0) {
 					console.log("schiffgruppe " + i + "owner" + this.contestants[i].owner.ID + "removeShpis" + this.ausgeteilterDMG[i] / this.contestants[i].ships[0].lifePoints);
-					if(!this.contestants.destroyed) //nur der sicherheithalber, eigentlich dürften hier keine zerstörten flotten auftauchen, da dies 0 dmg erhalten
+					if(!this.contestants[i].destroyed) //nur der sicherheithalber, eigentlich dürften hier keine zerstörten flotten auftauchen, da dies 0 dmg erhalten
 					this.contestants[i].removeShip(this.ausgeteilterDMG[i] / this.contestants[i].ships[0].lifePoints);
 				}
 			}
