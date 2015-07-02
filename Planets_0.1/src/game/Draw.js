@@ -343,7 +343,13 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 					PlanetY += "px";
 					drawEnemies.style.top = PlanetY; 				
 					drawEnemies.style.position = "absolute";  
-					drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
+					
+					if(this.universe[i].presentGroups[0].owner != undefined){
+						drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
+					}
+					else{
+						drawEnemies.style.backgroundColor = "black";
+					}
 								
 					var result = Math.round((this.universe[i].Conquest.remainingConquestTime/1000) * 100) / 100;	//verbleibende Zeit bis zum Erfolg der Eroberung
 					
@@ -424,8 +430,12 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 					PlanetY += "px";
 					drawEnemies.style.top = PlanetY; 				
 					drawEnemies.style.position = "absolute";  
-					drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
-								
+					if(this.universe[i].presentGroups[0].owner != undefined){
+						drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
+					}
+					else{
+						drawEnemies.style.backgroundColor = "black";
+					}
 					var result = Math.round((this.universe[i].Conquest.remainingConquestTime/1000) * 100) / 100;
 					
 					var newContent = document.createTextNode(tempships[1] + " " + result.toFixed(2));
