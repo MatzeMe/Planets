@@ -232,6 +232,22 @@ drawButtons = function(universe, milkyways){
 	
 	}
 	
+	var controlAreaExists = document.getElementById("controlArea");
+	if(controlAreaExists == null){
+	
+	var controlArea = document.createElement("div");			//Grundlegende Eigenschaften der Zeichenfläche
+	controlArea.setAttribute("id", "controlArea"); 
+	controlArea.style.width = "1000px";
+	controlArea.style.height = "600px";
+	controlArea.style.backgroundColor = "black";  	
+	var empty = document.createTextNode(" "); 
+	controlArea.appendChild(empty);    
+	document.body.appendChild(controlArea);
+	
+	
+	
+		console.log("range erstellt");
+		
 	var range = document.createElement("INPUT");
 	range.setAttribute("type", "range");
 	range.setAttribute("id", "range");
@@ -249,8 +265,8 @@ drawButtons = function(universe, milkyways){
 	
 	range.onclick=function(){ changeRange(event); }
 	
-	buttonArea.appendChild(range); 
-	//socket.emit('ask for update', 'drawButton --> ask for update');
+	controlArea.appendChild(range); 
+	}
 	
 }
 
@@ -331,7 +347,7 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 			//Wenn Planet keinen Besitzer hat
 			if(this.universe[i].owner.ID == 99){
 				
-				//console.log("Planet" + i + this.universe[i].Conquest);
+	
 				//Kein Besitzer, aber wird erobert
 				if(this.universe[i].Conquest != undefined){
 					
@@ -345,13 +361,7 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 					PlanetY += "px";
 					drawEnemies.style.top = PlanetY; 				
 					drawEnemies.style.position = "absolute";  
-					
-					//if(this.universe[i].presentGroups[0].owner != undefined){
-						drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
-					//}
-					//else{
-					//	drawEnemies.style.backgroundColor = "black";
-					//}
+					drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
 								
 					var result = Math.round((this.universe[i].Conquest.remainingConquestTime/1000) * 100) / 100;	//verbleibende Zeit bis zum Erfolg der Eroberung
 					
@@ -432,12 +442,7 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 					PlanetY += "px";
 					drawEnemies.style.top = PlanetY; 				
 					drawEnemies.style.position = "absolute";  
-					//if(this.universe[i].presentGroups[0].owner != undefined){
-						drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
-					//}
-					//else{
-					//	drawEnemies.style.backgroundColor = "black";
-					//}
+					drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
 					var result = Math.round((this.universe[i].Conquest.remainingConquestTime/1000) * 100) / 100;
 					
 					var newContent = document.createTextNode(tempships[1] + " " + result.toFixed(2));
@@ -561,7 +566,7 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 		this.drawPlanets();
 		
 	}
-	catch(e){console.log("fehlerrr"); console.log(e);}
+	catch(e){console.log("Fehler bei der Ausgabe. Spiel wird fortgesetzt."); console.log(e);}
 					
 		}
 

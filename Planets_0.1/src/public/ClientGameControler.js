@@ -28,7 +28,7 @@ function ClientGameControler(universeA, playerA, contentsA, creatorObject){
 	cont = contentsA;
 	
 	rangeValue = 0;
-	checkboxes = [false, true, false, false];
+	checkboxes = [true, true, true];
 	
 	//Erstellung aller Routen zwischen den Planeten in Abhängigkeit von deren ReiseRadius
 	
