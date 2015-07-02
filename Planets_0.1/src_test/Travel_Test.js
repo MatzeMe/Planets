@@ -1,7 +1,16 @@
 AsyncTestCase("Travel_Test", {   
 	
-	setUp: function() { }, 		 
-	tearDown: function() { },   
+	setUp: function() { 
+		
+		this.clock = sinon.useFakeTimers();
+		
+	}, 		
+	tearDown: function() { 
+		
+		this.clock.restore(); 
+		
+	},   
+	     
 
 			
 "test Initialisierung / Gruen wenn Travel korrekt initialisiert": function() {  
@@ -45,6 +54,7 @@ AsyncTestCase("Travel_Test", {
 	    	TestTravel.update();
 	    });
 	    window.setTimeout(myCallback, 3000);
+	    this.clock.tick(3010);
 	 });
 	
 	queue.call('Step 2: Assert, dass RemainingTravelTime 2 Sekunden beträgt', function() {
@@ -66,6 +76,7 @@ AsyncTestCase("Travel_Test", {
 		    	TestTravel.update();
 		    });
 		    window.setTimeout(myCallback, 4000);
+		    this.clock.tick(4010);
 		 });
 			
 		queue.call('Step 2: Assert, dass Reise noch nicht abgeschlossen', function() {
@@ -77,6 +88,7 @@ AsyncTestCase("Travel_Test", {
 		    	TestTravel.update();
 		    });
 		    window.setTimeout(myCallback, 2000);
+		    this.clock.tick(2010);
 		 });
 		
 		queue.call('Step 2: Assert, dass Reise abgeschlossen', function() {

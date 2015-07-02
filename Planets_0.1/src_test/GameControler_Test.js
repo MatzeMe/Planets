@@ -1,22 +1,25 @@
 state = 1;
-somethingChanged = function(){};
 
 AsyncTestCase("GameControler_Test", {   
 	
-	setUp: function() { }, 
-	tearDown: function() { },  
+	setUp: function() { 
+		
+		this.clock = sinon.useFakeTimers();
+		this.orig = somethingChanged;
+		somethingChanged = function(){};
+		
+	
+		
+		
+	}, 		
+	tearDown: function() { 
+		
+		this.clock.restore(); 
+		somethingChanged = this.orig; 
+		
+	},   
 
-	/*
-	 * 	initialisierung
-	 * 
-	 *
-	 * 	planeten durch routen verbunden
-	 * 
-	 * 	sieg feststellen
-	 * 
-	 * 	
-	 *  
-	 */	
+
 		
 	
 
@@ -125,6 +128,7 @@ AsyncTestCase("GameControler_Test", {
 		    	TestUniverse[1].setOwner(TestPlayer[0]);
 		    });
 		    window.setTimeout(myCallback, 500);
+		    this.clock.tick(510);
 		 });
 	
 	queue.call('Step 2: Kurz warten und erneut Prüfen', function(callbacks) {
@@ -132,6 +136,7 @@ AsyncTestCase("GameControler_Test", {
 	    	assertTrue(TestGC.gameOver);
 	    });
 	    window.setTimeout(myCallback, 500); 
+	    this.clock.tick(510);
 	 });		
 	},  
 	
@@ -152,6 +157,7 @@ AsyncTestCase("GameControler_Test", {
 		    	TestUniverse[1].setOwner(TestPlayer[0]);
 		    });
 		    window.setTimeout(myCallback, 500);
+		    this.clock.tick(510);
 		 });
 	
 	queue.call('Step 2: Kurz warten und erneut Prüfen', function(callbacks) {
@@ -159,6 +165,7 @@ AsyncTestCase("GameControler_Test", {
 	    	assertTrue(TestGC.gameOver);
 	    });
 	    window.setTimeout(myCallback, 500); 
+	    this.clock.tick(510);
 	 });		
 	},  
 	
@@ -179,6 +186,7 @@ AsyncTestCase("GameControler_Test", {
 		    	TestUniverse[2].setOwner(TestPlayer[0]);
 		    });
 		    window.setTimeout(myCallback, 500);
+		    this.clock.tick(510);
 		 });
 	
 	queue.call('Step 2: Kurz warten und erneut Prüfen', function(callbacks) {
@@ -186,6 +194,7 @@ AsyncTestCase("GameControler_Test", {
 	    	assertTrue(TestGC.gameOver);
 	    });
 	    window.setTimeout(myCallback, 500); 
+	    this.clock.tick(510);
 	 });		
 	},  
 	
@@ -207,6 +216,7 @@ AsyncTestCase("GameControler_Test", {
 		    	TestUniverse[2].setOwner(TestPlayer[0]);
 		    });
 		    window.setTimeout(myCallback, 500);
+		    this.clock.tick(510);
 		 });
 	
 	queue.call('Step 2: Kurz warten und erneut Prüfen', function(callbacks) {
@@ -214,6 +224,7 @@ AsyncTestCase("GameControler_Test", {
 	    	assertTrue(TestGC.gameOver);
 	    });
 	    window.setTimeout(myCallback, 500); 
+	    this.clock.tick(510);
 	 });		
 	},  
 });

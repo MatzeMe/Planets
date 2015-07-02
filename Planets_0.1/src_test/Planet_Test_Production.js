@@ -1,23 +1,17 @@
 AsyncTestCase("Planet_Test_Production", {   
 	
-	setUp: function() { }, 		
+	setUp: function() { 
+		
+		TestPlanet = new Planet(10, 200, 200);	
+		TestPlanet.setOwner(new Player(1));
+		
+	}, 		
 	tearDown: function() { },   
 	
-	/*
-	 *		/Produktion starten, wenn keine Schiffe & Owner != undefined
-	 		/Produktion starten, wenn eigene Schiffe & Owner != undefined
-	 		
-	 		/Produktion stoppen, wenn nur Gegner anwesend
-			/Produktion stoppen, wenn eigene Schiffe & Gegner anwesend
- 			
-			
-	
-	*/
 	
 "test startProduction / Gruen, wenn keine Schiffe vorhanden, der Planet einen Besitzer hat und Produktion gestartet wird": function() {
 		
-		var TestPlanet = new Planet(10, 200, 200);	
-		TestPlanet.setOwner(new Player(1));
+		
 		
 		assertNotInstanceOf("startProduction", Production, TestPlanet.Production);		//Keine Produktion
 		assertNotInstanceOf("startProduction", Group, TestPlanet.presentGroups[0]);		//Keine Schiffe
@@ -30,8 +24,7 @@ AsyncTestCase("Planet_Test_Production", {
 	
 "test startProduction / Gruen, wenn Schiffe vorhanden, der Planet einen Besitzer hat und Produktion gestartet wird": function() {
 		
-		var TestPlanet = new Planet(10, 200, 200);		
-		TestPlanet.setOwner(new Player(1));
+		
 		
 		var GroupA = new Group(new Ship(new Player(1), 1));
 		TestPlanet.addGroup(GroupA);
@@ -47,8 +40,7 @@ AsyncTestCase("Planet_Test_Production", {
 		
 "test stopProduction / Gruen, wenn nur gegnerische Schiffe vorhanden und Produktion gestoppt wird": function() {
 		
-		var TestPlanet = new Planet(10, 200, 200);		
-		TestPlanet.setOwner(new Player(1));
+		
 		
 		assertNotInstanceOf("stopProduction", Production, TestPlanet.Production);		//Keine Produktion
 
@@ -68,8 +60,7 @@ AsyncTestCase("Planet_Test_Production", {
 	
 "test stopProduction / Gruen, wenn Schiffe beider Spieler vorhanden und Produktion gestoppt wird": function() {
 		
-		var TestPlanet = new Planet(10, 200, 200);		
-		TestPlanet.setOwner(new Player(1));
+		
 		
 		var GroupB = new Group(new Ship(new Player(1), 1));								//Eigene Schiffe eintreffen
 		TestPlanet.addGroup(GroupB);

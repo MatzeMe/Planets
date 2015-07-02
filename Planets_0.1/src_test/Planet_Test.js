@@ -1,11 +1,26 @@
+somethingChanged = function(){};
+
 AsyncTestCase("Planet_Test", {   
 	
-	setUp: function() { }, 		
-	tearDown: function() { },   
+	setUp: function() { 
+		
+		this.orig = somethingChanged;
+		somethingChanged = function(){};
+		
+		TestPlanet = new Planet(10, 200, 200, 0);
+		
+	}, 		
+	tearDown: function() { 
+		
+		somethingChanged = this.orig;
+		
+	},   
 			
+	
+	
 "test Initialisierung / Gruen wenn Planet korrekt initialisiert": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200, 0); 
+	
 		
 		assertNumber("Mass", TestPlanet.mass);
 		assertNumber("TravelRadius", TestPlanet.travelRadius);
@@ -25,7 +40,7 @@ AsyncTestCase("Planet_Test", {
 
 "test setOwner / Gruen wenn setOwner funktioniert": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200, 0);
+		
 		
 		assertEquals("Owner", 99, TestPlanet.owner.ID);	//Vorher default Owner
 		
@@ -37,7 +52,7 @@ AsyncTestCase("Planet_Test", {
 
 "test addGroup / Gruen wenn 1 Gruppe zum Planeten hinzugefügt werden kann": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200, 0);
+		
 		var TestGroupPlanet = new Group(new Ship(new Player(1), 1));
 		 
 		assertUndefined("addGroup", TestPlanet.presentGroups[0]);
@@ -52,7 +67,7 @@ AsyncTestCase("Planet_Test", {
 	
 "test addGroup / Gruen wenn mehrere Gruppen  zum Planeten hinzugefügt werden können": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200, 0);
+		
 		
 		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
 		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 2));
@@ -77,7 +92,7 @@ AsyncTestCase("Planet_Test", {
 	
 "test removeGroup / Gruen wenn Gruppen von Planeten entfernt werden können und leere Felder geschlossen werden": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200, 0);
+		
 				
 		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
 		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 2));
@@ -110,7 +125,7 @@ AsyncTestCase("Planet_Test", {
 	
 "test mergeGroups / Gruen wenn 2 Gruppen des selben Typs zusammengefasst werden und Schiffe 1 mal vorhanden sind": function() {  
 
-		var TestPlanet = new Planet(10, 200, 200, 0);		
+			
 	
 		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
 		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 1));
@@ -126,7 +141,7 @@ AsyncTestCase("Planet_Test", {
 
 "test checkGroups / Gruen wenn mehrere Gruppen gleichen Typs & Besitzers erkannt und zusammengefasst werden": function() {  
 
-	var TestPlanet = new Planet(10, 200, 200, 0);		
+	
 	
 	var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));	
 	var TestGroupPlanet2 = new Group(new Ship(new Player(1), 1));
@@ -169,7 +184,7 @@ AsyncTestCase("Planet_Test", {
 	
 	"test splitGroup / Gruen wenn Gruppe nach gegebener Schiffzahl korrekt in 2Gruppen aufgeteilt wird": function() {  
 		
-		var TestPlanet = new Planet(10, 200, 200, 0);					//Planet erstellen
+		
 		
 		var ProtoGroup = new Group(new Ship(new Player(1), 1));	//Gruppe erstellen
 
@@ -212,7 +227,7 @@ AsyncTestCase("Planet_Test", {
 	
 "test splitGroup / Gruen wenn Gruppe nach gegebener Schiffzahl korrekt in 2Gruppen aufgeteilt wird": function() {  
 		
-		var TestPlanet = new Planet(10, 200, 200, 0);					//Planet erstellen
+		
 		
 		var ProtoGroup = new Group(new Ship(new Player(1), 1));	//Gruppe erstellen
 
@@ -272,7 +287,7 @@ AsyncTestCase("Planet_Test", {
 	
 "test splitGroup / Gruen wenn Schiffe / Gruppe nach Aufteilung noch ihre Eigenschaften behalten haben": function() {  
 		
-		var TestPlanet = new Planet(10, 200, 200, 0);					//Planet erstellen
+		
 		
 		var ProtoGroup = new Group(new Ship(new Player(1), 1));	//Gruppe erstellen
 
@@ -322,22 +337,6 @@ AsyncTestCase("Planet_Test", {
 
 				
 	},
-/*this.sendGroupOnTravel = function(GroupA, RouteA, numberOfShips){		
-		
-		console.log("number of ships"+numberOfShips);
-		
-		if(numberOfShips < GroupA.ships.length){
-			var tempGroup = this.splitGroup(GroupA, numberOfShips);
-			RouteA.startTravel(tempGroup);
-		}
-		else{
-			tempGroup = GroupA;
-			RouteA.startTravel(tempGroup);
-			this.removeGroup(GroupA);
-		}
-		
-		//this.removeGroup(GroupA);
-	}
-	*/
+
 	
 });

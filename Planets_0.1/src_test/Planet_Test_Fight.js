@@ -1,23 +1,27 @@
 AsyncTestCase("Planet_Test_Fight", {   
 	
-	setUp: function() { }, 		
-	tearDown: function() { },   
+	setUp: function() { 
+		
+		this.orig = somethingChanged;
+		somethingChanged = function(){};
+		
+		TestPlanet = new Planet(10, 200, 200);		
+		
+		TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
+		TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));	
+		TestPlanet.addGroup(TestGroupPlanet1);		
+		TestPlanet.addGroup(TestGroupPlanet2);
+		
+	}, 		
+	tearDown: function() { 
+		
+		somethingChanged = this.orig;
+		
+	},      
 	
-	/*
-			/Fight erstellen, wenn eine partei dazukommt
-			fight updaten, wenn eine partei dazubekommt
-			fight updaten, wenn andere partei dazubekommt
-			
-						
-			
-			/fight beenden, wenn eine partei verlässt
-			/fight beenden, wenn beide parteien verlassen
-			
-			
+
 	
-	*/
-	
-	"test startFight / Gruen, wenn erkannt wird, dass Gruppen verschiedener Besitzer da sind und Kampf gestartet wird": function() {
+	"test startFight / Gruen, wenn erkannt wird, dass Gruppen verschiedener Besitzer da sind und Kampf gestartet wird": function() { 
 		
 		var TestPlanet = new Planet(10, 200, 200);		
 		
@@ -38,12 +42,7 @@ AsyncTestCase("Planet_Test_Fight", {
 	
 "test updateFight / Gruen, wenn das Eintreffen neuer Gruppen eines anderen Typs erkannt und updateFight ausgeführt wird": function() {
 		
-		var TestPlanet = new Planet(10, 200, 200);		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
-		var TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));	
-		TestPlanet.addGroup(TestGroupPlanet1);		
-		TestPlanet.addGroup(TestGroupPlanet2);
 		
 		TestPlanet.checkGroups();		
 		assertInstanceOf("startFight", Fight, TestPlanet.Fight);		//Kampf
@@ -68,19 +67,12 @@ AsyncTestCase("Planet_Test_Fight", {
 		assertUndefined("startFight", TestPlanet.Fight.contestants[3]);				//Leer
 		
 		
-		//Hier müsste noch geprüft werden, ob die sich daraufhin ändernden Parameter sich auch wirklich ändern. Dafür muss aber erst das eigentliche Kampfsystem stehen
-		assertTrue(false);
 		
 	},
 	
 "test stopFight / Gruen, wenn das Verlassen der letzten Gruppe eines der Spieler erkannt wird und der Kampf beendet wird": function() {
 		
-		var TestPlanet = new Planet(10, 200, 200);		
 		
-		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
-		var TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));	
-		TestPlanet.addGroup(TestGroupPlanet1);		
-		TestPlanet.addGroup(TestGroupPlanet2);
 		
 		TestPlanet.checkGroups();		
 		assertInstanceOf("startFight", Fight, TestPlanet.Fight);
@@ -94,12 +86,6 @@ AsyncTestCase("Planet_Test_Fight", {
 	
 "test stopFight / Gruen, wenn das Verlassen der letzten Gruppe beider Spieler erkannt wird und der Kampf beendet wird": function() {
 		
-		var TestPlanet = new Planet(10, 200, 200);		
-		
-		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));
-		var TestGroupPlanet2 = new Group(new Ship(new Player(2), 1));	
-		TestPlanet.addGroup(TestGroupPlanet1);		
-		TestPlanet.addGroup(TestGroupPlanet2);
 		
 		TestPlanet.checkGroups();		
 		assertInstanceOf("startFight", Fight, TestPlanet.Fight);

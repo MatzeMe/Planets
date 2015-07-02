@@ -49,10 +49,10 @@ function Fight(contestantsA) {
 	}
 	
 	// überhang schaden wird nun auf andere schiffsgruppen übertragen, schaden wird ins dmgarray eingetragen
-	this.FirePerShip = function(schiffsgruppe) {
+	this.FirePerShip = function(schiffsgruppe) {		
 		var feuerreinfolge = this.setSchussreinfolge(schiffsgruppe.type);
 		var totalDMG = schiffsgruppe.dmgPerShip * schiffsgruppe.ships.length * 2;
-		console.log("Fight: dealtDMG " + schiffsgruppe.dmgPerShip + " stückzahl schiffe " + schiffsgruppe.ships.length)
+		//console.log("Fight: dealtDMG " + schiffsgruppe.dmgPerShip + " stückzahl schiffe " + schiffsgruppe.ships.length)
 		//totalDMG verdoppel da erste feindzielgruppe doppelten dmg kriegt
 		
 		// läuft priorität durch wegen schussreinfolge
@@ -64,9 +64,9 @@ function Fight(contestantsA) {
 					//prüft ob der schiffstyp dem aktuellen ziel entspricht
 					if(this.contestants[j].type == feuerreinfolge[i] ){
 						//prüft ob schaden auf weitere schiffsgruppe übertragen werden muss
-						console.log("schiffstype " + schiffsgruppe.type + " feuert auf " + this.contestants[j].type);
-						console.log("schiffslebenspunkte des ziels " + this.contestants[j].lpPerShip);
-						console.log("totalDMG " + totalDMG + " prio " + i	);
+						//console.log("schiffstype " + schiffsgruppe.type + " feuert auf " + this.contestants[j].type);
+						//console.log("schiffslebenspunkte des ziels " + this.contestants[j].lpPerShip);
+						//console.log("totalDMG " + totalDMG + " prio " + i	);
 						if((this.contestants[j].lpPerShip * this.contestants[j].ships.length) >= totalDMG) {
 							//trägt schaden ein					
 							this.ausgeteilterDMG[j] += totalDMG;
@@ -146,14 +146,15 @@ function Fight(contestantsA) {
 		}
 		
 		//Leere Gruppen löschen
-		for(var i = 0; i < this.contestants.length; i++){
-			if(this.contestants[i].destroyed == true){
-				this.removeGroup(this.contestants[i]);
-			}
-		}
+		//for(var i = 0; i < this.contestants.length; i++){
+		//	if(this.contestants[i].destroyed == true){
+		//		this.removeGroup(this.contestants[i]);
+		//	}
+		//}
 	}
 	
 	this.update = function() {
+			
 		// lässt kampf 3 sec warten 
 		this.remainingFightTime = this.fightTime
 				- (Date.now() - this.fightStarted);
@@ -172,7 +173,7 @@ function Fight(contestantsA) {
 
 			// lässt alle schiffe feuern
 			for ( var i = 0; i < this.contestants.length; i++) {
-				console.log("schiffgruppe " + i + " owner " + this.contestants[i].owner.ID)
+				//console.log("schiffgruppe " + i + " owner " + this.contestants[i].owner.ID)
 				if(!this.contestants[i].destroyed) //prüfe ob flotte nicht bereits zerstört
 				this.FirePerShip(this.contestants[i]);
 			}
@@ -180,11 +181,17 @@ function Fight(contestantsA) {
 			// verteilt schaden und removed zerstörte schiffe
 			for ( var i = 0; i < this.contestants.length; i++) {
 				if (this.ausgeteilterDMG[i] != 0) {
-					console.log("schiffgruppe " + i + "owner" + this.contestants[i].owner.ID + "removeShpis" + this.ausgeteilterDMG[i] / this.contestants[i].lpPerShip);
+					//console.log("schiffgruppe " + i + "owner" + this.contestants[i].owner.ID + "removeShpis" + this.ausgeteilterDMG[i] / this.contestants[i].lpPerShip);
 					if(!this.contestants[i].destroyed) //nur der sicherheithalber, eigentlich dürften hier keine zerstörten flotten auftauchen, da dies 0 dmg erhalten
 					this.contestants[i].removeShip(this.ausgeteilterDMG[i] / this.contestants[i].lpPerShip);
+					console.log("number " + this.ausgeteilterDMG[i] / this.contestants[i].lpPerShip);
 				}
 			}
 		}
+		
+		for(var i = 0; i < this.contestants.length; i++){
+			console.log("player " + this.contestants[i].owner.ID + "  länge "  + this.contestants[i].ships.length + "  destroyed " + this.contestants[i].destroyed);
+		}
+		
 	}
 }

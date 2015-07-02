@@ -4,12 +4,6 @@ AsyncTestCase("Planet_Test_Conquest", {
 	tearDown: function() { },   
 	
 	
-	/*this.start = startA;		//Start der Route
-	this.target = targetA;		//Ziel der Route
-	this.travelers = []; 		//Travel-Objekte
-	this.distance = distanceA;	//Länge der Route
-	this.routeID = idA;*/
-	
 	"test Initialisierung / Gruen, wenn Route korrekt Initialisiert": function() {  
 
 		var TestPlanet1 = new Planet(10, 200, 200);

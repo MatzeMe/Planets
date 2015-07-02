@@ -9,7 +9,7 @@ AsyncTestCase("Planet_Test_Conquest", {
 		var TestPlanet = new Planet(10, 200, 200);		
 		
 		var TestGroupPlanet1 = new Group(new Ship(new Player(1), 1));	
-		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 1));
+		var TestGroupPlanet2 = new Group(new Ship(new Player(1), 1)); 
 		var TestGroupPlanet3 = new Group(new Ship(new Player(1), 3));	
 			
 		TestPlanet.addGroup(TestGroupPlanet1);
@@ -17,7 +17,7 @@ AsyncTestCase("Planet_Test_Conquest", {
 		TestPlanet.addGroup(TestGroupPlanet3);
 		
 		for(var i = 0; i < 3; i++){	//3 Gruppen vorhanden
-			assertInstanceOf("checkGroups", Group, TestPlanet.presentGroups[i]);	
+			assertInstanceOf("checkGroups", Group, TestPlanet.presentGroups[i]);	   
 		}
 		
 		assertNotInstanceOf("checkGroups", Conquest, TestPlanet.Conquest);	//Eroberung noch nicht gestartet

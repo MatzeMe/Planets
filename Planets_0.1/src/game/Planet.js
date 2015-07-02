@@ -174,7 +174,8 @@ function Planet(massA, xA, yA, planetIDA){
 		
 		//Prüfen ob Kampf läuft und abgebrochen werden müsste (Schiffe nur noch eines Spielers vorhanden)
 		if((this.Fight instanceof Fight) && this.allAlone == true){
-			this.stopFight();
+			console.log("Fight sollte gestoppt werden");
+			this.stopFight(); 
 		}
 		
 		//Prüfen ob Allein und Planet einen Besitzer hat und Produktion noch nicht läuft

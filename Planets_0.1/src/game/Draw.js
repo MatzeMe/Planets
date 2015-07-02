@@ -235,6 +235,7 @@ drawButtons = function(universe, milkyways){
 	var range = document.createElement("INPUT");
 	range.setAttribute("type", "range");
 	range.setAttribute("id", "range");
+	range.defaultValue =rangeValue;
 	range.style.width = "200px";
 	range.style.height = "20px";
 	range.style.left = "220px";

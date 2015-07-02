@@ -1,35 +1,18 @@
 AsyncTestCase("Planet_Test_Update", {   
 	
-	setUp: function() { }, 		
-	tearDown: function() { },   
-	
-	/*
- 		this.Update = function(){
+	setUp: function() { 
 		
-		this.checkGroups();
-	
-		this.checkConquest();
+		this.clock = sinon.useFakeTimers();
 		
-		this.checkProduction();
+	}, 		
+	tearDown: function() { 
 		
-		//this.updateFight();
-		 
-		this.checkGroups();
-	}
+		this.clock.restore(); 
+		
+	},   
+ 
 	
-		/Conquest startet automatisch
-		/Owner wechselt nicht vor erfolgreichem Conquest
-		/Owner wechselt bei erfolgreichem Conquest
-		/Conquest gestoppt
-	
-		//Production startet automatisch
-		//Production nicht vor erfolgreichem abschließen als Ergebnis
-		//Production hat Ergebnis (Ship) nach erfolgreichem Abschließen
-		//Produktion stoppt und startet neu
-	
-	
-	
-	*/
+
 	
 "test checkConquest / Gruen, wenn Eroberung startet, den Besitzer des Planeten erfolgreich wechselt und danach gestoppt ist": function(queue) {
 		
@@ -54,6 +37,7 @@ AsyncTestCase("Planet_Test_Update", {
 	    	assertEquals("checkConquest", 1, TestPlanet.owner.ID);
 	    });
 	    window.setTimeout(myCallback, 9000);
+	    this.clock.tick(9010);
 	 });
 	
 	queue.call('Step 2: Assert, ob Owner neuer Owner nach 11sek und Conquest gestoppt', function(callbacks) {
@@ -63,6 +47,7 @@ AsyncTestCase("Planet_Test_Update", {
 	    	assertNotInstanceOf("checkConquest", Conquest, TestPlanet.Conquest);
 	    });
 	    window.setTimeout(myCallback, 2000);
+	    this.clock.tick(2010);
 	 });			
 	},
 	
@@ -87,6 +72,7 @@ AsyncTestCase("Planet_Test_Update", {
 		    	console.log(TestPlanet.Production.remainingProductionTime);
 		    });
 		    window.setTimeout(myCallback, 9000);
+		    this.clock.tick(9010);
 		 });
 			
 		queue.call('Step 2: Assert, dass Produktion noch nicht abgeschlossen', function() {
@@ -101,6 +87,7 @@ AsyncTestCase("Planet_Test_Update", {
 		    	console.log(TestPlanet.Production.remainingProductionTime);
 		    });
 		    window.setTimeout(myCallback, 2000);
+		    this.clock.tick(2010);
 		 });
 		
 		queue.call('Step 4: Assert, dass Produktion erneut gestartet', function() {

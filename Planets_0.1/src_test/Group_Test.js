@@ -1,26 +1,29 @@
 TestCase("Group_Test", {   
 	
-	setUp: function() { }, 
+	setUp: function() { 
+		
+		TestGroup = new Group(new Ship(new Player(1), 1));  
+		TestGroup2 = new Group(new Ship(new Player(1), 1));
+	}, 
 	tearDown: function() { },  
 		
 
 	"test Initialisierung / Gruen wenn Group korrekt initialisiert": function() {  
 		
-		var TestGroup = new Group(new Ship(new Player(1), 1));  
+		
 		
 		assertArray("Array", TestGroup.ships);
 		assertInstanceOf("Owner", Player, TestGroup.owner);
 		assertNumber("Speed", TestGroup.speed);
 		assertEquals("Type", 1 || 2 || 3, TestGroup.type);	
 		assertInstanceOf("Ship", Ship, TestGroup.ships[0]);
-		assertFalse("Destroyed", TestGroup.destroyed); 
+		assertFalse("Destroyed", TestGroup.destroyed);  
 		
 	},  
 	
 "test Initialisierung / Gruen wenn Group ohne Schiff korrekt initialisiert = sofort destroyed": function() {  
 		
 		var TestGroup = new Group();  
-		
 
 		assertTrue("Destroyed", TestGroup.destroyed);
 		
@@ -29,7 +32,7 @@ TestCase("Group_Test", {
 	
 "test addShip / Gruen wenn Schiff hinzugefuegt werden kann": function() {  
 
-		var TestGroup = new Group(new Ship(new Player(1), 1));	
+			
 		
 	 	TestGroup.addShip(new Ship(new Player(1), 1)); 
 	 	
@@ -41,9 +44,7 @@ TestCase("Group_Test", {
 
 		 var AnzahlErstellen = 5		//+1 weil Gruppe stets mit 1 Schiff erstellt wird
 	
-		 var TestGroup = new Group(new Ship(new Player(1), 1));	 		 
-		 var TestGroup2 = new Group(new Ship(new Player(1), 1));
-		 
+
 		 for(var i = 0; i < AnzahlErstellen; i++){
 			 TestGroup2.addShip(new Ship(new Player(1), 1));
 		 }
@@ -61,7 +62,7 @@ TestCase("Group_Test", {
 		var AnzahlErstellen = 5;	//+1 weil Gruppe stets mit 1 Schiff erstellt wird
 		var AnzahlEntfernen = 3;	//Am Ende in der Gruppe: 3
 		
-		 var TestGroup = new Group(new Ship(new Player(1), 1));		
+		
 		 
 		 for(var i = 0; i < AnzahlErstellen; i++){
 			 TestGroup.addShip(new Ship(new Player(1), 1));
@@ -84,7 +85,7 @@ TestCase("Group_Test", {
 		var AnzahlErstellen = 3;	//+1 weil Gruppe stets mit 1 Schiff erstellt wird
 		var AnzahlEntfernen = 7;	//Am Ende in der Gruppe: 0
 		
-		 var TestGroup = new Group(new Ship(new Player(1), 1));		
+	
 		 
 		 for(var i = 0; i < AnzahlErstellen; i++){
 			 TestGroup.addShip(new Ship(new Player(1), 1));
@@ -102,12 +103,30 @@ TestCase("Group_Test", {
 		 
 	}, 	
 	
+	"test removeShip / Gruen wenn Nicht-Auslöschung der Gruppe erkannt (Grenzwert)": function() {  
+
+		var AnzahlErstellen = 7;	//+1 weil Gruppe stets mit 1 Schiff erstellt wird
+		var AnzahlEntfernen = 7;	//Muss für den Testfall mindestens AnzahlErstellen + 1 sein, dann ist Gruppe leer = zerstört
+		
+	
+		 
+		 for(var i = 0; i < AnzahlErstellen; i++){
+			 TestGroup.addShip(new Ship(new Player(1), 1));
+		 }
+		 
+		 TestGroup.removeShip(AnzahlEntfernen);		//Hintersten Schiffe entfernen
+		 
+		 assertFalse(TestGroup.destroyed); 
+		 
+	}, 	
+	
+	
 	"test removeShip / Gruen wenn Auslöschung der Gruppe erkannt (Grenzwert)": function() {  
 
 		var AnzahlErstellen = 7;	//+1 weil Gruppe stets mit 1 Schiff erstellt wird
 		var AnzahlEntfernen = 8;	//Muss für den Testfall mindestens AnzahlErstellen + 1 sein, dann ist Gruppe leer = zerstört
 		
-		 var TestGroup = new Group(new Ship(new Player(1), 1));		
+	
 		 
 		 for(var i = 0; i < AnzahlErstellen; i++){
 			 TestGroup.addShip(new Ship(new Player(1), 1));
@@ -123,14 +142,13 @@ TestCase("Group_Test", {
 
 		var AnzahlErstellen = 3;	//+1 weil Gruppe stets mit 1 Schiff erstellt wird
 		var AnzahlEntfernen = 8;	//Muss für den Testfall mindestens AnzahlErstellen + 1 sein, dann ist Gruppe leer = zerstört
-		
-		 var TestGroup = new Group(new Ship(new Player(1), 1));		
+			
 		 
 		 for(var i = 0; i < AnzahlErstellen; i++){
 			 TestGroup.addShip(new Ship(new Player(1), 1));
 		 }
 		 
-		 TestGroup.removeShip(AnzahlEntfernen);		//Hintersten Schiffe entfernen
+		 TestGroup.removeShip(AnzahlEntfernen);		//Hinterste Schiffe entfernen
 		 
 		 assertTrue(TestGroup.destroyed); 
 		 
