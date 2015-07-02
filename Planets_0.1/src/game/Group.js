@@ -42,11 +42,13 @@ function Group(shipA){
 	this.removeShip = function(number){
 		if(number >= this.ships.length){
 			number = this.ships.length;
-			this.destroyed = true;
 		}
 		for(var i = 0; i < number; i++){
 			this.ships.pop();
-		}			
+		}		
+		if(this.ships.length <= 0){
+			this.destroyed = true;
+		}
 	}
 	
 }
