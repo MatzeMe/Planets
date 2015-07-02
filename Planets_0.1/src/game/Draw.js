@@ -297,8 +297,10 @@ shipsToText = function (tempPlanet) {	//Ausgabe der Auf dem übergebenen Planete
 	
 	}
 
+
+
 function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einzeichnen
-						
+	try{					
 	this.milkyways = milkywaysA;
 	this.universe = universeA;
 	
@@ -344,12 +346,12 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 					drawEnemies.style.top = PlanetY; 				
 					drawEnemies.style.position = "absolute";  
 					
-					if(this.universe[i].presentGroups[0].owner != undefined){
+					//if(this.universe[i].presentGroups[0].owner != undefined){
 						drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
-					}
-					else{
-						drawEnemies.style.backgroundColor = "black";
-					}
+					//}
+					//else{
+					//	drawEnemies.style.backgroundColor = "black";
+					//}
 								
 					var result = Math.round((this.universe[i].Conquest.remainingConquestTime/1000) * 100) / 100;	//verbleibende Zeit bis zum Erfolg der Eroberung
 					
@@ -430,12 +432,12 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 					PlanetY += "px";
 					drawEnemies.style.top = PlanetY; 				
 					drawEnemies.style.position = "absolute";  
-					if(this.universe[i].presentGroups[0].owner != undefined){
+					//if(this.universe[i].presentGroups[0].owner != undefined){
 						drawEnemies.style.backgroundColor = this.universe[i].presentGroups[0].owner.color;
-					}
-					else{
-						drawEnemies.style.backgroundColor = "black";
-					}
+					//}
+					//else{
+					//	drawEnemies.style.backgroundColor = "black";
+					//}
 					var result = Math.round((this.universe[i].Conquest.remainingConquestTime/1000) * 100) / 100;
 					
 					var newContent = document.createTextNode(tempships[1] + " " + result.toFixed(2));
@@ -557,6 +559,9 @@ function drawField(universeA, milkywaysA){  	//Planeten, Routen, Textfelder einz
 		
 		//Planeten einzeichnen
 		this.drawPlanets();
+		
+	}
+	catch(e){console.log("fehlerrr"); console.log(e);}
 					
 		}
 
