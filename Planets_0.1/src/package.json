@@ -1,7 +1,9 @@
+//Ehemals Tutorial, zu prüfen, ob die  Datei überhaupt noch relevant ist
+
 {
-	"name": "Node.js-Chat",
-	"description": "Ein einfacher Chat mit Node.js",
-	"author": "NodeCode.de",
+	"name": "Planets",
+	"description": "",
+	"author": "",
 	"dependencies" : {
 		"express": "3.x",
 		"socket.io": "*"
