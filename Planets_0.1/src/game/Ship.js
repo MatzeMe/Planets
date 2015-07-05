@@ -22,15 +22,15 @@ function Ship(ownerA, typeA) {
         break;    
     case 2:
     	this.speed = 20;
-    	this.buildingTime = 20;
-    	this.lifePoints = 20;
-    	this.dealtDamage = 20;
+    	this.buildingTime = 10;
+    	this.lifePoints = 10;
+    	this.dealtDamage = 10;
         break;  
     case 3:
     	this.speed = 10;
-    	this.buildingTime = 30;
-    	this.lifePoints = 30;
-    	this.dealtDamage = 30;
+    	this.buildingTime = 10;
+    	this.lifePoints = 10;
+    	this.dealtDamage = 10;
     	break;
         
 	}

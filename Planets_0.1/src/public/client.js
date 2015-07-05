@@ -1,12 +1,12 @@
 $(document).ready(function(){
     // WebSocket
     socket = io();
-    var chosenMap = 1;
+    var chosenMap = 0;
     var numberOfPlayers = 0;
-    var id = 0;
+    id = 0;
     var state = 0;
     var ClientGameControler1;
-    var iAmPlayer = 0;
+    iAmPlayer = 0;
     
  
     
@@ -29,11 +29,9 @@ socket.on('createUniverse', function(data){
     		iAmPlayer = 2;
     	}   
     	
-     	//Universe: ServerGameControler.universe, Milkyways: ServerGameControler.milkyways
+
       	
     	ClientGameControler1 = new ClientGameControler(data.Universe, iAmPlayer, document.getElementById("contents"), this);
-    	
-    	//console.log("AAA" +ClientGameControler1.universe);
     	
     	ClientGameControler1.milkyways = data.Milkyways;
     	
@@ -44,21 +42,28 @@ socket.on('createUniverse', function(data){
     
     socket.on('updateUniverse', function(data){
       	 	
+ 
     	
-    	//	io.sockets.emit('updateUniverse', {Universe: ServerUniverse, MilkyWays: ServerMilkyways});
+    	try{
+    		
+    		ClientGameControler1.universe = data.Universe;
+        	
+        	//ClientGameControler1.milkyways = data.MilkyWays;
+        	ClientGameControler1.setMilkyways(data.MilkyWays);
+        	
+        	drawButtons(ClientGameControler1.universe, ClientGameControler1.milkyways);
+        	
+        	console.log("player " + iAmPlayer + ": universe updated");
+        	
+        	drawButtons(ClientGameControler1.universe, ClientGameControler1.milkyways);
+    		
+    	}
+    	catch(e){
+    		
+    		console.log("Fehler beim erstellen des ClientGameControlers. Normal beim Spielstart.");
+    		//console.log(e);
+    	}
     	
-    	//console.log("BBB" +ClientGameControler1.universe);
-    	
-    	ClientGameControler1.universe = data.Universe;
-    	
-    	//ClientGameControler1.milkyways = data.MilkyWays;
-    	ClientGameControler1.setMilkyways(data.MilkyWays);
-    	
-    	drawButtons(ClientGameControler1.universe, ClientGameControler1.milkyways);
-    	
-    	console.log("player " + iAmPlayer + ": universe updated");
-    	
-    	drawButtons(ClientGameControler1.universe, ClientGameControler1.milkyways);
     });
     
     //Wird immer aufgerufen, wenn sich etwas geändert hat, passt Ausgabe an die States an 0 = Spielvorbereitung, 1 = Spiel, 
@@ -73,19 +78,7 @@ socket.on('createUniverse', function(data){
 
     });
     
-    /*function travelButtonPressed(travelFrom, tempRoute, playerId){
-	  	
-    	//travelButtonPressed(travelFrom, tempRoute, isPlayedBy);
-    	
-    	var planetId = travelFrom.planetID;
-    	var routeId = tempRoute.routeID;
-    	var shipTypes = checkboxes;
-    	var percentage = rangeValue;
-    	
-    	socket.emit('startTravel', {planetID: planetId, routeID: routeId, playerID: playerId, shipTypes: shipTypes, percentage: percentage});
-    	console.log("start travel");
-   	
-    }*/
+
     
     function startButtonPressed(){
     	  	
@@ -95,7 +88,7 @@ socket.on('createUniverse', function(data){
     	
     	if(numberOfPlayers == 0);
     	{
-    		socket.emit('startGame', {id: id, map: document.getElementById("selection").selectedIndex+1});
+    		socket.emit('startGame', {id: id, map: document.getElementById("selection").selectedIndex});
     	}
    	
     }
@@ -113,58 +106,14 @@ socket.on('createUniverse', function(data){
    	
     }
     
-   /* function update(){  
-		
-		for(var i = 0; i < universe.length; i++ ){
-			universe[i].update();	 		
-		}
-		
-		
-		for(var i = 0; i < milkyways.length; i++ ){
-			milkyways[i].update();
-		}
-		
-		drawField(universe, milkyways);		//Zeichnen der Spielfläche, sollte zum Gamecontroler beim Player/Client ausgelagert werden
-		
-		//if(that.gameOver == false){ 		//ACHTUNG: ausgeschalten, weil bei simplen Tests z.B. mit nur einem Planeten sofort Spielabbruch eintritt
-			//console.log("GAMEOVER");		//MUSS also vor Abgabe eingeschalten werden
-			//setTimeout(update, 50);     	//Methode ruft sich selbst auf
-		//} 
-		
-	}*/
    
     function clientUpdate(){
-    
-    	
-    	/*console.log("state " +state);
-
-						killElement(document.getElementById("contents"));
-						killElement(document.getElementById("buttonArea"));
-						
-						contents = document.createElement("div");
-						contents.id = "contents";
-
-						var empty = document.createTextNode(" ");
-						contents.appendChild(empty);	
-						
-						document.body.appendChild(contents);
-						
-						//contents = document.getElementById("contents");
-
-						killElement(document.getElementById("welcomeArea"));
-
-						var welcomeArea = document.createElement("div");
-						welcomeArea.id = "welcomeArea";
-
-						var empty = document.createTextNode(" ");
-						welcomeArea.appendChild(empty);
-
-						contents.appendChild(welcomeArea);*/
-    	
+        	
     	console.log("state " +state);
 
 		killElement(document.getElementById("contents"));
 		killElement(document.getElementById("buttonArea"));
+		killElement(document.getElementById("controlArea"));
 		
 		contents = document.createElement("div");
 		contents.id = "contents";
@@ -174,7 +123,6 @@ socket.on('createUniverse', function(data){
 		
 		document.body.appendChild(contents);
 		
-		//contents = document.getElementById("contents");
 
 		killElement(document.getElementById("welcomeArea"));
 
@@ -233,16 +181,9 @@ if(state == 0){
     	welcomeArea.appendChild(btn2); 
     	
     	var numbersOf = document.createTextNode("Number of players in game: " + numberOfPlayers); 
-    	numberOf.appendChild(numbersOf);   
+    	numberOf.appendChild(numbersOf);  
     	
-    	var choices = ["...","Beginners","Intermediate","Pro","Massive Meltdown"];
-    	
-    	var map = "";
-    	
-    	var numbersOf = document.createTextNode("Number of players in game: " + numberOfPlayers); 
-    	numberOf.appendChild(numbersOf);   
-    	
-    	var choices = ["...","Beginners","Intermediate","Pro","Massive Meltdown"];
+    	var choices = ["Level 1","Level 2","Level 3","Level 4","Level 5"];
     	
     	var map = "";
     	
@@ -258,12 +199,12 @@ if(state == 0){
     	}
     	
     	
-        for(i = 1; i <= choices.length; i++) {
+        for(i = 0; i <= choices.length; i++) {
         	if(i == chosenMap){
-        		map += "<option value='"+ i +"' selected>" + choices[i-1] + "</option>";
+        		map += "<option value='"+ i +"' selected>" + choices[i] + "</option>";
         	}
         	else{
-        		map += "<option value='"+ i +"'>" + choices[i-1] + "</option>";
+        		map += "<option value='"+ i +"'>" + choices[i] + "</option>";
         	}
         }
         map += "</select></form>";

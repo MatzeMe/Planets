@@ -1,11 +1,13 @@
-var express = require('express')
-,   app = express()
-,   server = require('http').createServer(app)
-,   io = require('socket.io').listen(server)
-,   conf = require('./config.json');
+//gameServer = function(){
+
+express = require('express');
+app = express();
+server = require('http').createServer(app);
+io = require('socket.io').listen(server);
+conf = require('./config.json');
 
 var numberOfPlayers = 0;
-var chosenMap = 1;
+var chosenMap = 0;
 //var ids = 300;
 var player1 = undefined;
 var player2 = undefined;
@@ -14,21 +16,8 @@ state = 0;
 var ServerUniverse;
 var ServerMilkyways;
 var ServerPlayer;
-var ServerGameControler;
-
-/*var GameControlerA = require('./game/GameControler.js');
-var ConquestA = require('./game/Conquest.js');
-var DrawA = require('./game/Draw.js');
-var FightA = require('./game/Fight.js');
-var GroupA = require('./game/Group.js');
-var PlanetA = require('./game/Planet.js');
-var PlayerA = require('./game/Player.js');
-var ProductionA = require('./game/Production.js');
-var RouteA = require('./game/Route.js');
-var ShipA = require('./game/Ship.js');
-var TravelA = require('./game/Travel.js');
-*/
-
+var ServerGameControler;  
+ 
 var fs = require('fs');
 eval(fs.readFileSync('game/Planet.js')+'');
 eval(fs.readFileSync('game/Player.js')+'');
@@ -89,8 +78,13 @@ io.sockets.on('connection', function (socket) {
 	//socket.emit('getID', ids);
 	//ids++;
 	console.log("server --> user connected " + socket.id);
-	io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state});
-	
+	if(numberOfPlayers < 2){
+		io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state});
+	}
+	else{
+		socket.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state});
+		io.sockets.emit('createUniverse', {Universe: ServerGameControler.universe, Milkyways: ServerGameControler.milkyways, player1: player1, player2: player2});
+	}
 	socket.on('disconnect', function(){
 		
 		var i = allClients.indexOf(socket);
@@ -104,7 +98,7 @@ io.sockets.on('connection', function (socket) {
 			player1 = undefined;
 			player2 = undefined;
 			numberOfPlayers = 0;
-			chosenMap = 1;
+			chosenMap = 0;
 			//GameControler1.gameOver = true;
 			GameControler1 = null;
 				
@@ -133,25 +127,10 @@ io.sockets.on('connection', function (socket) {
 	
 	
 	socket.on('Travel', function(data){
-		//console.log("asked for travel");
 		
-		//{planetID: travelFrom.planetID, routeID: tempRoute.routeID, playerID: isPlayedBy}
-		
-		//this.sendGroupOnTravel = function(GroupA, RouteA){
-		
-		//console.log(data.planetID + ", " + data.routeID + ", " + data.playerID);
-		
-		/*planetID: travelFrom.planetID, 
-		  
-		 routeID: tempRoute.routeID, 
-		 playerID: isPlayedBy, 
-		 shipTypes: shipTypes, 
-		 percentage: percentage
-		*/
 		
 		var numberOfShips = [0,0,0];
 		var numberFromPercentage = [0,0,0];
-		
 		
 		for(var i = 0; i < ServerGameControler.universe[data.planetID].presentGroups.length; i++){	//Auszählen der Schiffe	
 			if(ServerGameControler.universe[data.planetID].presentGroups[i].owner.ID == data.playerID){
@@ -167,31 +146,59 @@ io.sockets.on('connection', function (socket) {
 			}	
 		}
 		
-		console.log("number of ships "+numberOfShips);
+
 					
 			
 		for (var i = 0; i < 3; i++){
 			numberFromPercentage[i] = Math.round(numberOfShips[i] / 100 * data.percentage);
 		}
 		
-		console.log("number from percentage " + numberFromPercentage);
+
 		
-		for(var i = 0; i < ServerGameControler.universe[data.planetID].presentGroups.length; i++){
-			if(ServerGameControler.universe[data.planetID].presentGroups[i].owner.ID == data.playerID && data.shipTypes[(ServerGameControler.universe[data.planetID].presentGroups[i].type-1)] == true){
-				ServerGameControler.universe[data.planetID].sendGroupOnTravel(ServerGameControler.universe[data.planetID].presentGroups[i], ServerGameControler.milkyways[data.routeID], numberFromPercentage[(ServerGameControler.universe[data.planetID].presentGroups[i].type-1)]);
+		//Prüfen, ob Befehl von Spieler 1 oder 2 kommt und das mit der socket.ID verifiziert werden kann
+		if(data.playerNR == 1){
+			if(player1 == socket.id){
+				for(var i = 0; i < ServerGameControler.universe[data.planetID].presentGroups.length; i++){
+					if(ServerGameControler.universe[data.planetID].presentGroups[i].owner.ID == data.playerID && data.shipTypes[(ServerGameControler.universe[data.planetID].presentGroups[i].type-1)] == true){
+						ServerGameControler.universe[data.planetID].sendGroupOnTravel(ServerGameControler.universe[data.planetID].presentGroups[i], ServerGameControler.milkyways[data.routeID], numberFromPercentage[(ServerGameControler.universe[data.planetID].presentGroups[i].type-1)]);
+					}
+				}
 			}
+			
 		}
+		else{
+			if(player2 == socket.id){		
+				for(var i = 0; i < ServerGameControler.universe[data.planetID].presentGroups.length; i++){
+					if(ServerGameControler.universe[data.planetID].presentGroups[i].owner.ID == data.playerID && data.shipTypes[(ServerGameControler.universe[data.planetID].presentGroups[i].type-1)] == true){
+						ServerGameControler.universe[data.planetID].sendGroupOnTravel(ServerGameControler.universe[data.planetID].presentGroups[i], ServerGameControler.milkyways[data.routeID], numberFromPercentage[(ServerGameControler.universe[data.planetID].presentGroups[i].type-1)]);
+					}
+				}
+			}
+				
+		}
+		
+		
 		
 		//console.log("traveled");
 	  });
 
-	
+	//Prüfen ob Eingabe von Spieler 1 oder 2 kommt und durch Socket.id verifiziert werden kann
 	socket.on('Production', function(data){
-		//console.log("asked for production");
+		if(data.playerNR == 1){
+			if(player1 == socket.id){
+				if(ServerGameControler.universe[data.planetID].owner.ID == 1){
+					ServerGameControler.universe[data.planetID].changeProduction();
+				}
+			}
+		}
+		if(data.playerNR == 2){
+			if(player2 == socket.id){
+				if(ServerGameControler.universe[data.planetID].owner.ID == 2){
+					ServerGameControler.universe[data.planetID].changeProduction();
+				}
+			}
+		}
 		
-		//socket.emit('Production', {planetID: event.target.id});
-		
-		ServerGameControler.universe[data.planetID].changeProduction();
 		
 	  });
 	
@@ -208,14 +215,26 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('joinGame', function (data) {
 		
+		//Level erstellen
+		UniversalCatalog = [];
+
+		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
+		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(10, 150, 250, 1), new Planet(15, 600, 200, 2), new Planet(20, 500, 350, 3)]);
+		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(10, 150, 250, 1), new Planet(20, 500, 350, 2), new Planet(15, 600, 200, 3)]);
+		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
+		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
+		
+		
 		if(numberOfPlayers == 1){
 			numberOfPlayers++;
 			player2 = socket.id;
 			state = 1;
 			io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state});
 			
+			
+			
 			//Spiel starten //Noch ohne Levelauswahl
-			ServerUniverse =[new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)];
+			ServerUniverse = UniversalCatalog[chosenMap];
 			ServerPlayer=[new Player(1), new Player(2)] 
 			
 			ServerUniverse[0].setOwner(ServerPlayer[0]);
@@ -224,9 +243,8 @@ io.sockets.on('connection', function (socket) {
 			ServerGameControler = new GameControler(ServerUniverse, ServerPlayer);	
 			ServerMilkyways = ServerGameControler.milkyways;
 			
-			
 			io.sockets.emit('createUniverse', {Universe: ServerGameControler.universe, Milkyways: ServerGameControler.milkyways, player1: player1, player2: player2});
-			console.log("server --> universe created and shipped");
+			console.log("server --> universe "+ chosenMap +" created and shipped");
 			
 		}		
 	});	
@@ -237,3 +255,8 @@ io.sockets.on('connection', function (socket) {
 
 // Portnummer in die Konsole schreiben
 console.log('Server running: http://127.0.0.1:' + conf.port + '/');
+//}
+
+//exports.gameServer = gameServer;
+
+//gameServer();

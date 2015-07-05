@@ -51,7 +51,7 @@ drawButtons = function(universe, milkyways){
 	
 	changeProduction = function(event){					//Fängt ID des gedrückten Buttons ab und ändert die Produktion am Planeten mit selber ID (zugehöriger Planet)
 		
-		socket.emit('Production', {planetID: event.target.id});
+		socket.emit('Production', {planetID: event.target.id, playerID: id, playerNR: iAmPlayer});
 		
 		
 		//this.universe[event.target.id].changeProduction();   
@@ -106,10 +106,13 @@ drawButtons = function(universe, milkyways){
 					
 					//console.log(travelFrom.planetID + ", " + tempRoute.routeID + ", " + isPlayedBy);
 					
-					socket.emit('Travel', {planetID: travelFrom.planetID, routeID: tempRoute.routeID, playerID: isPlayedBy, shipTypes: checkboxes, percentage: rangeValue});
-									
+					//socket.emit('Travel', {planetID: travelFrom.planetID, routeID: tempRoute.routeID, playerID: isPlayedBy, shipTypes: checkboxes, percentage: rangeValue, playerID: id, playerNR: iAmPlayer});
+					socket.emit('Travel', {planetID: travelFrom.planetID, routeID: tempRoute.routeID, playerID: isPlayedBy, shipTypes: checkboxes, percentage: rangeValue, playerNR: isPlayedBy});			
 					//var io = require('socket.io-emitter')();
-										
+					
+					//id = 
+				    //iAmPlayer = 0;	
+					
 					//io.emit('startTravel', {planetID: travelFrom.planetID, routeID: tempRoute.routeID, playerID: isPlayedBy});
 					 // io.emit('time', new Date);
 										
@@ -246,7 +249,6 @@ drawButtons = function(universe, milkyways){
 	
 	
 	
-		console.log("range erstellt");
 		
 	var range = document.createElement("INPUT");
 	range.setAttribute("type", "range");
