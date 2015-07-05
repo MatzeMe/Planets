@@ -83,7 +83,7 @@ function Fight(contestantsA) {
 						break; 						
 					}
 				}
-			totalDMG /= 2; //halbiert dmg mit sinkender priorität
+				Math.floor(totalDMG /= 2); //halbiert dmg mit sinkender priorität
 			}
 			
 		}
@@ -183,7 +183,7 @@ function Fight(contestantsA) {
 				if (this.ausgeteilterDMG[i] != 0) {
 					//console.log("schiffgruppe " + i + "owner" + this.contestants[i].owner.ID + "removeShpis" + this.ausgeteilterDMG[i] / this.contestants[i].lpPerShip);
 					if(!this.contestants[i].destroyed) //nur der sicherheithalber, eigentlich dürften hier keine zerstörten flotten auftauchen, da dies 0 dmg erhalten
-					this.contestants[i].removeShip(this.ausgeteilterDMG[i] / this.contestants[i].lpPerShip);
+					this.contestants[i].removeShip(Math.floor(this.ausgeteilterDMG[i] / this.contestants[i].lpPerShip));
 					console.log("number " + this.ausgeteilterDMG[i] / this.contestants[i].lpPerShip);
 				}
 			}
