@@ -53,7 +53,6 @@ function Fight(contestantsA) {
 		var feuerreinfolge = this.setSchussreinfolge(schiffsgruppe.type);
 		var schiffszahl = schiffsgruppe.ships.length;
 		
-		
 		// läuft priorität durch wegen schussreinfolge
 		for ( var i = 0; i < 3; i++) {
 			// läuft alle schiffe durch
@@ -61,7 +60,7 @@ function Fight(contestantsA) {
 				//prüft ob die besitzer verschieden sind, flotte nicht bereits zerstört und ob der schiffstyp dem aktuellen ziel entspricht
 				if(schiffsgruppe.owner.ID != this.contestants[j].owner.ID && !this.contestants[j].destroyed && this.contestants[j].type == feuerreinfolge[i] ){
 						var lp = this.contestants[j].lpPerShip * this.contestants[j].ships.length;
-					for ( var t = schiffszahl; t < 1; t--)
+					for (var t = schiffszahl; t > 1; t--)
 							{
 						//wenn lebenspunkte der feindgruppe kleiner gleich ausgeteiter dmg
 							if(lp <= this.ausgeteilterDMG[j]){
@@ -69,24 +68,24 @@ function Fight(contestantsA) {
 								break;
 								//sonnst schaden austeilen
 							} else {
-								this.ausgeteilterDMG[j] += schiffsgruppe.dmgPerShip * function() {
-									// setzt zusätzlichen schadne durch prioriät
-									if (i == 0)
-										return 2;
-									if (i == 1)
-										return 1;
-									if (i == 2)
-										return 0.5;
-								};
+								// setzt zusätzlichen schadne durch prioriät
+								if (i == 0)
+								this.ausgeteilterDMG[j] += schiffsgruppe.dmgPerShip * 2;
+								if (i == 1)
+								this.ausgeteilterDMG[j] += schiffsgruppe.dmgPerShip;
+								if (i == 2)
+								this.ausgeteilterDMG[j] += schiffsgruppe.dmgPerShip / 2;	
 								//reduziert schiffszahl so das alle schiffe feuern
 								schiffszahl--;
 							}				
-				}
+						}
+					console.log("dmg " + this.ausgeteilterDMG[j] + " schiffszahl " + schiffszahl);
 					//um unötige durchläufe zu unterbrechen und zum nächsten ziel zu wechseln
 					break; 		
+				}
 			}
 		}
-	}	
+	}
 	
 	// überhang schaden wird nun auf andere schiffsgruppen übertragen, schaden wird ins dmgarray eingetragen
 	this.FirePerGroup = function(schiffsgruppe) {		
@@ -123,9 +122,9 @@ function Fight(contestantsA) {
 						break; 						
 					}
 				}
-				Math.floor(totalDMG /= 2); //halbiert dmg mit sinkender priorität
+				
 			}
-			
+			Math.floor(totalDMG /= 2); //halbiert dmg mit sinkender priorität
 		}
 	}
 		
@@ -216,7 +215,7 @@ function Fight(contestantsA) {
 			for ( var i = 0; i < this.contestants.length; i++) {
 				//console.log("schiffgruppe " + i + " owner " + this.contestants[i].owner.ID)
 				if(!this.contestants[i].destroyed) //prüfe ob flotte nicht bereits zerstört
-				this.FirePerShip(this.contestants[i]);
+				this.FirePerGroup(this.contestants[i]);
 			}
 
 			// verteilt schaden und removed zerstörte schiffe
@@ -230,9 +229,9 @@ function Fight(contestantsA) {
 			}
 		}
 		
-		for(var i = 0; i < this.contestants.length; i++){
-			console.log("player " + this.contestants[i].owner.ID + "  länge "  + this.contestants[i].ships.length + "  destroyed " + this.contestants[i].destroyed);
-		}
+		//for(var i = 0; i < this.contestants.length; i++){
+		//	console.log("player " + this.contestants[i].owner.ID + "  länge "  + this.contestants[i].ships.length + "  destroyed " + this.contestants[i].destroyed);
+		//}
 		
 	}
 }
