@@ -48,8 +48,48 @@ function Fight(contestantsA) {
 		return feuerreinfolge;
 	}
 	
-	// überhang schaden wird nun auf andere schiffsgruppen übertragen, schaden wird ins dmgarray eingetragen
+	// überhang schaden wird pro schiff auf andere gruppe übertragen
 	this.FirePerShip = function(schiffsgruppe) {		
+		var feuerreinfolge = this.setSchussreinfolge(schiffsgruppe.type);
+		var schiffszahl = schiffsgruppe.ships.length;
+		
+		
+		// läuft priorität durch wegen schussreinfolge
+		for ( var i = 0; i < 3; i++) {
+			// läuft alle schiffe durch
+			for ( var j = 0; j < this.contestants.length; j++) {
+				//prüft ob die besitzer verschieden sind, flotte nicht bereits zerstört und ob der schiffstyp dem aktuellen ziel entspricht
+				if(schiffsgruppe.owner.ID != this.contestants[j].owner.ID && !this.contestants[j].destroyed && this.contestants[j].type == feuerreinfolge[i] ){
+						var lp = this.contestants[j].lpPerShip * this.contestants[j].ships.length;
+					for ( var t = schiffszahl; t < 1; t--)
+							{
+						//wenn lebenspunkte der feindgruppe kleiner gleich ausgeteiter dmg
+							if(lp <= this.ausgeteilterDMG[j]){
+								//dan abbrechen und zur nächsten priorität wechseln
+								break;
+								//sonnst schaden austeilen
+							} else {
+								this.ausgeteilterDMG[j] += schiffsgruppe.dmgPerShip * function() {
+									// setzt zusätzlichen schadne durch prioriät
+									if (i == 0)
+										return 2;
+									if (i == 1)
+										return 1;
+									if (i == 2)
+										return 0.5;
+								};
+								//reduziert schiffszahl so das alle schiffe feuern
+								schiffszahl--;
+							}				
+				}
+					//um unötige durchläufe zu unterbrechen und zum nächsten ziel zu wechseln
+					break; 		
+			}
+		}
+	}	
+	
+	// überhang schaden wird nun auf andere schiffsgruppen übertragen, schaden wird ins dmgarray eingetragen
+	this.FirePerGroup = function(schiffsgruppe) {		
 		var feuerreinfolge = this.setSchussreinfolge(schiffsgruppe.type);
 		var totalDMG = schiffsgruppe.dmgPerShip * schiffsgruppe.ships.length * 2;
 		//console.log("Fight: dealtDMG " + schiffsgruppe.dmgPerShip + " stückzahl schiffe " + schiffsgruppe.ships.length)
@@ -88,6 +128,7 @@ function Fight(contestantsA) {
 			
 		}
 	}
+		
 /* funktion alt, neue funktion oben
 	// zielschiff suchen unter berückstigung der priorität und auf diese gruppe
 	// feuern,
