@@ -215,7 +215,7 @@ function Fight(contestantsA) {
 			for ( var i = 0; i < this.contestants.length; i++) {
 				//console.log("schiffgruppe " + i + " owner " + this.contestants[i].owner.ID)
 				if(!this.contestants[i].destroyed) //prüfe ob flotte nicht bereits zerstört
-				this.FirePerGroup(this.contestants[i]);
+				this.FirePerShip(this.contestants[i]);
 			}
 
 			// verteilt schaden und removed zerstörte schiffe
