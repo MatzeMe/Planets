@@ -15,7 +15,7 @@ AsyncTestCase("Fight_Test", {
 	tearDown: function() { },   
 
 			
-"test Initialisierung / Gruen wenn Fight korrekt initialisiert": function() {  
+	"test Initialisierung / Gruen wenn Fight korrekt initialisiert": function() {  
 
 		var Contestants = [new Group(new Ship(new Player(1),1)), new Group(new Ship(new Player(2),1))];
 	
@@ -86,5 +86,32 @@ AsyncTestCase("Fight_Test", {
 		assertInstanceOf("startFight", 1, TestPlanet.Fight.contestants[3].type);
 	
 	},
+	
+	"test (nachträglich) wir feuerprio erstellt " : function(){
+		
+		assert(setSchussreinfolge(1));
+	},
+	
+	"test (nachträglich) feuerprio für typ 1 " : function(){
+		var testfolge = setSchussreinfolge(1);
+		assertEquals(2,testfolge[0]);
+		assertEquals(1,testfolge[1]);
+		assertEquals(3,testfolge[2]);
+	},
+	
+	"test (nachträglich) feuerprio für typ 2 " : function(){
+		var testfolge = setSchussreinfolge(2);
+		assertEquals(3,testfolge[0]);
+		assertEquals(2,testfolge[1]);
+		assertEquals(1,testfolge[2]);
+	},
+	
+	"test (nachträglich) feuerprio für typ 3 " : function(){
+		var testfolge = setSchussreinfolge(3);
+		assertEquals(1,testfolge[0]);
+		assertEquals(3,testfolge[1]);
+		assertEquals(2,testfolge[2]);
+	},
+	
 	
 });
