@@ -1,3 +1,10 @@
+/*	Planet_Test.js
+ * 
+ * 	Author1: rszabad(si3ben)
+ * 	Course: Test-driven Development mit JavaScript
+ *
+ */
+
 somethingChanged = function(){};
 
 AsyncTestCase("Planet_Test", {   

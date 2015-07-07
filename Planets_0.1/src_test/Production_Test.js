@@ -1,3 +1,10 @@
+/*	Production_Test.js
+ * 
+ * 	Author1: rszabad(si3ben)
+ * 	Course: Test-driven Development mit JavaScript
+ *
+ */
+
 AsyncTestCase("Production_Test", {   
 	
 	setUp: function() { 

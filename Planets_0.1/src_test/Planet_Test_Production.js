@@ -1,3 +1,10 @@
+/*	Planet_Test_Production.js
+ * 
+ * 	Author1: rszabad(si3ben)
+ * 	Course: Test-driven Development mit JavaScript
+ *
+ */
+
 AsyncTestCase("Planet_Test_Production", {   
 	
 	setUp: function() { 
