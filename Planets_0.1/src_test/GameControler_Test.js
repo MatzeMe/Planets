@@ -1,3 +1,10 @@
+/*	GameControler_Test.js
+ * 
+ * 	Author1: rszabad(si3ben)
+ * 	Course: Test-driven Development mit JavaScript
+ *
+ */
+
 state = 1;
 
 AsyncTestCase("GameControler_Test", {   
@@ -7,21 +14,15 @@ AsyncTestCase("GameControler_Test", {
 		this.clock = sinon.useFakeTimers();
 		this.orig = somethingChanged;
 		somethingChanged = function(){};
-		
-	
-		
-		
+
 	}, 		
 	tearDown: function() { 
 		
 		this.clock.restore(); 
 		somethingChanged = this.orig; 
-		
+	
 	},   
 
-
-		
-	
 
 "test Initialisierung / Gruen wenn Gamecontroler korrekt initialisiert": function() {   
 	

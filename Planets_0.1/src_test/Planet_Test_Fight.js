@@ -1,3 +1,10 @@
+/*	Planet_Test_Fight.js
+ * 
+ * 	Author1: rszabad(si3ben)
+ * 	Course: Test-driven Development mit JavaScript
+ *
+ */
+
 AsyncTestCase("Planet_Test_Fight", {   
 	
 	setUp: function() { 

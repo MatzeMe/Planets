@@ -1,3 +1,10 @@
+/*	Travel_Test.js
+ * 
+ * 	Author1: rszabad(si3ben)
+ * 	Course: Test-driven Development mit JavaScript
+ *
+ */
+
 AsyncTestCase("Travel_Test", {   
 	
 	setUp: function() { 

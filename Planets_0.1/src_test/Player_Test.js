@@ -1,3 +1,10 @@
+/*	Player_Test.js
+ * 
+ * 	Author1: rszabad(si3ben)
+ * 	Course: Test-driven Development mit JavaScript
+ *
+ */
+
 TestCase("Ship_Test", {   
 	
 	setUp: function() { }, 		

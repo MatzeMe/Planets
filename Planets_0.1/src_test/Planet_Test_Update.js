@@ -1,3 +1,10 @@
+/*	Planet_Test_Update.js
+ * 
+ * 	Author1: rszabad(si3ben)
+ * 	Course: Test-driven Development mit JavaScript
+ *
+ */
+
 AsyncTestCase("Planet_Test_Update", {   
 	
 	setUp: function() { 
@@ -10,10 +17,7 @@ AsyncTestCase("Planet_Test_Update", {
 		this.clock.restore(); 
 		
 	},   
- 
-	
 
-	
 "test checkConquest / Gruen, wenn Eroberung startet, den Besitzer des Planeten erfolgreich wechselt und danach gestoppt ist": function(queue) {
 		
 	var TestPlanet = new Planet(10, 200, 200);	

@@ -8,7 +8,7 @@
  *  Wird immer dann erstellt, wenn eine Eroberung stattfindet und bei deren Unterbrechung gelöscht (Planet).
  *  (Ursprünglich war angedacht, die Eroberungszeit mit steigender Anzahl der Schiffe zu verkürzen)
  */
-
+   
 function Conquest(massA, conquerorsA){ 
 	
 	this.mass = massA;

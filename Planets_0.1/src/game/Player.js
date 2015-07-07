@@ -18,5 +18,5 @@ function Player (IDA){
     case 2: this.color = "blue"; break;
     case 99: this.color = "white"; break;
 	} 
-	 
+	  
 } ;   
