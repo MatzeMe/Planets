@@ -8,7 +8,7 @@
  *  Hat einen von seiner Masse abhängigen Reiseradius, der beeinflusst, wie weit abfliegende Schiffe fliegen können 
  *
  */
-
+ 
 function Planet(massA, xA, yA, planetIDA){ 
 
 	this.mass = massA;

@@ -8,7 +8,7 @@
  *  Wird immer dann erstellt, wenn Produziert wird und bei deren Unterbrechung oder Vollendung gelöscht und dann neu erstellt (Planet).
  *
  */
-
+ 
 function Production(massA, typeA){ 
 	
 	this.type = typeA;								//gewünschter Schiffstyp

@@ -8,7 +8,7 @@
  *  ID 99 zur Vereinfachung der Handhabung z.B. unbeanspruchter Planeten
  *
  */
-
+ 
 function Player (IDA){
 	
 	this.ID = IDA;

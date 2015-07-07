@@ -7,7 +7,7 @@
  * 	Hält alle Schiffe eines Typs, eines Spielers an einem Ort.
  *
  */
-
+ 
 function Group(shipA){ 
 	
 	if(shipA == undefined){

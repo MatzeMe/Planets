@@ -8,7 +8,7 @@
  * 	Wird immer erstellt, wenn eine Gruppe eine Reise auf einer Route antritt. Berechnet die Reisezeit aus dem Schiffstyp und der Länge und die noch verbleibende Reisezeit-
  *
  */
-
+ 
 function Travel(groupA, distanceA)
 {
 	this.distance = distanceA;	//Länge der Route

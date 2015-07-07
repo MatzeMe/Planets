@@ -7,7 +7,7 @@
  * 	Hält je nach Schiffstyp andere Eigenschaften, die für weitere Berechnungen genutzt werden
  *
  */
-
+ 
 function Ship(ownerA, typeA) { 
 	
 	this.owner = ownerA; 

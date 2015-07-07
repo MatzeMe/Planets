@@ -8,7 +8,7 @@
  *  erstellt aus den vorgegebenen Planeten ein Spielfeld mit verbindenden Routen zwischen den Planeten
  *  und fragt die Planeten und Routen regelmäßig auf Änderungen ab
  */
-
+ 
 function GameControler(universeA, playersA){ 
 		
 	this.universe = universeA;		//alle Planeten
