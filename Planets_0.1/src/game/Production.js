@@ -8,7 +8,7 @@
  *  Wird immer dann erstellt, wenn Produziert wird und bei deren Unterbrechung oder Vollendung gelöscht und dann neu erstellt (Planet).
  *
  */
-
+    
 function Production(massA, typeA){ 
 	
 	this.type = typeA;								//gewünschter Schiffstyp
@@ -17,9 +17,9 @@ function Production(massA, typeA){
 	switch(this.type) {								//Berechnung der Schiffstypspezifischen Produktionszeit
     case 1: this.productionTime = 100000 / massA;
     		break;
-    case 2: this.productionTime = 200000 / massA;
+    case 2: this.productionTime = 100000 / massA;
 			break; 
-    case 3: this.productionTime = 300000 / massA; 
+    case 3: this.productionTime = 100000 / massA; 
 			break;
 	}
 

@@ -8,9 +8,9 @@
  *  Hat einen von seiner Masse abhängigen Reiseradius, der beeinflusst, wie weit abfliegende Schiffe fliegen können 
  *
  */
-
+   
 function Planet(massA, xA, yA, planetIDA){ 
-
+  
 	this.mass = massA;
 	this.travelRadius = this.mass * 30; //Errechnung des Reiseradius
 	this.x = xA;
@@ -41,7 +41,6 @@ function Planet(massA, xA, yA, planetIDA){
 	//Schickt ausgewählte Gruppe auf Reise auf genannter Route
 	this.sendGroupOnTravel = function(GroupA, RouteA, numberOfShips){		
 		
-		console.log("number of ships"+numberOfShips);
 		if(numberOfShips > 0){
 			if(numberOfShips < GroupA.ships.length){
 				var tempGroup = this.splitGroup(GroupA, numberOfShips);
@@ -53,8 +52,6 @@ function Planet(massA, xA, yA, planetIDA){
 				this.removeGroup(GroupA);
 			}
 		}
-		
-		//this.removeGroup(GroupA);
 	}
 
 	this.splitGroup = function(GroupA, numberOfShips){		
@@ -62,7 +59,6 @@ function Planet(massA, xA, yA, planetIDA){
 		var tempShip = GroupA.ships.shift();
 		
 		var tempGroup = new Group(tempShip);
-		console.log("***" );
 		
 		if(numberOfShips > 1){
 			tempGroup.addShip(GroupA.ships.splice(0, (numberOfShips-1)));
@@ -79,13 +75,9 @@ function Planet(massA, xA, yA, planetIDA){
 		case 2: this.typeOfProduction = 3; break;
 		case 3: this.typeOfProduction = 1; break;
 		somethingChanged("planet: " + this.planetID + " --> production changed");
-		}
-	
-	
+		}	
 		this.stopProduction();	//stoppt und startet Produktion, damit neuer Schiffstyp produziert wird
 		this.startProduction();  
-
-		
 	}
 	
 	//Besitzer ändern
@@ -174,14 +166,12 @@ function Planet(massA, xA, yA, planetIDA){
 		
 		//Prüfen ob Kampf läuft und abgebrochen werden müsste (Schiffe nur noch eines Spielers vorhanden)
 		if((this.Fight instanceof Fight) && this.allAlone == true){
-			console.log("Fight sollte gestoppt werden");
 			this.stopFight(); 
 		}
 		
 		//Prüfen ob Allein und Planet einen Besitzer hat und Produktion noch nicht läuft
 		if(this.allAlone == true && this.owner.ID != 99 && !(this.Production instanceof Production) && !(this.Conquest instanceof Conquest) && !(this.Fight instanceof Fight)){
 			this.startProduction();
-
 
 		}
 		
@@ -198,8 +188,7 @@ function Planet(massA, xA, yA, planetIDA){
 		}
 		
 	}
-	
-	
+		
 	//"Start" und "Stop" der Verschiedenen Spielobjekte
 	this.startConquest = function(){
 		this.Conquest = new Conquest(this.mass, this.presentGroups);
@@ -230,9 +219,6 @@ function Planet(massA, xA, yA, planetIDA){
 		this.Production = undefined;
 		somethingChanged("planet: " + this.planetID + " --> stop production");
 	}
-	
-
-
 	
 	//Prüft, ob Eroberung stattfindet und ob die Eroberungszeit abgelaufen ist
 	this.checkConquest = function(){	

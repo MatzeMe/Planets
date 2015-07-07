@@ -8,9 +8,9 @@
  *  ID 99 zur Vereinfachung der Handhabung z.B. unbeanspruchter Planeten
  *
  */
-
+   
 function Player (IDA){
-	
+	 
 	this.ID = IDA;
 	this.color;
 	switch(this.ID) {
@@ -18,5 +18,5 @@ function Player (IDA){
     case 2: this.color = "blue"; break;
     case 99: this.color = "white"; break;
 	} 
-	 
+	  
 } ;   

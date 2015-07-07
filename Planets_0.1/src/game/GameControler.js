@@ -1,22 +1,24 @@
-/*	GameControler.js
+/*	GameControler.js 
  * 
  * 	Author: rszabad(si3ben)
  * 	Date: SS15, 8.6.15
  * 	Course: Test-driven Development mit JavaScript
  * 
- * 	Vorläufiger Gamecontroler zur Verwaltung des Spieles und Spielablaufs
+ * 	GameController zur Steuerung des eigentlichen Spielflusses
+ *  erstellt aus den vorgegebenen Planeten ein Spielfeld mit verbindenden Routen zwischen den Planeten
+ *  und fragt die Planeten und Routen regelmäßig auf Änderungen ab
  */
-
+   
 function GameControler(universeA, playersA){ 
-		
+		 
 	this.universe = universeA;		//alle Planeten
-	this.milkyways = [];				//alle Routen
+	this.milkyways = [];			//alle Routen
 	
-	this.players = playersA;	//Spieler-Objekte
+	this.players = playersA;		//Spieler-Objekte
 	this.gameOver = false;		
-	var that = this; 			//this verweist in den callback-Funktionen auf etwas anderes, muss also extra mitgenommen werden
+	var that = this; 				//this verweist in den callback-Funktionen auf etwas anderes, muss also extra mitgenommen werden
 
-	this.routeCounter = 0;
+	this.routeCounter = 0;			//IDs für Routen
 	
 	//Erstellung aller Routen zwischen den Planeten in Abhängigkeit von deren ReiseRadius
 	for(var i = 0; i < this.universe.length; i++){
@@ -41,11 +43,10 @@ function GameControler(universeA, playersA){
 	//update ruft sich regelmäßig selbst auf und fragt in einer Kaskade von oben nach unten alle seine GameObjekte nach Änderungen ab (ruft deren update()-Funktionen auf)
 	update = function(){  
 			
-		if(state == 1){
-		
+		if(state == 1){													//Solange Spiel laufen soll
 			for(var i = 0; i < that.universe.length; i++ ){
 				that.universe[i].update();	 		
-			}
+			} 
 			
 			that.gameOver = true;										//Prüfen ob alle Planeten einem Spieler gehören = Siegbedingung
 			var tempArray = [];
@@ -54,27 +55,24 @@ function GameControler(universeA, playersA){
 					 tempArray.push(that.universe[i].owner.ID);
 				}			
 			}
-			for(var i = 0; i <  tempArray.length -1; i++ ){ 
+			for(var i = 0; i <  tempArray.length-1; i++ ){ 
 				if(tempArray[i] != tempArray[i+1]){
 					that.gameOver = false;
 				}
 			}
+			if(that.gameOver == true)
+				{
+					somethingChanged("GameOver"+tempArray[0]);			//Benachrichtigen des Servers bei GameOver
+				}
+		
 			
 			for(var i = 0; i < that.milkyways.length; i++ ){
 				that.milkyways[i].update();
 			}
 			
-			//drawField(universe, milkyways);		//Zeichnen der Spielfläche, sollte zum Gamecontroler beim Player/Client ausgelagert werden
-			
-			//if(that.gameOver == false){ 		//ACHTUNG: ausgeschalten, weil bei simplen Tests z.B. mit nur einem Planeten sofort Spielabbruch eintritt
-				//console.log("GAMEOVER");		//MUSS also vor Abgabe eingeschalten werden
-				setTimeout(update, 50);     	//Methode ruft sich selbst auf
-			//} 
+			setTimeout(update, 50);     	//Methode ruft sich selbst auf
 		}	
 	}
 	
 	update();			//Einmaliges Aufrufen zum Start
-	//drawButtons();		//Einmaliges Aufrufen zum Start
-
-	
 }

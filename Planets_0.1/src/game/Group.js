@@ -7,9 +7,9 @@
  * 	Hält alle Schiffe eines Typs, eines Spielers an einem Ort.
  *
  */
-
+   
 function Group(shipA){ 
-	
+	 
 	if(shipA == undefined){
 		this.destroyed = true;
 	}
@@ -24,7 +24,7 @@ function Group(shipA){
 	this.destroyed = false;		//Flag um Zerstörung == keine Schiffe vorhanden anzuzeigen
 	}
 	
-	
+	 
 	//Stellt fest, ob ein Schiff oder ein Array von Schiffen übergeben wurde und pusht Schiff(e) in Gruppen-Array
 	this.addShip = function(shipB){
 		if(shipB instanceof Ship){

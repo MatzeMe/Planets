@@ -9,8 +9,8 @@
  *  Verwaltet eine Reihe von Travel-Objekten, die auf der Route reisende Gruppen darstellen.
  *
  */
-
-function Route(startA, targetA, distanceA, idA){ 
+    
+function Route(startA, targetA, distanceA, idA){  
 	
 	this.start = startA;		//Start der Route
 	this.target = targetA;		//Ziel der Route
