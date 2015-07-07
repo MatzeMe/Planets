@@ -10,7 +10,7 @@
  */
     
 function Conquest(massA, conquerorsA){ 
-	
+	 
 	this.mass = massA;
 	this.conquerors = conquerorsA;
 	this.conquestStarted = Date.now();
