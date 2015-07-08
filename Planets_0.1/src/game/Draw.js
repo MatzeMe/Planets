@@ -29,7 +29,7 @@ drawButtons = function(universe, milkyways){
 	 	   
 	changeProduction = function(event){					//Fängt ID des gedrückten Buttons ab und ändert die Produktion am Planeten mit selber ID (zugehöriger Planet)
 		
-
+  
 		socket.emit('Production', {planetID: event.target.id, playerNR: iAmPlayer}); 
 	}  
 		

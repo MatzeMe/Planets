@@ -74,7 +74,7 @@ function ClientGameControler(universeA, playerA, contentsA, creatorObject){
 		
 		drawField(that.universe, that.milkyways);		//Zeichnen der Spielfläche, sollte zum Gamecontroler beim Player/Client ausgelagert werden
 	
-		setTimeout(update, 500);     	//Methode ruft sich selbst auf
+		setTimeout(update, 50);     	//Methode ruft sich selbst auf
 	
 	}
 	

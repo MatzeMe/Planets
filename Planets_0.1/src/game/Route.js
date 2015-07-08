@@ -41,7 +41,7 @@ function Route(startA, targetA, distanceA, idA){
 	
 	this.transferGroupToPlanet = function(groupB)	//Transferiert gewünschte Gruppe zum Zielplaneten
 	{
-		this.target.presentGroups.push(groupB);
+		this.target.addGroup(groupB);
 		somethingChanged("route: " + this.routeID +" --> transfer group to planet");
 	}
 	

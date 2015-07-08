@@ -32,7 +32,7 @@ function Ship(ownerA, typeA) {
     	this.lifePoints = 10;
     	this.dealtDamage = 10;
     	break;
-        
+    	
 	}
 };
 

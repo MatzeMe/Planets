@@ -90,6 +90,9 @@ function Planet(massA, xA, yA, planetIDA){
 	//Fügt den anwesenden Gruppe eine Gruppe hinzu
 	this.addGroup = function(groupA){
 		this.presentGroups.push(groupA);
+		if(this.Fight instanceof Fight){
+			this.Fight.update(true); 
+		}
 		somethingChanged("planet: " + this.planetID + " --> add group");
 	}
 	
@@ -202,6 +205,7 @@ function Planet(massA, xA, yA, planetIDA){
 	
 	this.startFight = function(){	
 		this.Fight = new Fight(this.presentGroups);
+		this.Fight.update(true);	
 		somethingChanged("planet: " + this.planetID + " --> start fight");
 	}
 	
@@ -234,7 +238,7 @@ function Planet(massA, xA, yA, planetIDA){
 	//Triggert das Fightobjekt, um sich upzudaten und evtl. Kämpfe vorzunehmen
 	this.checkFight = function(){	
 		if(this.Fight instanceof Fight){	
-			this.Fight.update();			
+			this.Fight.update(false);			
 		}	
 	}
 	
