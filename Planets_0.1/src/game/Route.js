@@ -9,8 +9,8 @@
  *  Verwaltet eine Reihe von Travel-Objekten, die auf der Route reisende Gruppen darstellen.
  *
  */
-
-function Route(startA, targetA, distanceA, idA){ 
+    
+function Route(startA, targetA, distanceA, idA){  
 	
 	this.start = startA;		//Start der Route
 	this.target = targetA;		//Ziel der Route
@@ -41,7 +41,7 @@ function Route(startA, targetA, distanceA, idA){
 	
 	this.transferGroupToPlanet = function(groupB)	//Transferiert gewünschte Gruppe zum Zielplaneten
 	{
-		this.target.presentGroups.push(groupB);
+		this.target.addGroup(groupB);
 		somethingChanged("route: " + this.routeID +" --> transfer group to planet");
 	}
 	
