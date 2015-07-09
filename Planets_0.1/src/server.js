@@ -42,17 +42,24 @@ eval(fs.readFileSync('game/Route.js')+'');
 eval(fs.readFileSync('game/Ship.js')+'');
 eval(fs.readFileSync('game/Travel.js')+'');
 
-//Level erstellen
-UniversalCatalog = [];
 
-UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 100, 1), new Planet(10, 150, 350, 2), new Planet(10, 750, 350, 3), new Planet(20, 450, 250, 4)]);
-UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(10, 150, 250, 1), new Planet(15, 600, 200, 2), new Planet(20, 500, 350, 3)]);
-UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(10, 150, 250, 1), new Planet(20, 500, 350, 2), new Planet(15, 600, 200, 3)]);
-UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
-UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
 
 var GameControler1 = undefined;
 var allClients =[];					//alle Socket.IDs
+
+function resetLevels(){
+	UniversalCatalog = [];
+
+	UniversalCatalog.push([new Planet(15, 200, 300, 0),  new Planet(15, 800, 300, 1), new Planet(10, 500, 150, 2), new Planet(10, 500, 300, 3), new Planet(10, 500, 450, 4)]);
+	UniversalCatalog.push([new Planet(15, 150, 300, 0), new Planet(15, 850, 300, 1), new Planet(10, 400, 200, 2), new Planet(10, 400, 400, 3), new Planet(10, 600, 200, 4), new Planet(10, 600, 400, 5)]);
+	UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 100, 1), new Planet(10, 150, 350, 2), new Planet(10, 750, 350, 3), new Planet(20, 450, 250, 4)]);
+	UniversalCatalog.push([new Planet(14, 150, 250, 0), new Planet(14, 850, 400, 1), new Planet(7, 300, 250, 2), new Planet(7, 700, 400, 3), new Planet(11, 400, 400, 4),  new Planet(11, 600, 250, 5)]);	
+	UniversalCatalog.push([new Planet(10, 200, 300, 0),  new Planet(10, 800, 300, 1), new Planet(30, 500, 300, 2), new Planet(9, 400, 100, 3), new Planet(9, 400, 500, 4), new Planet(9, 600, 100, 5), new Planet(9, 600, 500, 6)]);
+}
+
+//Level erstellen
+resetLevels();
+
 
 //Wird an verschiedenen stellen in der Spielelogik aufgerufen, um dem Server zu signalisieren, dass sich signifikante Änderungen ergeben haben (Schiffsproduktion, Reise abgeschlossen..)
 function somethingChanged(string) {
@@ -73,13 +80,7 @@ function somethingChanged(string) {
 		io.sockets.emit('GameOver', {winner: "Player 1"}); 	//Gewinner übermitteln
 		io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state, connectedPlayers: allClients.length, message: "disconnect"});	//updateClient aktualisiert am Client Daten zum Status der Website s.o. state und dazugehörigen Anzeigedaten
 		
-		UniversalCatalog = [];	//Zurücksetzen der Levels sonst bleibt alter Spielfortschritt erhalten
-
-		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 100, 1), new Planet(10, 150, 350, 2), new Planet(10, 750, 350, 3), new Planet(20, 450, 250, 4)]);
-		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(10, 150, 250, 1), new Planet(15, 600, 200, 2), new Planet(20, 500, 350, 3)]);
-		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(10, 150, 250, 1), new Planet(20, 500, 350, 2), new Planet(15, 600, 200, 3)]);
-		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
-		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
+		resetLevels();
 
 		var waiter = function(){	//Nach 5 Sekunden GameOver-Screen wird wieder auf Spielvorbereitung geschalten
 			state = 0;
@@ -99,13 +100,7 @@ function somethingChanged(string) {
 		io.sockets.emit('GameOver', {winner: "Player 2"}); 	
 		io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state, connectedPlayers: allClients.length, message: "disconnect"});	//updateClient aktualisiert am Client Daten zum Status der Website s.o. state und dazugehörigen Anzeigedaten
 		
-		UniversalCatalog = [];	
-
-		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 100, 1), new Planet(10, 150, 350, 2), new Planet(10, 750, 350, 3), new Planet(20, 450, 250, 4)]);
-		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(10, 150, 250, 1), new Planet(15, 600, 200, 2), new Planet(20, 500, 350, 3)]);
-		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(10, 150, 250, 1), new Planet(20, 500, 350, 2), new Planet(15, 600, 200, 3)]);
-		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
-		UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
+		resetLevels();
 
 		var waiter = function(){	
 			state = 0;
@@ -180,13 +175,7 @@ io.sockets.on('connection', function (socket) {
 			GameControler1 = null;				
 			state = 0;
 			
-			UniversalCatalog = [];	
-
-			UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 100, 1), new Planet(10, 150, 350, 2), new Planet(10, 750, 350, 3), new Planet(20, 450, 250, 4)]);
-			UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(10, 150, 250, 1), new Planet(15, 600, 200, 2), new Planet(20, 500, 350, 3)]);
-			UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(10, 150, 250, 1), new Planet(20, 500, 350, 2), new Planet(15, 600, 200, 3)]);
-			UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
-			UniversalCatalog.push([new Planet(15, 300, 100, 0), new Planet(15, 600, 200, 1), new Planet(10, 150, 250, 2), new Planet(20, 500, 350, 3)]);
+			resetLevels();
 			
 			io.sockets.emit('updateClient', {numberOfPlayers: numberOfPlayers, chosenMap: chosenMap, player1: player1, state: state, connectedPlayers: allClients.length, message: "disconnect"});
 			if(quiet == false){console.log('server --> game aborted');}
