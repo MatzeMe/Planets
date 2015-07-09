@@ -182,7 +182,7 @@ $(document)
 								map += "<select id = 'selection'>";
 							}
 
-							for (i = 0; i <= choices.length; i++) {
+							for (i = 0; i <= choices.length-1; i++) {
 								if (i == chosenMap) {
 									map += "<option value='" + i + "' selected>" + choices[i] + "</option>";
 								} else {
